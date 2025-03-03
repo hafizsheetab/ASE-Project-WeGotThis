@@ -1,0 +1,23 @@
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          example: sheetab@technohaven.com
+        password:
+          type: string
+          example: 123456
+    CreateUserRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          example: sheetab@technohaven.com
+        password:
+          type: string
+          example: 123456
+        name:
+          type: string
+          example: Hafiz Sheetab
