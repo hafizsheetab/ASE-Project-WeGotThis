@@ -5,6 +5,10 @@ const UserSchema = new dynamoose.Schema({
     "name": String,
     "email": String,
     "passwordHash": String
+    
+},
+{
+    timestamps: true
 })
 
 const User = dynamoose.model("User", UserSchema)
