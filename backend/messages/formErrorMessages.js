@@ -12,7 +12,7 @@ module.exports = {
       }
     }
   },
-  bn: {
+  de: {
     user: {
       login : {
         email: "ERROR MESSAGE FOR EMAIL FORM ERROR - BN",

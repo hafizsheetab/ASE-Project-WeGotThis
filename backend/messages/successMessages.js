@@ -9,7 +9,7 @@ module.exports = (entityId) => {
           getOne: `SUCCESS MESSAGE OF GETTING ONE USER - EN WITH ENTITY ID ${entityId}` 
         }
       },
-      bn: {
+      de: {
         user: {
           login: "SUCCESS MESSAGE OF USER LOGIN SERVICE - BN",
           create: "SUCCESS MESSAGE OF USER CREATE SERVICE - BN",
