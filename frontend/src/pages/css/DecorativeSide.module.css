@@ -1,0 +1,138 @@
+.rightSide {
+  background: linear-gradient(#3730a3 0%, #312e81 100%);
+  width: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (width<=1250px) {
+  .rightSide {
+    width: 100%;
+    height: 500px;
+  }
+}
+
+@media (width<=640px) {
+  .rightSide {
+    height: 400px;
+  }
+}
+
+.blurCircles {
+  filter: blur(4px);
+  background: linear-gradient(#6b63eb66 0%, #4f46e500 100%);
+  border-radius: 18px;
+  position: absolute;
+}
+
+.blurCircle1 {
+  filter: blur(4px);
+  background: linear-gradient(#6b63eb66 0%, #4f46e500 100%);
+  border-radius: 18px;
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  top: 92px;
+  left: 38px;
+}
+
+.blurCircle2 {
+  filter: blur(4px);
+  background: linear-gradient(#6b63eb66 0%, #4f46e500 100%);
+  border-radius: 18px;
+  width: 46px;
+  height: 46px;
+  position: absolute;
+  top: 208px;
+  left: 643px;
+}
+
+.blurCircle3 {
+  filter: blur(4px);
+  background: linear-gradient(#6b63eb66 0%, #4f46e500 100%);
+  border-radius: 18px;
+  width: 37px;
+  height: 37px;
+  position: absolute;
+  top: 280px;
+  left: 718px;
+}
+
+.blurCircle4 {
+  filter: blur(4px);
+  background: linear-gradient(#6b63eb66 0%, #4f46e500 100%);
+  border-radius: 18px;
+  width: 28px;
+  height: 28px;
+  position: absolute;
+  top: 0;
+  left: 498px;
+}
+
+.blurCircle5 {
+  filter: blur(4px);
+  background: linear-gradient(#6b63eb66 0%, #4f46e500 100%);
+  border-radius: 18px;
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  top: 129px;
+  left: 693px;
+}
+
+.blurCircle6 {
+  filter: blur(4px);
+  background: linear-gradient(#6b63eb66 0%, #4f46e500 100%);
+  border-radius: 18px;
+  width: 46px;
+  height: 46px;
+  position: absolute;
+  top: 208px;
+  left: 0;
+}
+
+.blurCircle7 {
+  filter: blur(4px);
+  background: linear-gradient(#6b63eb66 0%, #4f46e500 100%);
+  border-radius: 18px;
+  position: absolute;
+}
+
+.rightContent {
+  width: 537px;
+  position: absolute;
+  bottom: 172px;
+  left: 101px;
+}
+
+@media (width<=991px) {
+  .rightContent {
+    width: calc(100% - 40px);
+    bottom: 40px;
+    left: 20px;
+  }
+}
+
+.subtitle {
+  color: #fff9;
+  letter-spacing: 2.1px;
+  margin-bottom: 10px;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.title {
+  color: #fff;
+  font-family: Inter, sans-serif;
+  font-size: 28px;
+  line-height: 42px;
+  margin: 0;
+}
+
+@media (width<=640px) {
+  .title {
+    font-size: 24px;
+    line-height: 36px;
+  }
+}
