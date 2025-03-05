@@ -1,13 +1,23 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate email and password
+    if (!email || !password) {
+      alert("Please enter both email and password");
+      return; // Don't proceed if email or password is missing
+    }
+
     console.log("Logging in with", email, password);
+    // Redirect to /home after successful login
+    navigate("/home");
   };
 
   return (
