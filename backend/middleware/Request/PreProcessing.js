@@ -1,19 +1,9 @@
-const jwt = require("jsonwebtoken");
+
 const EntityNames = require("../../Types/EntityNames");
-const checkPermission = require("../../utils/checkPermission");
 const PostErrorProcessing = require("../Response/PostErrorProcessing");
 const User = require("../../Schema/User");
-const verifyJwt = (token) => {
-    return new Promise((resovle, reject) => {
-        jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
-            if (error) {
-                resovle(false);
-            } else {
-                resovle(decoded.userId);
-            }
-        });
-    });
-};
+const { decodeTokenAndReturnIdentifier } = require("../../utils/jwt");
+const { getAndRefreshSessionFromRedis } = require("../../utils/redis");
 
 module.exports = (entityName) => {
     return async (req, res, next) => {
@@ -35,7 +25,7 @@ module.exports = (entityName) => {
                     service,
                 }
             }
-            const userId = await verifyJwt(token);
+            const userId = await decodeTokenAndReturnIdentifier(token)
             if (!userId) {
                 throw {
                     apiErrorCode: "general.invalidToken",
@@ -51,12 +41,13 @@ module.exports = (entityName) => {
                     service,
                 };
             }
+            await getAndRefreshSessionFromRedis({expire: user.expire, identifier: userId})
             req.locale = locale;
             req.userId = user.id;
-            req.deviceId = deviceId;
             req.user = user
             next();
         } catch (err) {
+            console.log(err)
             const statusCode = 401;
             const error = PostErrorProcessing(
                 statusCode,
@@ -65,7 +56,6 @@ module.exports = (entityName) => {
                 service,
                 err.apiErrorCode,
                 locale,
-                entityId
             );
             res.status(statusCode).json(error);
         }

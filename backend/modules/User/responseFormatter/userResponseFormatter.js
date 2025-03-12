@@ -1,7 +1,9 @@
 const userResponseFormat = (user) => {
     return {
-        name: user.name,
-        email: user.email
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        expire: user.expire
     }
 }
 

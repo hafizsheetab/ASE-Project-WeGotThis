@@ -3,6 +3,7 @@ const PostErrorProcessing = require("../Response/PostErrorProcessing");
 
 module.exports = async (req, res, next) => {
     const locale = req.headers["x-locale"];
+    const service = "preProcessing"
     try {
         if (!locale) {
             throw {
@@ -29,7 +30,6 @@ module.exports = async (req, res, next) => {
             service,
             err.apiErrorCode,
             locale,
-            entityId
         );
         res.status(statusCode).json(error);
     }

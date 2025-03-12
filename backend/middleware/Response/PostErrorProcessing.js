@@ -1,5 +1,6 @@
 const errorMessages = require("../../messages/errorMessages");
 
+
 module.exports = (
     statusCode,
     formErrors,
@@ -12,17 +13,20 @@ module.exports = (
     if (!formErrors) {
         formErrors = [];
     }
-    if (!locale) {
+    if (!locale || (locale !== "en" && locale !== "de")) {
         locale = "en";
     }
+    
     const errors = errorMessages(entityId)[locale];
     let popupMessage;
     if (!apiErrorCode) {
       popupMessage = errors.general.system
     }
+ 
     else {
         const [key, value] = apiErrorCode.split(".")
-        console.log(key, value)
+        // console.log(errors)
+        // console.log(key, value)
         popupMessage = errors[key][value]
     }
     return {

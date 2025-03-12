@@ -12,7 +12,6 @@ const convertFromYaml = async(fileUrl, destinationFileUrl) => {
         crlfDelay: Infinity
     })
     for await (const line of rl){
-        console.log(line)
         openApiString = openApiString + ` * ` + line + "\r"
     }
     openApiString = openApiString + `*/`
@@ -26,7 +25,6 @@ const convertToYaml = async (fileUrl, destinationFileUrl) => {
         crlfDelay: Infinity
     })
     for await (const line of rl){
-        console.log(line)
         if(line.includes(`/**`) || line.includes("@openapi") || line.includes("*/")) {
             continue
         }

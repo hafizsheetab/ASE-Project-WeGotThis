@@ -1,0 +1,4 @@
+
+/**
+ * @openapi
+ * "/v1/user/getSelf": *   get: *     security: *       - ApiToken: [] *       - Locale: [] *     tags: *       - User *     summary: Get Self *     responses: *       "200": *         description: OK*/

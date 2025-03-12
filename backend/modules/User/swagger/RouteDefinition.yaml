@@ -1,45 +1,11 @@
-"/testapi/v1/user":
-  post:
-    security:
-      - Locale: []
-      - DeviceId: []
-    tags:
-      - User
-    summary: User creation
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/CreateUserRequest"
-    responses:
-      "200":
-        description: OK
+"/v1/user/getSelf":
   get:
     security:
       - ApiToken: []
       - Locale: []
-      - DeviceId: []
     tags:
       - User
-    summary: User Get
-    responses:
-      "200":
-        description: OK
-"/testapi/v1/user/login":
-  post:
-    security:
-      - Locale: []
-      - DeviceId: []
-    tags:
-      - User
-    summary: User creation
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/LoginRequest"
+    summary: Get Self
     responses:
       "200":
         description: OK

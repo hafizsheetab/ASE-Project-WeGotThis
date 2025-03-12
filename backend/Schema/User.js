@@ -2,15 +2,23 @@ const dynamoose = require("dynamoose")
 
 const UserSchema = new dynamoose.Schema({
     "id": String,
-    "name": String,
-    "email": String,
-    "passwordHash": String
+    "firstName": String,
+    "lastName": String,
+    "email": {
+        type: String,
+        "index": true
+    },
+    "passwordHash": String,
+    "expire": {
+        type: Boolean,
+        default: true
+    }
     
 },
 {
-    timestamps: true
+    timestamps: true,
+    
 })
 
-const User = dynamoose.model("User", UserSchema)
-console.log(User.table().hashKey)
+const User = dynamoose.model("User", UserSchema, {initialize: true, update: true})
 module.exports = User

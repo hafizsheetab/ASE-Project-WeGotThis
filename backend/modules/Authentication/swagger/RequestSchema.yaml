@@ -9,7 +9,10 @@ components:
         password:
           type: string
           example: 123456
-    CreateUserRequest:
+        expire:
+          type: boolean
+          example: true
+    RegistrationRequest:
       type: object
       properties:
         email:
@@ -18,6 +21,12 @@ components:
         password:
           type: string
           example: 123456
-        name:
+        firstName:
           type: string
-          example: Hafiz Sheetab
+          example: Hafiz
+        lastName:
+          type: string
+          example: Sheetab
+        expire:
+          type: boolean
+          example: true

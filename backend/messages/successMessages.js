@@ -3,17 +3,21 @@
 module.exports = (entityId) => {
     return {
       en: {
-        user: {
+        auth: {
           login: "SUCCESS MESSAGE OF USER LOGIN SERVICE - EN",
-          create: "SUCCESS MESSAGE OF USER CREATE SERVICE - EN",
-          getOne: `SUCCESS MESSAGE OF GETTING ONE USER - EN WITH ENTITY ID ${entityId}` 
+          register: "SUCCESS MESSAGE OF USER REGISTER SERVICE - EN" 
+        },
+        user: {
+          getSelf: `SUCCESS MESSAGE OF GETTING SELF USER - EN WITH ENTITY ID ${entityId}` 
         }
       },
       de: {
+        auth: {
+          login: "SUCCESS MESSAGE OF USER LOGIN SERVICE - DE",
+          register: "SUCCESS MESSAGE OF USER REGISTER SERVICE - DE"
+        },
         user: {
-          login: "SUCCESS MESSAGE OF USER LOGIN SERVICE - BN",
-          create: "SUCCESS MESSAGE OF USER CREATE SERVICE - BN",
-          getOne: `SUCCESS MESSAGE OF GETTING ONE USER - BN WITH ENTITY ID ${entityId}` 
+          getSelf: `SUCCESS MESSAGE OF GETTING SELF USER - DE WITH ENTITY ID ${entityId}` 
         }
       }
     }

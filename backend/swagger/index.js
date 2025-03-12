@@ -4,7 +4,7 @@ const options = {
     definition: {
         openapi: '3.0.0',
         info: {
-          title: 'Express Boilerplate API',
+          title: 'WeGotThis API',
           version: '0.1',
         },
         servers: [

@@ -1,0 +1,4 @@
+
+/**
+ * @openapi
+ * "/v1/auth/login": *   post: *     security: *       - Locale: [] *     tags: *       - Auth *     summary: User login *     requestBody: *       required: true *       content: *         application/json: *           schema: *             $ref: "#/components/schemas/LoginRequest" *     responses: *       "200": *         description: OK * "/v1/auth/register": *   post: *     security: *       - Locale: [] *     tags: *       - Auth *     summary: User registration *     requestBody: *       required: true *       content: *         application/json: *           schema: *             $ref: "#/components/schemas/RegistrationRequest" *     responses: *       "200": *         description: OK*/

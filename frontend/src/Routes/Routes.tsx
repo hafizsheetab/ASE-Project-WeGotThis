@@ -1,23 +1,41 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    Navigate,
+} from "react-router-dom";
 import Login from "../pages/authentication/Login";
 import Register from "../pages/authentication/Register";
 import Home from "../pages/Home";
+import { useContext } from "react";
+import ContextStore from "../utils/ContextStore";
 // import ForgotPassword from "../pages/ForgotPassword";
 // import ResetPassword from "../pages/ResetPassword";
 
 const AppRoutes = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} /> {/* Default to Login */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/home" element={<Home />} />
-        {/* <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} /> */}
-      </Routes>
-    </Router>
-  );
+    const { context } = useContext(ContextStore);
+    return (
+        <Router>
+            {context.token ? (
+                <Routes>
+                    <Route path="/home" element={<Home />} />
+                    <Route
+                        path="*"
+                        element={<Navigate to="/home" replace={true} />}
+                    />
+                </Routes>
+            ) : (
+                <Routes>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route
+                        path="*"
+                        element={<Navigate to="/login" replace={true} />}
+                    />
+                </Routes>
+            )}
+        </Router>
+    );
 };
 
 export default AppRoutes;

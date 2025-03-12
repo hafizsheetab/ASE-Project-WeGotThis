@@ -1,11 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import styles from "../css/Register.module.css";
 import styles from "./Authentication.module.css";
 import { RegisterFormBody } from "../Types";
+import { showAlert } from "../../shared/services";
+import { register } from "../services";
+import ContextStore from "../../../utils/ContextStore";
 
 const RegisterBody: React.FC = () => {
+    const store = useContext(ContextStore)
     const navigate = useNavigate(); // Initialize navigate function
     const [registerForm, setRegisterForm] = useState<RegisterFormBody>({
         firstName: "",
@@ -36,21 +40,35 @@ const RegisterBody: React.FC = () => {
                 break
         }
     }
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
         if (!registerForm.agreedToTerms) {
-            alert("Please agree to the terms of service");
+            showAlert("Please agree to the terms of service", "warning")
             return;
         }
+        if(registerForm.password !== registerForm.confirmPassword){
+            showAlert("Passwords do not match", "error")
+            return
+        }
+        const response = await register({email: registerForm.email, password: registerForm.password, expire: true, firstName: registerForm.firstName, lastName: registerForm.lastName}, store.context)
+        if("status" in response){
+            return
+        }
+        store.setContext({...store.context, token: response.access_token})
         // Form submission logic
         console.log("Form submitted");
-        navigate("/login"); // Redirect to login page after registration
+        // navigate("/login"); // Redirect to login page after registration
     };
 
     const handleCreateAccount = () => {
         navigate("/login");
     };
-
+    useEffect(() => {
+        console.log(store.context)
+        if(store.context.token){
+            navigate("/home")
+        }
+    },[])
     return (
         <main>
             {/* Left Side */}

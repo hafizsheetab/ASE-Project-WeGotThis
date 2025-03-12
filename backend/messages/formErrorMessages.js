@@ -1,27 +1,33 @@
 module.exports = {
   en: {
-    user: {
+    auth: {
       login : {
         email: "ERROR MESSAGE FOR EMAIL FORM ERROR - EN",
-        password: "ERROR MESSAGE FOR PASSWORD FORM ERROR - EN"
+        password: "ERROR MESSAGE FOR PASSWORD FORM ERROR - EN",
+        expire: "ERROR MESSAGE FOR PASSWORD FORM ERROR - EN"
       },
-      create : {
+      register : {
         email: "ERROR MESSAGE FOR EMAIL FORM ERROR - EN",
         password: "ERROR MESSAGE FOR PASSWORD FORM ERROR - EN",
-        name: "ERROR MESSAGE FOR NAME FORM ERROR - EN"
+        firstName: "ERROR MESSAGE FOR NAME FORM ERROR - EN",
+        lastName: "ERROR MESSAGE FOR NAME FORM ERROR - EN",
+        expire: "ERROR MESSAGE FOR NAME FORM ERROR - EN",
       }
     }
   },
   de: {
-    user: {
+    auth: {
       login : {
-        email: "ERROR MESSAGE FOR EMAIL FORM ERROR - BN",
-        password: "ERROR MESSAGE FOR PASSWORD FORM ERROR - BN",
+        email: "ERROR MESSAGE FOR EMAIL FORM ERROR - DE",
+        password: "ERROR MESSAGE FOR PASSWORD FORM ERROR - DE",
+        expire: "ERROR MESSAGE FOR PASSWORD FORM ERROR - DE"
       },
-      create : {
-        email: "ERROR MESSAGE FOR EMAIL FORM ERROR - BN",
-        password: "ERROR MESSAGE FOR PASSWORD FORM ERROR - BN",
-        name: "ERROR MESSAGE FOR NAME FORM ERROR - BN"
+      register : {
+        email: "ERROR MESSAGE FOR EMAIL FORM ERROR - DE",
+        password: "ERROR MESSAGE FOR PASSWORD FORM ERROR - DE",
+        firstName: "ERROR MESSAGE FOR NAME FORM ERROR - DE",
+        lastName: "ERROR MESSAGE FOR NAME FORM ERROR - DE",
+        expire: "ERROR MESSAGE FOR NAME FORM ERROR - DE",
       }
     }
   },
