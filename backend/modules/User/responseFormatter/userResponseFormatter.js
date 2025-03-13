@@ -3,7 +3,8 @@ const userResponseFormat = (user) => {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
-        expire: user.expire
+        expire: user.expire,
+        id: user.id
     }
 }
 
