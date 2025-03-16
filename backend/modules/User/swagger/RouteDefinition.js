@@ -1,0 +1,4 @@
+
+/**
+ * @openapi
+ * "/v1/user/getSelf": *   get: *     security: *       - ApiToken: [] *       - Locale: [] *     tags: *       - User *     summary: Get Self *     responses: *       "200": *         description: OK * "/v1/user/{id}": *   put: *     security: *       - ApiToken: [] *       - Locale: [] *     tags: *       - User *     parameters: *       - name: id *         in: path *         required: true *         description: User Id *         schema: *           type: string *           example: "asdfjighoupadshoujsfbhjil" *     requestBody: *       required: true *       content: *         application/json: *           schema: *             $ref: "#/components/schemas/ChangeSelfRequest" *     summary: Change Self *     responses: *       "200": *         description: OK*/

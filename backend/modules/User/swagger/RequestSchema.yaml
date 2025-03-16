@@ -1,23 +1,14 @@
 components:
   schemas:
-    LoginRequest:
+    ChangeSelfRequest:
       type: object
       properties:
-        email:
+        firstName:
           type: string
-          example: sheetab@technohaven.com
-        password:
+          example: Hafiz
+        lastName:
           type: string
-          example: 123456
-    CreateUserRequest:
-      type: object
-      properties:
-        email:
-          type: string
-          example: sheetab@technohaven.com
-        password:
-          type: string
-          example: 123456
-        name:
-          type: string
-          example: Hafiz Sheetab
+          example: Sheetab
+        expire:
+          type: boolean
+          example: true

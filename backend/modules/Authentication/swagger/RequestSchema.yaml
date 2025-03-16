@@ -1,0 +1,32 @@
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          example: sheetab@technohaven.com
+        password:
+          type: string
+          example: 123456
+        expire:
+          type: boolean
+          example: true
+    RegistrationRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          example: sheetab@technohaven.com
+        password:
+          type: string
+          example: 123456
+        firstName:
+          type: string
+          example: Hafiz
+        lastName:
+          type: string
+          example: Sheetab
+        expire:
+          type: boolean
+          example: true

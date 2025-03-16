@@ -1,7 +1,7 @@
 module.exports = (entityId) => {
     return {
       en: {
-        user: {
+        auth: {
             invalidCredentials: "INVALID CREDENTIALS ERROR MESSAGE - EN",
             alreadyExists: "ALREADY EXISTS ERROR MESSAGE - EN",
             notFound: "NOT FOUND ERROR MESSAGE - EN"
@@ -10,6 +10,7 @@ module.exports = (entityId) => {
         general: {
             missingHeader: "MISSING HEADER ERROR MESSAGE - EN",
             invalidToken: "INVALID TOKEN ERROR MESSAGE - EN",
+            invalidLocale: "INVALID LOCALE ERROR MESSAGE - EN",
             invalidUser: "INVALID USER ERROR MESSAGE - EN",
             noPermission: "USER HAS NO PERMISSION MESSAGE - EN",
             system: "SYSTEM GENERATED UNKNOWN ERROR - EN",
@@ -18,20 +19,21 @@ module.exports = (entityId) => {
         }
       },
       de: {
-        user: {
-            invalidCredentials: "INVALID CREDENTIALS ERROR MESSAGE - BN",
-            alreadyExists: "ALREADY EXISTS ERROR MESSAGE - BN",
-            notFound: "NOT FOUND ERROR MESSAGE - BN"
+        auth: {
+            invalidCredentials: "INVALID CREDENTIALS ERROR MESSAGE - DE",
+            alreadyExists: "ALREADY EXISTS ERROR MESSAGE - DE",
+            notFound: "NOT FOUND ERROR MESSAGE - DE"
 
         },
         general: {
-            missingHeader: "MISSING HEADER ERROR MESSAGE - BN",
-            invalidToken: "INVALID TOKEN ERROR MESSAGE - BN",
-            invalidUser: "INVALID USER ERROR MESSAGE - BN",
-            noPermission: "USER HAS NO PERMISSION MESSAGE - BN",
-            system: "SYSTEM GENERATED UNKNOWN ERROR - BN",
-            formError: "ERROR GENERATED RELATED TO FORM - BN",
-            unsupportedParameters: "UNSUPPORTED PARAMETERS IN REQUEST BODY - BN"
+            missingHeader: "MISSING HEADER ERROR MESSAGE - DE",
+            invalidToken: "INVALID TOKEN ERROR MESSAGE - DE",
+            invalidLocale: "INVALID LOCALE ERROR MESSAGE - DE",
+            invalidUser: "INVALID USER ERROR MESSAGE - DE",
+            noPermission: "USER HAS NO PERMISSION MESSAGE - DE",
+            system: "SYSTEM GENERATED UNKNOWN ERROR - DE",
+            formError: "ERROR GENERATED RELATED TO FORM - DE",
+            unsupportedParameters: "UNSUPPORTED PARAMETERS IN REQUEST BODY - DE"
         }
       }
     }

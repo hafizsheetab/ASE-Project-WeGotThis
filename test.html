@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+        }
+        .login-box {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: black;
+            color: white;
+            padding: 20px;
+        }
+        .logo {
+            background: #cfc2ff;
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        .forgot-password {
+            color: #7b61ff;
+            text-decoration: none;
+        }
+        .login-button {
+            width: 80%;
+            padding: 10px;
+            background: orange;
+            border: none;
+            color: white;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .info-box {
+            width: 50%;
+            background: #2c1a74;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+        .icons img {
+            width: 50px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <h2 class="logo">WeGotThis</h2>
+            <p>Please enter your email and password</p>
+            <input type="email" placeholder="saipul@gmail.com">
+            <input type="password" placeholder="**********">
+            <a href="#" class="forgot-password">Forgot Password?</a>
+            <button class="login-button">Login</button>
+        </div>
+        <div class="info-box">
+            <h3>NAMANYAJUGABELAJAR.IO</h3>
+            <p>Belajar secara online semakin mudah – tetap belajar walaupun pake kuota dari Kemendikbud hehe~</p>
+            <div class="icons">
+                <img src="react.png" alt="React">
+                <img src="nodejs.png" alt="Node.js">
+                <img src="tailwind.png" alt="Tailwind CSS">
+                <img src="laravel.png" alt="Laravel">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

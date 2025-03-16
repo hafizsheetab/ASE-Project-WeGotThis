@@ -1,4 +1,4 @@
-omponents:
+components:
   securitySchemes:
     ApiToken:
       type: apiKey

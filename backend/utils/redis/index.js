@@ -9,7 +9,7 @@ const OTP_TTL = process.env.OTP_DEFAULT_EXPIRATION
 
 const service = "redis";
 const LAST_ACCESSED_FIELD = "lastAccessed";
-const SERVICE_PERMISSION_FIELD = "servicePermission";
+
 /*
 The schema of any session will be following
 {
@@ -25,8 +25,10 @@ const storeSessionInRedis = async (data) => {
         const sessionKey = _getSessionKey(data.identifier);
         data["session_id"] = uuid;
         data[LAST_ACCESSED_FIELD] = Date.now();
-        await redisClient.hSet(sessionKey, data);
-        await redisClient.expire(sessionKey, SESSION_TTL);
+        await redisClient.hSet(sessionKey, {identifier: data.identifier, session_id: data.session_id});
+        if(data.expire){
+            await redisClient.expire(sessionKey, SESSION_TTL);
+        }
         return { active: true, session_id: uuid };
     } catch (err) {
         console.log(err);
@@ -52,9 +54,9 @@ const updateFieldInRedis = async (identifier, fieldName, value) => {
         throw error;
     }
 };
-async function getAndRefreshSessionFromRedis(identifier) {
+async function getAndRefreshSessionFromRedis(data) {
     try {
-        const sessionKey = _getSessionKey(identifier);
+        const sessionKey = _getSessionKey(data.identifier);
         const entryExists = await redisClient.exists(sessionKey);
         if (!entryExists) {
             throw {
@@ -63,7 +65,12 @@ async function getAndRefreshSessionFromRedis(identifier) {
                 statusCode: 440
             };
         }
-        await redisClient.expire(sessionKey, SESSION_TTL);
+        if(data.expire){
+            await redisClient.expire(sessionKey, SESSION_TTL);
+        }
+        else {
+            await redisClient.expire(sessionKey, 0)
+        }
         await redisClient.hSet(sessionKey, LAST_ACCESSED_FIELD, Date.now());
         const sessionData = await redisClient.hGetAll(sessionKey);
         if (!sessionData) {

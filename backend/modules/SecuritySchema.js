@@ -1,0 +1,4 @@
+
+/**
+ * @openapi
+ * components: *   securitySchemes: *     ApiToken: *       type: apiKey *       in: header *       name: x-auth-token *     Locale: *       type: apiKey *       in: header *       name: x-locale*/
