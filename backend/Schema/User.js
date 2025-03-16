@@ -6,7 +6,10 @@ const UserSchema = new dynamoose.Schema({
     "lastName": String,
     "email": {
         type: String,
-        "index": true
+        index: {
+            global: true,  // GSI
+            name: "emailIndex"  // GSI name
+        }
     },
     "passwordHash": String,
     "expire": {

@@ -2,7 +2,7 @@ const successMessages = require("../../../messages/successMessages")
 const PreProcessingWithoutToken = require("../../../middleware/Request/PreProcessingWithoutToken")
 const PostErrorProcessing = require("../../../middleware/Response/PostErrorProcessing")
 const PostSuccessProcessing = require("../../../middleware/Response/PostSuccessProcessing")
-const { loginUser, registerUser } = require("../controller/auth.controller")
+const { loginUser, registerUser,forgotPassword,resetPassword } = require("../controller/auth.controller")
 
 const router = require("express").Router()
 
@@ -48,4 +48,45 @@ router.post("/register",PreProcessingWithoutToken, async(req, res) => {
     }
 })
 
+router.post("/forgot-password",PreProcessingWithoutToken, async(req, res) => {
+    try {
+        await forgotPassword(req.body, req.locale)
+        const popupMessage = successMessages()[req.locale].auth.forgotPassword
+        const response = PostSuccessProcessing(popupMessage)
+        res.status(response.statusCode).json(response)
+    } catch (err) {
+        console.log(err);
+        const statusCode = 401;
+        const error = PostErrorProcessing(
+            statusCode,
+            err.formErrors,
+            err.entityName,
+            err.service,
+            err.apiErrorCode,
+            req.locale
+        );
+        res.status(statusCode).json(error);
+    }
+})
+
+router.post("/reset-password",PreProcessingWithoutToken, async(req, res) => {
+    try {
+        await resetPassword(req.body, req.locale)
+        const popupMessage = successMessages()[req.locale].auth.resetPassword
+        const response = PostSuccessProcessing(popupMessage)
+        res.status(response.statusCode).json(response)
+    } catch (err) {
+        console.log(err);
+        const statusCode = 401;
+        const error = PostErrorProcessing(
+            statusCode,
+            err.formErrors,
+            err.entityName,
+            err.service,
+            err.apiErrorCode,
+            req.locale
+        );
+        res.status(statusCode).json(error);
+    }
+})
 module.exports = router
