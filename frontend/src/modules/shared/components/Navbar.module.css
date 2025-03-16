@@ -1,0 +1,43 @@
+.navbar {
+    background-color: #4f46e5;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+  }
+  
+  .navLeft {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    font-family: Inter, sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    background-color: transparent;
+  }
+  
+  .navRight {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .navButton {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-family: Inter, sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  
+  .languageSwitch {
+    font-weight: 600;
+    padding: 0 0.5rem;
+    border-left: 1px solid #fff9;
+  }
+  
