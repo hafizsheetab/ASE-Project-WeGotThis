@@ -1,0 +1,83 @@
+.imageUploader {
+    text-align: center;
+    width: 500px;
+    min-width: 240px;
+    margin-top: 70px;
+  }
+
+.imageSettings{
+  width: 90%;
+  display: flex;
+  align-items: flex-end;
+}
+  
+  .uploadArea {
+    width: 90%;
+    margin-top: 1.5em;
+    color: #a6a6a6;
+    font-weight: 400;
+    min-height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: contain;
+    background-position: start;
+    background-repeat: no-repeat;
+  }
+  
+  .previewImage {
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+  }
+  
+  .uploadText {
+    position: relative;
+    padding: 0 1em;
+  }
+  
+  .buttonContainer {
+    color: #fff;
+    justify-content: space-between;
+    align-items: start;
+    width: 100%;
+    margin-top: 20px;
+    font-family:
+      Montserrat,
+      -apple-system,
+      Roboto,
+      Helvetica,
+      sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+  }
+  
+  .uploadButton {
+    background-color: #f97316;
+    border: 1px solid #6366f1;
+    border-radius: 8px;
+    color: #fff;
+    min-height: 48px;
+    padding: 14px 40px;
+    cursor: pointer;
+  }
+
+.trashBinIcon{
+  width: 2em;
+  cursor: pointer;
+}
+  
+  @media (width <= 991px) {
+    .imageUploader,
+    .uploadArea {
+      max-width: 100%;
+    }
+  
+    .uploadButton {
+      padding: 14px 20px;
+    }
+  }

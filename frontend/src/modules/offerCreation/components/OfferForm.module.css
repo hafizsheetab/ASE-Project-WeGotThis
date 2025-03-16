@@ -1,0 +1,31 @@
+
+  .priceSection {
+    display: flex;
+    gap: 24px;
+  }
+  
+  .priceInput,
+  .priceTypeSelect {
+    width: 200px;
+  }
+  
+  @media (width <= 991px) {
+    .offerForm {
+      max-width: 100%;
+    }
+  
+    .title,
+    .titleInput,
+    .titleHint {
+      max-width: 100%;
+    }
+  
+    .priceSection {
+      flex-wrap: wrap;
+    }
+  
+    .priceInput,
+    .priceTypeSelect {
+      width: 100%;
+    }
+  }

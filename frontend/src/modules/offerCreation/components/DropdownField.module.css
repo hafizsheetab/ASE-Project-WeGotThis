@@ -1,0 +1,72 @@
+/* https://blog.logrocket.com/creating-custom-select-dropdown-css/ */
+
+.customDropdown {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+    max-width: 100%;
+  }
+
+  .selectButton {
+    font-size: 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1em .8em;
+    border: 1px solid #a6a6a6;
+    border-radius: 0.2rem;
+    background-color: white;
+    cursor: pointer;
+  }
+
+  .arrow {
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #000;
+    transition: transform ease-in-out 0.3s;
+  }
+
+  .selectDropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    border: 1px solid #caced1;
+    border-radius: 0.25rem;
+    background-color: white;
+    list-style: none;
+    padding: 10px;
+    margin: 10px 0 0;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    max-height: 200px;
+    overflow-y: auto;
+    text-align: start;
+  }
+
+  .selectDropdown::-webkit-scrollbar {
+    width: 7px;
+  }
+  .selectDropdown::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 25px;
+  }
+  .select-dropdown::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 25px;
+  }
+  .selectDropdown li {
+    padding: 10px;
+    cursor: pointer;
+  }
+  /* Highlight the selected option */
+  .selectDropdown li.selected {
+    background-color: #f2f2f2;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+  .selectDropdown li:hover,
+  .selectDropdown li:focus {
+    background-color: #f2f2f2;
+    border-radius: 4px;
+  }
