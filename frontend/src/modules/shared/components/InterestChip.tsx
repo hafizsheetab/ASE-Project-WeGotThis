@@ -7,7 +7,7 @@ const StyledInterestChip = styled(Chip)(({ theme }) => ({
     borderRadius: "10px",
     padding: "1em .2em",
     "&:hover": {
-        backgroundColor: theme.palette.primary.dark, // 👈 Apply hover effect
+        backgroundColor: theme.palette.primary.dark,
         color: theme.palette.primary.contrastText,
     },
 }));

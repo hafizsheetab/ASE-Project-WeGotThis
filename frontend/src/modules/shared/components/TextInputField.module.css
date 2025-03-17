@@ -8,26 +8,12 @@
     margin-bottom: 10px;
     text-align: start;
 }
-  
-.input {
-    border: 1px solid #a6a6a6;
-    border-radius: .2em;
-    padding: 1em .8em;
-}
-
-.footerTxt {
-    text-align: start;
-    margin: .3em .1em;
-    font-size: 1em;
-    color: #a6a6a6;
-}
-
 
 .geoapifyWrapper input {
     width: calc(100% - 1.6em);
     font-size: 1em;
     padding: 1em .8em;
-    border: 1px solid #a6a6a6;
+    border: 0.1px solid #a6a6a6;
     border-radius: .2em;
     line-height: normal;
     height: auto;

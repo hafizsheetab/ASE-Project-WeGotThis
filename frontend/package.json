@@ -20,7 +20,9 @@
     "@mui/material":"^6.4.7",
     "@emotion/react":"^11.14.0",
     "@emotion/styled":"^11.14.0",
-    "@mui/icons-material": "6.4.7"
+    "@mui/icons-material": "6.4.7",
+    "@mui/x-date-pickers": "7.28.0",
+    "dayjs": "1.11.13"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

@@ -1,7 +1,8 @@
-import styles from './CategorySelector.module.css'
-import CategoryList from './CategoryList';
-import ActiveButton from './ActiveClickButton';
+import styles from './OfferCreation.module.css'
+import CategoryList from '../../shared/components/CategoryChipDisplay';
+import ActiveButton from '../../shared/components/ActiveClickButton';
 import AddIcon from "@mui/icons-material/Add";
+import DialogSelect from './CategorySelectorDialog';
 
 const CategorySelector = () => {
   return (
@@ -10,9 +11,10 @@ const CategorySelector = () => {
         <div className={styles.categoryHeader}>
           <h2>Categories</h2>
           <p>You can select up to 5 categories</p>
+          
         </div>
 
-        <ActiveButton buttonTxt="Add Item" startIcon={<AddIcon />} />
+        <DialogSelect/>
 
       </div>
 
