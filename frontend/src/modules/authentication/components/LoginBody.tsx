@@ -32,6 +32,10 @@ function LoginBody() {
         navigate("/register");
     };
 
+    const handleForgotPassword = () => {
+        navigate("/reset")
+    }
+
     useEffect(() => {
         if(store.context.token){
             console.log(store.context)
@@ -77,7 +81,7 @@ function LoginBody() {
                             <label htmlFor="password" className={styles.label}>
                                 Password
                             </label>
-                            <a href="#" className={styles.forgotPassword}>
+                            <a href="#" className={styles.forgotPassword} onClick={handleForgotPassword}>
                                 Forgot Password?
                             </a>
                         </div>

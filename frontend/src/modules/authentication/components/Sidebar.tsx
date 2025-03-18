@@ -1,14 +1,9 @@
-import styles from "./Authentication.module.css";
+import sidebarImg from "./SidebarDraft.png"
 
 const Sidebar = () => {
     return (
-        <section className={styles.rightSide}>
-            <div className={styles.rightSideContent}>
-                <div className={styles.brand}>WEGOTTHIS</div>
-                <h2 className={styles.message}>
-                    Fast and secure learning platform for everyone.
-                </h2>
-            </div>
+        <section style={{flex: "1"}}>
+            <img src={sidebarImg} alt="Sidebar Image" style={{width:"100%", height:"100%"}} />
         </section>
     );
 };
