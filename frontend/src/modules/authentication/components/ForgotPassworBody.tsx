@@ -12,7 +12,7 @@ function ForgotPasswordBody() {
     const [success, setSuccess] = useState(false)
     const handleForgotPassword = async(e: React.FormEvent) => {
         e.preventDefault();
-        const response = await forgotPassword({email: email}, store.context)
+        const response = await forgotPassword({email: email}, store)
         if(checkForError(response)){
             return
         }

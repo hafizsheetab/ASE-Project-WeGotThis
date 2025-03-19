@@ -45,7 +45,7 @@ const AuthTextInputs = () => {
             showAlert("Invalid Token", "error")
             return
         }
-        let response = await resetPassword({password: newPassword, expire: true}, token, store.context)
+        let response = await resetPassword({password: newPassword, expire: true}, token, store)
         if(checkForError(response)){
             return
         }

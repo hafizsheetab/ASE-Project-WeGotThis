@@ -31,5 +31,7 @@ export interface ContextData {
     token: string
     expire: boolean
     locale: "en" | "de"
+    loading: boolean
+    color: string
 }
 

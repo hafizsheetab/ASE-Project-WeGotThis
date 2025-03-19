@@ -19,7 +19,7 @@ function LoginBody() {
     const handleLogin = async(e: React.FormEvent) => {
         e.preventDefault();
         console.log("Logging in with", loginForm);
-        let response = await login({email: loginForm.email, password: loginForm.password, expire: true}, store.context)
+        let response = await login({email: loginForm.email, password: loginForm.password, expire: true}, store)
         if(checkForError(response)){
             return
         }

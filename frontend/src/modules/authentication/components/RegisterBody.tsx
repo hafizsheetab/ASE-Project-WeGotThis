@@ -50,7 +50,7 @@ const RegisterBody: React.FC = () => {
             showAlert("Passwords do not match", "error")
             return
         }
-        let response = await register({email: registerForm.email, password: registerForm.password, expire: true, firstName: registerForm.firstName, lastName: registerForm.lastName}, store.context)
+        let response = await register({email: registerForm.email, password: registerForm.password, expire: true, firstName: registerForm.firstName, lastName: registerForm.lastName}, store)
         if(checkForError(response)){
             return
         }
