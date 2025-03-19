@@ -36,18 +36,9 @@ components:
         email:
           type: string
           example: sheetab@technohaven.com
-        expire:
-          type: boolean
-          example: true
     ResetPasswordRequest:
       type: object
       properties:
-        newPassword:
+        password:
           type: string
           example: 123456
-        confirmPassword:
-          type: string
-          example: 123456
-        expire:
-            type: boolean
-            example: true

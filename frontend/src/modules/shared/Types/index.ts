@@ -8,7 +8,9 @@ export interface ResponseBody<T>{
     resource: T
     popupMessage: string
 }
-
+export interface VoidPositiveResponse {
+    status: true
+}
 export interface ErrorBody {
     status: false
     statusCode: number

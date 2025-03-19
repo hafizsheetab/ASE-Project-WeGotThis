@@ -24,14 +24,13 @@ const createToken = (identifier, type="access",expire=true) => {
     };
 };
 
-const decodeTokenAndReturnIdentifier = async (token,expectedType="access") => {
+const decodeTokenAndReturnIdentifier = async (token) => {
     return new Promise((resolve, reject) => {
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, decoded) => {
             if (error) {
                 resolve(false);
-            } else if(decoded.type!==expectedType){
-                resolve(false);
-            } else {
+            } 
+            else {
                 resolve(decoded.identifier);
             }
         });

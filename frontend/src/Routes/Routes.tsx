@@ -12,6 +12,7 @@ import { useContext } from "react";
 import ContextStore from "../utils/ContextStore";
 // import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/authentication/ResetPassword";
+import ForgotPassword from "../pages/authentication/ForgotPassword";
 
 const AppRoutes = () => {
     const { context } = useContext(ContextStore);
@@ -27,8 +28,9 @@ const AppRoutes = () => {
                 </Routes>
             ) : (
                 <Routes>
-                    <Route path="/login" element={<OfferCreation />} />
+                    <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/forgotPassword" element={<ForgotPassword />} />
                     <Route path="/reset" element={<ResetPassword/>}/>
                     <Route
                         path="*"

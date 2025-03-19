@@ -21,7 +21,7 @@ const UserForgotPasswordValidationSchema = Joi.object({
 
 const UserResetPasswordValidationSchema = Joi.object({
     password: Joi.string().min(6).max(32).required(),
-    confirmPassword: Joi.string().min(6).max(32).required(),
+    expire: Joi.boolean().required(),
 }).options({abortEarly: false})
 const ResetPasswordValidationSchema = Joi.object({}).options({abortEarly: false})
-module.exports = {UserLoginValidationSchema, UserRegistrationValidationSchema, UserForgotPasswordValidationSchema}
+module.exports = {UserLoginValidationSchema, UserRegistrationValidationSchema, UserForgotPasswordValidationSchema, UserResetPasswordValidationSchema}

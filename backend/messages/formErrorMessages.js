@@ -46,6 +46,10 @@ module.exports = {
             },
             forgotPassword:{
                 email: "ERROR MESSAGE FOR EMAIL FORM ERROR - DE",
+            },
+            resetPassword:{
+                password: "ERROR MESSAGE FOR PASSWORD FORM ERROR - EN",
+                expire: "ERROR MESSAGE FOR PASSWORD FORM ERROR - EN",
             }
         },
         user: {

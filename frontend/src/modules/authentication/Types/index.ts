@@ -35,3 +35,13 @@ export interface TokenResponse {
     "identifier": string
 }
 
+export interface ForgotPasswordRequestBody {
+    email: string
+}
+
+export interface ResetPasswordRequestBody {
+    password: string
+    expire: boolean
+}
+
+

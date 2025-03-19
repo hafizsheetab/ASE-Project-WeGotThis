@@ -21,13 +21,17 @@ The schema of any session will be following
 */
 const storeSessionInRedis = async (data) => {
     try {
+        let ttl = SESSION_TTL
+        if(data.reset){
+            ttl = process.env.ACCESS_TOKEN_DEFAULT_EXPIRATION_RESET
+        }
         const uuid = generateID();
         const sessionKey = _getSessionKey(data.identifier);
         data["session_id"] = uuid;
         data[LAST_ACCESSED_FIELD] = Date.now();
         await redisClient.hSet(sessionKey, {identifier: data.identifier, session_id: data.session_id});
         if(data.expire){
-            await redisClient.expire(sessionKey, SESSION_TTL);
+            await redisClient.expire(sessionKey, ttl);
         }
         return { active: true, session_id: uuid };
     } catch (err) {

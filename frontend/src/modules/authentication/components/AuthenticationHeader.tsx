@@ -1,4 +1,4 @@
-import styles from "./ResetForm.module.css";
+import styles from "./Authentication.module.css";
 
 type AuthenticationHeaderProps = {
     header : string
