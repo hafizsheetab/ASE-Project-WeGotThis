@@ -16,6 +16,7 @@ type ActiveButtonProps = {
 
 const ActiveButton: React.FC<ActiveButtonProps> = ({ 
   buttonTxt, 
+
   className = "", 
   variant = "contained", 
   color = "secondary", 
@@ -30,13 +31,16 @@ const ActiveButton: React.FC<ActiveButtonProps> = ({
     <StyledButton 
       className={`${className}`} 
       style={style}
+
       variant={variant} 
       color={color} 
       startIcon={startIcon} 
       endIcon={endIcon} 
       onClick={onClick}
+
       disabled={disabled} 
       type={type} 
+
     >
       {buttonTxt}
     </StyledButton>

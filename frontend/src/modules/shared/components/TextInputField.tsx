@@ -1,11 +1,14 @@
 import { InputAdornment, TextField } from '@mui/material'
 import styles from './TextInputField.module.css'
+
 import { ReactNode } from 'react'
+
 
 type TextInputFieldProps = {
     placeholder : string
     labelTxt? : string
     footerTxt? : string
+
     startIcon? : string | number | ReactNode
     endIcon? : string | number | ReactNode
     readonly? : boolean
@@ -34,6 +37,7 @@ const TextInputField: React.FC<TextInputFieldProps> = ({
     
     return (
         <div className={styles.inputGroup}>
+
             {labelTxt && <label className={styles.label}>{labelTxt}</label>}
             <TextField
                 placeholder={placeholder}

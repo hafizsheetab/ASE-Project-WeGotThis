@@ -5,6 +5,7 @@ import {
     Navigate,
 } from "react-router-dom";
 import Login from "../pages/authentication/Login";
+import OfferCreation from "../pages/offerCreation/OfferCreation";
 import Register from "../pages/authentication/Register";
 import Home from "../pages/Home";
 import { useContext } from "react";
@@ -26,7 +27,7 @@ const AppRoutes = () => {
                 </Routes>
             ) : (
                 <Routes>
-                    <Route path="/login" element={<Login />} />
+                    <Route path="/login" element={<OfferCreation />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/reset" element={<ResetPassword/>}/>
                     <Route
