@@ -1,0 +1,30 @@
+.roleToggle {
+  display: flex;
+  gap: 1.2em;
+}
+
+.roleButton {
+  display: flex;
+  align-items: center;
+  gap: .5em;
+  padding: .7em;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  min-width: 220px;
+  justify-content: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.radioButton {
+  cursor: pointer;
+}
+
+.radioButton:checked {
+  accent-color: var(--color-primary); 
+}
+
+.active {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
