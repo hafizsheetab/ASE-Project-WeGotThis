@@ -4,7 +4,7 @@ import TextInputField from "../../shared/components/TextInputField";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import ActiveButton from "../../shared/components/ActiveClickButton";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import {  useSearchParams } from "react-router-dom";
 import { IconButton, InputAdornment } from "@mui/material";
 import { checkForError, showAlert } from "../../shared/services";
 import { resetPassword } from "../services";
