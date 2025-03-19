@@ -2,8 +2,8 @@
 import React, { useEffect } from "react";
 import Sidebar from "../../modules/authentication/components/Sidebar";
 import styles from "../css/Pages.module.css";
-import ResetBody from "../../modules/authentication/components/ResetBody";
 import { Paper } from "@mui/material";
+import { ResetForm } from "../../modules/authentication/components/ResetForm";
 
 const Register: React.FC = () => {
 
@@ -17,7 +17,7 @@ const Register: React.FC = () => {
 
   return (
     <Paper className={styles.authenticationContainer} elevation={3}>
-      <ResetBody />
+      <ResetForm />
       <Sidebar />
     </Paper>
   )

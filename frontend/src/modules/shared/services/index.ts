@@ -52,10 +52,10 @@ export const apiRequest = async <ReqBody, ResBody> (url: string,requestBody: Req
     }
 }
 export const checkForError = <T extends Object>(response: T | ErrorBody) => {
-    if("status" in response){
+    if("status" in response && !response.status){
         return true
     }
-    else false
+    return false
     
 }
 export const showAlert = (text: string, type: "info" | "success" | "warning" | "error") => {

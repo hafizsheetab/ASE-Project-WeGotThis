@@ -1,0 +1,41 @@
+
+
+services:
+  backend:
+    container_name: wegotthis-backend
+    image: wegotthis/backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      redis:
+        condition: service_started
+      localstack:
+        condition: service_healthy
+  frontend:
+    container_name: wegotthis-frontend
+    image: wegotthis/frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      backend:
+        condition: service_started
+  redis:
+    container_name: redis-stack
+    image: redis/redis-stack:latest
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+  localstack:
+    container_name: "wegotthis-localstack-main"
+    image: localstack/localstack
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+    environment:
+      # LocalStack configuration: https://docs.localstack.cloud/references/configuration/
+      - DEBUG=${DEBUG:-0}
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    
+    

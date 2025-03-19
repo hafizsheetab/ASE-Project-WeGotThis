@@ -30,7 +30,7 @@
     responses:
       "200":
         description: OK
-"/v1/auth/forgot-password":
+"/v1/auth/forgotPassword":
     post:
       security:
         - Locale: []
@@ -46,7 +46,7 @@
       responses:
         "200":
           description: OK
-"/v1/auth/reset-password":
+"/v1/auth/resetPassword":
     post:
       security:
         - Locale: [ ]

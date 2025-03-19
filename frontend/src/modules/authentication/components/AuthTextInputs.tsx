@@ -1,11 +1,15 @@
-import { useState } from "react";
-import styles from "./ResetForm.module.css";
+import { useContext, useState } from "react";
+import styles from "./Authentication.module.css";
 import TextInputField from "../../shared/components/TextInputField";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import ActiveButton from "../../shared/components/ActiveClickButton";
-import { useNavigate } from "react-router-dom";
+import {  useSearchParams } from "react-router-dom";
 import { IconButton, InputAdornment } from "@mui/material";
+import { checkForError, showAlert } from "../../shared/services";
+import { resetPassword } from "../services";
+import ContextStore from "../../../utils/ContextStore";
+import { TokenResponse } from "../Types";
 
 const AuthTextInputs = () => {
     const [newPassword, setNewPassword] = useState("");
@@ -13,10 +17,10 @@ const AuthTextInputs = () => {
     const [error, setError] = useState({ newPassword: false, confirmPassword: false });
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [searchParams] = useSearchParams()
+    const store = useContext(ContextStore)
 
-    const navigate = useNavigate();
-
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async(event: React.FormEvent) => {
         event.preventDefault();
 
         const isLengthValid = newPassword.length >= 7;
@@ -35,8 +39,18 @@ const AuthTextInputs = () => {
             })
             return;
         }
-
-        navigate("/login");
+        const token = searchParams.get("token")
+        console.log(token)
+        if(token === null){
+            showAlert("Invalid Token", "error")
+            return
+        }
+        let response = await resetPassword({password: newPassword, expire: true}, token, store.context)
+        if(checkForError(response)){
+            return
+        }
+        response = response as TokenResponse
+        store.setContext({...store.context, token: response.access_token})
     };
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);

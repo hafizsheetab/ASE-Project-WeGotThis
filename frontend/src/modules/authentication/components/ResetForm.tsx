@@ -1,4 +1,4 @@
-import styles from "./ResetForm.module.css";
+import styles from "./Authentication.module.css";
 import AuthenticationHeader from "./AuthenticationHeader";
 import AuthTextInputs from "./AuthTextInputs";
 

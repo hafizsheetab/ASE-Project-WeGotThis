@@ -7,7 +7,7 @@ const { v4: uuidv4 } = require('uuid');
 const checkForUnsupportedParameters = require("../../../utils/checkForUnsupportedParameters")
 const Forms = require("../../../Types/Forms")
 const { formDataSchemaValidationErrorHandler } = require("../../../utils")
-const { UserLoginValidationSchema, UserRegistrationValidationSchema,UserForgotPasswordValidationSchema } = require("../validation")
+const { UserLoginValidationSchema, UserRegistrationValidationSchema,UserForgotPasswordValidationSchema, UserResetPasswordValidationSchema } = require("../validation")
 const formErrorMessages = require("../../../messages/formErrorMessages")
 const {Condition} = require("dynamoose");
 const { sendResetPasswordEmail } = require("../../../utils/email")
@@ -17,7 +17,7 @@ const loginUser = async(formData, locale) => {
     checkForUnsupportedParameters(Forms.auth.login, formData, EntityNames.auth, service)
     formDataSchemaValidationErrorHandler(UserLoginValidationSchema, formData, formErrorMessages[locale].auth.login, EntityNames.auth, service)
     const {email, password, expire} = formData
-    const results = await User.query("email").eq(email).exec()
+    const results = await User.query("email").eq(email).using("emailIndex").exec();
     if(results.length === 0){
         throw {
             apiErrorCode: "auth.invalidCredentials",
@@ -36,7 +36,7 @@ const loginUser = async(formData, locale) => {
     }
     user.expire = expire
     await user.save()
-    const token = createToken(user.id,undefined,user.expire)
+    const token = createToken(user.id,"access",user.expire)
     await storeSessionInRedis({identifier: user.id, expire})
     return token
     
@@ -67,13 +67,14 @@ const registerUser = async (formData, locale) => {
 
     })
     await user.save()
-    const token = createToken(user.id, undefined,user.expire)
+    const token = createToken(user.id, "access",user.expire)
     await storeSessionInRedis({identifier: user.id, expire})
     return token
 }
 
 const forgotPassword = async(formData, locale) => {
-    const {email,expire} = formData;
+    //expire is not needed for the formdata
+    const {email} = formData;
     const service = "forgotPassword"
     checkForUnsupportedParameters(Forms.auth.forgotPassword, formData, EntityNames.auth, service)
     formDataSchemaValidationErrorHandler(UserForgotPasswordValidationSchema, formData, formErrorMessages[locale].auth.forgotPassword, EntityNames.auth, service)
@@ -86,31 +87,26 @@ const forgotPassword = async(formData, locale) => {
         }
     }
     const user = results[0]
-    const token = createToken(user.id, "reset",user.expire)
+    const token = createToken(user.id, "reset",true)
 
     //todo: check the link
-    const resetLink="http://localhost:8000/api/v1/auth/resetPassword?token="+token
-    await storeSessionInRedis({identifier:email,expire})
+    const resetLink=`${process.env.FRONTEND_BASE_URL}/reset?token=${token.access_token}` 
+    await storeSessionInRedis({identifier:email,expire: true, reset: true})
     await sendResetPasswordEmail(email,resetLink);
+    return {status: true}
 }
 
-const resetPassword = async(formData, locale) => {
-    const{token, newPassword} = formData
+const resetPassword = async(formData, user, locale) => {
+    const{password} = formData
     const service = "resetPassword"
 
-    checkForUnsupportedParameters(Forms.auth.forgotPassword, formData, EntityNames.auth, service)
-    formDataSchemaValidationErrorHandler(UserForgotPasswordValidationSchema, formData, formErrorMessages[locale].auth.resetPassword, EntityNames.auth, service)
-    const userId = await decodeTokenAndReturnIdentifier(token, "reset")
-    if(!userId){
-        throw {
-            apiErrorCode: "auth.invalidToken",
-            entityName: EntityNames.auth,
-            service,
-        }
-    }
-    const user = await User.get(userId);
-    const hashedPassword = bcrypt.hashSync(newPassword, bcrypt.genSaltSync(10));
-    await User.update({ id: userId }, { passwordHash: hashedPassword });
+    checkForUnsupportedParameters(Forms.auth.resetPassword, formData, EntityNames.auth, service)
+    formDataSchemaValidationErrorHandler(UserResetPasswordValidationSchema, formData, formErrorMessages[locale].auth.resetPassword, EntityNames.auth, service)
+    const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+    await User.update({ id: user.id }, { passwordHash: hashedPassword });
+    const token = createToken(user.id,"access",user.expire)
+    await storeSessionInRedis({identifier: user.id, expire: user.expire})
+    return token
 }
 
 module.exports = {loginUser, registerUser, forgotPassword, resetPassword}
