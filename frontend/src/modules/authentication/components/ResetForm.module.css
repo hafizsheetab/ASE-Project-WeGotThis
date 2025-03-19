@@ -1,0 +1,18 @@
+
+.formSection {
+flex-direction: column;
+padding: 3em 4em;
+display: flex;
+flex:1;
+}
+  
+.WeGotThislogo {
+color: #4f46e5;
+width: fit-content;
+background-color: #eef2ff;
+border-radius: 12px;
+padding: .8em;
+font-size: 1.2em;
+font-weight: 700;
+margin: 0;
+}

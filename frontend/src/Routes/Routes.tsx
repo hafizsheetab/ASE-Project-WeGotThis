@@ -11,7 +11,7 @@ import Home from "../pages/Home";
 import { useContext } from "react";
 import ContextStore from "../utils/ContextStore";
 // import ForgotPassword from "../pages/ForgotPassword";
-// import ResetPassword from "../pages/ResetPassword";
+import ResetPassword from "../pages/authentication/ResetPassword";
 
 const AppRoutes = () => {
     const { context } = useContext(ContextStore);
@@ -29,6 +29,7 @@ const AppRoutes = () => {
                 <Routes>
                     <Route path="/login" element={<OfferCreation />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/reset" element={<ResetPassword/>}/>
                     <Route
                         path="*"
                         element={<Navigate to="/login" replace={true} />}

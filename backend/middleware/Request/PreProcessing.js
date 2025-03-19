@@ -25,7 +25,8 @@ module.exports = (entityName) => {
                     service,
                 }
             }
-            const userId = await decodeTokenAndReturnIdentifier(token)
+            //TODO: add expectedType to decodeTokenAndReturnIdentifier
+            const userId = await decodeTokenAndReturnIdentifier(token,"access");
             if (!userId) {
                 throw {
                     apiErrorCode: "general.invalidToken",
