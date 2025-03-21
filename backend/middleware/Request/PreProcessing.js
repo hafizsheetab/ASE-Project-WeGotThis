@@ -42,6 +42,7 @@ module.exports = (entityName) => {
                     service,
                 };
             }
+
             await getAndRefreshSessionFromRedis({expire: user.expire, identifier: userId})
             req.locale = locale;
             req.userId = user.id;

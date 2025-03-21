@@ -1,0 +1,128 @@
+"/v1/offer/offerCreate":
+  post:
+    security:
+      - Locale: []
+      - BearerAuth: []
+    tags:
+      - Offer
+    summary: Create a new offer
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CreateOffer"
+    responses:
+      "201":
+        description: Offer created successfully
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OfferResponse"
+      "400":
+        description: Invalid request data
+      "500":
+        description: Server error
+
+"/v1/offer/offerEdit/{offerId}":
+  put:
+    security:
+      - Locale: []
+      - BearerAuth: []
+    tags:
+      - Offer
+    summary: Edit an existing offer
+    parameters:
+      - in: path
+        name: offerId
+        required: true
+        schema:
+          type: string
+        description: ID of the offer to edit
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/EditOffer"
+    responses:
+      "200":
+        description: Offer updated successfully
+      "403":
+        description: Unauthorized, user does not own this offer
+      "404":
+        description: Offer not found
+      "500":
+        description: Server error
+
+"/v1/offer/offerGet/{offerId}":
+  get:
+    security:
+      - Locale: []
+      - BearerAuth: []
+    tags:
+      - Offer
+    summary: Get details of a single offer
+    parameters:
+      - in: path
+        name: offerId
+        required: true
+        schema:
+          type: string
+        description: ID of the offer to retrieve
+    responses:
+      "200":
+        description: Offer retrieved successfully
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OfferResponse"
+      "404":
+        description: Offer not found
+      "500":
+        description: Server error
+
+"/v1/offer/offers":
+  get:
+    security:
+      - Locale: []
+      - BearerAuth: []
+    tags:
+      - Offer
+    summary: Get a list of all offers
+    responses:
+      "200":
+        description: List of offers retrieved successfully
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/OfferResponse"
+      "500":
+        description: Server error
+
+"/v1/offer/offerDelete/{offerId}":
+  delete:
+    security:
+      - Locale: []
+      - BearerAuth: []
+    tags:
+      - Offer
+    summary: Delete an offer
+    parameters:
+      - in: path
+        name: offerId
+        required: true
+        schema:
+          type: string
+        description: ID of the offer to delete
+    responses:
+      "200":
+        description: Offer deleted successfully
+      "403":
+        description: Unauthorized, user does not own this offer
+      "404":
+        description: Offer not found
+      "500":
+        description: Server error
