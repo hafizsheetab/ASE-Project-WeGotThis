@@ -1,30 +1,8 @@
 components:
-  securitySchemes:
-    Locale:
-      type: apiKey
-      in: header
-      name: x-locale
-    BearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-
   schemas:
-    CreateOffer:
+    CreateOfferRequest:
       type: object
-      required:
-        - title
-        - description
-        - location
-        - priceMode
-        - type
-        - categories
-        - estimatedTime
       properties:
-        owner:
-          type: string
-          description: ID of the user who created the offer
-          example: "60e6fe5f9e5f5b35d4e6fe5f"
         title:
           type: string
           example: "Dog Walking Service"
@@ -35,26 +13,14 @@ components:
           type: array
           items:
             type: string
-          example: ["https://example.com/image.jpg"]
+          example:
+            - "https://example.com/image.jpg"
         location:
           type: object
           properties:
             address:
               type: string
-              example: "Main Street, NY"
-            coordinates:
-              type: object
-              properties:
-                type:
-                  type: string
-                  enum: ["Point"]
-                  example: "Point"
-                coordinates:
-                  type: array
-                  items:
-                    type: number
-                  nullable: true
-                  example: [40.7128, -74.0060]
+              example: "New York, NY"
         priceMode:
           type: string
           enum: [fixed, negotiation]
@@ -62,11 +28,6 @@ components:
         price:
           type: number
           example: 20
-        startingPrice:
-          type: number
-          description: Required if priceMode is "negotiation"
-          nullable: true
-          example: 15
         availability:
           type: boolean
           default: true
@@ -79,7 +40,9 @@ components:
           type: array
           items:
             type: string
-          example: ["pet-care", "dog-walking"]
+          example:
+            - "pet-care"
+            - "dog-walking"
         estimatedTime:
           type: number
           description: Estimated duration in minutes
@@ -90,7 +53,7 @@ components:
           default: active
           example: "active"
 
-    EditOffer:
+    EditOfferRequest:
       type: object
       properties:
         title:
@@ -103,19 +66,18 @@ components:
           type: array
           items:
             type: string
-          example: ["https://example.com/new-image.jpg"]
+          example:
+            - "https://example.com/new-image.jpg"
         price:
           type: number
           example: 25
-        startingPrice:
-          type: number
-          nullable: true
-          example: 18
         categories:
           type: array
           items:
             type: string
-          example: ["pet-care", "dog-walking"]
+          example:
+            - "pet-care"
+            - "dog-walking"
         availability:
           type: boolean
           example: false
@@ -123,68 +85,3 @@ components:
           type: string
           enum: [active, inactive]
           example: "inactive"
-
-    OfferResponse:
-      type: object
-      required:
-        - id
-      properties:
-        id:
-          type: string
-          example: "123456"
-          description: Unique offer identifier
-        owner:
-          type: string
-          example: "60e6fe5f9e5f5b35d4e6fe5f"
-        title:
-          type: string
-          example: "Dog Walking Service"
-        description:
-          type: string
-          example: "I can walk your dog for 30 minutes."
-        images:
-          type: array
-          items:
-            type: string
-          example: ["https://example.com/image.jpg"]
-        location:
-          type: object
-          properties:
-            address:
-              type: string
-              example: "Main Street, NY"
-            coordinates:
-              type: object
-              properties:
-                type:
-                  type: string
-                  example: "Point"
-                coordinates:
-                  type: array
-                  items:
-                    type: number
-                  nullable: true
-                  example: [40.7128, -74.0060]
-        priceMode:
-          type: string
-          enum: [fixed, negotiation]
-          example: "negotiation"
-        price:
-          type: number
-          example: 25
-        startingPrice:
-          type: number
-          nullable: true
-          example: 18
-        categories:
-          type: array
-          items:
-            type: string
-          example: ["pet-care", "dog-walking"]
-        estimatedTime:
-          type: number
-          example: 60
-        status:
-          type: string
-          enum: [active, inactive]
-          example: "active"

@@ -19,7 +19,7 @@ module.exports = {
             "priceMode", "price", "startingPrice", "availability",
             "type", "categories", "estimatedTime", "status"
         ],
-        getOffer: ["offerId"],
+        getOffer: [],
         getOffers: [],
         deleteOffer: ["offerId"]
     }

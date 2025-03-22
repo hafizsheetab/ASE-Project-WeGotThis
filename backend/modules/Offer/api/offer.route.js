@@ -1,13 +1,14 @@
-const router=require('express').Router();
+const router=require('express').Router()
 const successMessages = require("../../../messages/successMessages")
-const PreProcessing = require("../../../middleware/Request/PreProcessing")
+const PreProcessing = require("../../../middleware/Request/PreProcessing")("offer")
 const PreProcessingWithoutToken = require("../../../middleware/Request/PreProcessingWithoutToken")
 const PostErrorProcessing = require("../../../middleware/Response/PostErrorProcessing")
 const PostSuccessProcessing = require("../../../middleware/Response/PostSuccessProcessing")
 const { createOffer, editOffer, getOffer, getOffers, updateOffer, deleteOffer } = require("../controller/offer.controller")
-router.post("/offerCreate", PreProcessing async (req, res) => {
+//todo: add preprocessing later
+router.post("/create",PreProcessing,async (req, res) => {
     try{
-        const offer = await createOffer(req.body, req.locale)
+        const offer = await createOffer(req.body, req.user.id,req.locale)
         const popupMessage = successMessages()[req.locale].offer.createOffer
         const response = PostSuccessProcessing(popupMessage, offer)
         res.status(response.statusCode).json(response)
@@ -26,11 +27,12 @@ router.post("/offerCreate", PreProcessing async (req, res) => {
     }
 });
 
-router.put("/offerEdit/:offerId", PreProcessing,async (req, res) => {
+router.put("/edit/:offerId", PreProcessing,async (req, res) => {
     try{
-        const offer = await editOffer(req.params.offerId,req.body, req.userId, req.locale)
+        const offer = await editOffer(req.params.offerId,req.body, req.user.id, req.locale)
         const popupMessage = successMessages()[req.locale].offer.editOffer
         const response = PostSuccessProcessing(popupMessage, offer)
+        res.status(response.statusCode).json(response)
     }catch(err){
         console.log(err);
         const statusCode = 401;
@@ -46,11 +48,12 @@ router.put("/offerEdit/:offerId", PreProcessing,async (req, res) => {
     }
 });
 
-router.get("/offerGet/:offerId", PreProcessing, (req, res) => {
+router.get("/get/:offerId", PreProcessing, async(req, res) => {
     try{
-        const offer = await getOffer(req.params.offerId, req.userId, req.locale)
+        const offer = await getOffer(req.params.offerId, req.user.id, req.locale)
         const popupMessage = successMessages()[req.locale].offer.getOffer
         const response = PostSuccessProcessing(popupMessage, offer)
+        res.status(response.statusCode).json(response)
     }catch(err){
         console.log(err);
         const statusCode = 401;
@@ -68,11 +71,12 @@ router.get("/offerGet/:offerId", PreProcessing, (req, res) => {
 });
 
 
-router.get("/offers", PreProcessing, (req, res) => {
+router.get("/getAll", PreProcessing, async(req, res) => {
     try{
         const offers=await getOffers(req.locale);
         const popupMessage = successMessages()[req.locale].offer.getOffers
         const response = PostSuccessProcessing(popupMessage, offers)
+        res.status(response.statusCode).json(response)
     }catch(err){
         console.log(err);
         const statusCode = 401;
@@ -89,11 +93,12 @@ router.get("/offers", PreProcessing, (req, res) => {
     
 });
 
-router.delete("/offerDelete/:offerId",PreProcessing, async (req, res) => {
+router.delete("/delete/:offerId",PreProcessing, async (req, res) => {
     try{
-        const status=await deleteOffer(req.params.offerId, req.userId, req.locale)
+        const status=await deleteOffer(req.params.offerId, req.user.id, req.locale)
         const popupMessage = successMessages()[req.locale].offer.deleteOffer
         const response = PostSuccessProcessing(popupMessage, status)
+        res.status(response.statusCode).json(response)
     }catch (err){
         console.log(err);
         const statusCode = 401;
@@ -107,3 +112,5 @@ router.delete("/offerDelete/:offerId",PreProcessing, async (req, res) => {
         );
     }
 });
+
+module.exports = router

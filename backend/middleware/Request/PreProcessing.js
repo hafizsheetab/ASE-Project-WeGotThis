@@ -25,7 +25,6 @@ module.exports = (entityName) => {
                     service,
                 }
             }
-            //TODO: add expectedType to decodeTokenAndReturnIdentifier
             const userId = await decodeTokenAndReturnIdentifier(token);
             if (!userId) {
                 throw {

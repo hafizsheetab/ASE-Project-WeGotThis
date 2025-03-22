@@ -1,7 +1,6 @@
 const dynamoose = require("dynamoose");
 const User = require("../Schema/User");
 
-
 const connectDB = async () => {
     try {
         console.log(process.env.AWS_DEFAULT_REGION)

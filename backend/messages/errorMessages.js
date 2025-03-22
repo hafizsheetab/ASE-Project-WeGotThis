@@ -16,6 +16,10 @@ module.exports = (entityId) => {
             system: "SYSTEM GENERATED UNKNOWN ERROR - EN",
             formError: "ERROR GENERATED RELATED TO FORM - EN",
             unsupportedParameters: "UNSUPPORTED PARAMETERS IN REQUEST BODY - EN"
+        },
+        offer:{
+            notFound: "OFFER NOT FOUND ERROR MESSAGE - EN",
+            notOwner: "USER IS NOT OWNER OF THE OFFER - EN"
         }
       },
       de: {
@@ -34,6 +38,10 @@ module.exports = (entityId) => {
             system: "SYSTEM GENERATED UNKNOWN ERROR - DE",
             formError: "ERROR GENERATED RELATED TO FORM - DE",
             unsupportedParameters: "UNSUPPORTED PARAMETERS IN REQUEST BODY - DE"
+        },
+        offer:{
+            notFound: "OFFER NOT FOUND ERROR MESSAGE - DE",
+            notOwner: "USER IS NOT OWNER OF THE OFFER - DE"
         }
       }
     }
