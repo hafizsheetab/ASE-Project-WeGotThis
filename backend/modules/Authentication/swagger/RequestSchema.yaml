@@ -30,3 +30,15 @@ components:
         expire:
           type: boolean
           example: true
+    ForgotPasswordRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          example: sheetab@technohaven.com
+    ResetPasswordRequest:
+      type: object
+      properties:
+        password:
+          type: string
+          example: 123456

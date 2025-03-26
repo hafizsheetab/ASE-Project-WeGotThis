@@ -2,9 +2,10 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import styles from "./Authentication.module.css"; // Import the combined CSS file
-import { LoginFormBody } from "../Types";
+import { LoginFormBody, TokenResponse } from "../Types";
 import { login } from "../services";
 import ContextStore from "../../../utils/ContextStore";
+import { checkForError } from "../../shared/services";
 
 function LoginBody() {
     const navigate = useNavigate(); // Initialize navigate function
@@ -18,10 +19,11 @@ function LoginBody() {
     const handleLogin = async(e: React.FormEvent) => {
         e.preventDefault();
         console.log("Logging in with", loginForm);
-        const response = await login({email: loginForm.email, password: loginForm.password, expire: true}, store.context)
-        if("status" in response){
+        let response = await login({email: loginForm.email, password: loginForm.password, expire: true}, store)
+        if(checkForError(response)){
             return
         }
+        response = response as TokenResponse
         store.setContext({...store.context, token: response.access_token})
         // After successful login, navigate to /home
         // navigate("/home");
@@ -31,6 +33,10 @@ function LoginBody() {
         // Redirect to /register when the user clicks to create an account
         navigate("/register");
     };
+
+    const handleForgotPassword = () => {
+        navigate("/forgotPassword")
+    }
 
     useEffect(() => {
         if(store.context.token){
@@ -77,7 +83,7 @@ function LoginBody() {
                             <label htmlFor="password" className={styles.label}>
                                 Password
                             </label>
-                            <a href="#" className={styles.forgotPassword}>
+                            <a href="#" className={styles.forgotPassword} onClick={handleForgotPassword}>
                                 Forgot Password?
                             </a>
                         </div>

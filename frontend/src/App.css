@@ -1,7 +1,7 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
+.app-container{
+  max-width: 90%;
   padding: 2rem;
+  margin: 0 auto;
   text-align: center;
 }
 
@@ -11,11 +11,17 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+.fullWidth {
+  width: 100%;
 }
 
 @keyframes logo-spin {

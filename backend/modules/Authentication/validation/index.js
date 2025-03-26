@@ -15,5 +15,13 @@ const UserRegistrationValidationSchema = Joi.object({
     lastName: Joi.string().min(3).max(32).required(),
 }).options({abortEarly: false})
 
+const UserForgotPasswordValidationSchema = Joi.object({
+    email: Joi.string().regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).allow(null, '').required(),
+}).options({abortEarly: false})
 
-module.exports = {UserLoginValidationSchema, UserRegistrationValidationSchema}
+const UserResetPasswordValidationSchema = Joi.object({
+    password: Joi.string().min(6).max(32).required(),
+    expire: Joi.boolean().required(),
+}).options({abortEarly: false})
+const ResetPasswordValidationSchema = Joi.object({}).options({abortEarly: false})
+module.exports = {UserLoginValidationSchema, UserRegistrationValidationSchema, UserForgotPasswordValidationSchema, UserResetPasswordValidationSchema}

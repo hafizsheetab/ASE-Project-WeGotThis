@@ -13,6 +13,13 @@ module.exports = {
                 lastName: "ERROR MESSAGE FOR NAME FORM ERROR - EN",
                 expire: "ERROR MESSAGE FOR NAME FORM ERROR - EN",
             },
+            forgotPassword:{
+                email: "ERROR MESSAGE FOR EMAIL FORM ERROR - EN",
+            },
+            resetPassword:{
+                password: "ERROR MESSAGE FOR PASSWORD FORM ERROR - EN",
+                expire: "ERROR MESSAGE FOR PASSWORD FORM ERROR - EN",
+            }
         },
         user: {
             changeSelf: {
@@ -22,6 +29,7 @@ module.exports = {
             },
         },
     },
+    //TODO: Add German translations
     de: {
         auth: {
             login: {
@@ -36,6 +44,13 @@ module.exports = {
                 lastName: "ERROR MESSAGE FOR NAME FORM ERROR - DE",
                 expire: "ERROR MESSAGE FOR NAME FORM ERROR - DE",
             },
+            forgotPassword:{
+                email: "ERROR MESSAGE FOR EMAIL FORM ERROR - DE",
+            },
+            resetPassword:{
+                password: "ERROR MESSAGE FOR PASSWORD FORM ERROR - EN",
+                expire: "ERROR MESSAGE FOR PASSWORD FORM ERROR - EN",
+            }
         },
         user: {
             changeSelf: {

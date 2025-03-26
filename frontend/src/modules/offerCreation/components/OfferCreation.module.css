@@ -1,0 +1,139 @@
+.offerCreationWrapper {
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 40px 64px;
+    width: 100%;
+    display: flex;
+}
+
+.imageUploader {
+    text-align: center;
+    width: 500px;
+    min-width: 240px;
+    margin-top: 70px;
+  }
+
+.imageSettings{
+  width: 90%;
+  display: flex;
+  align-items: flex-end;
+}
+  
+.uploadArea {
+  width: 90%;
+  margin: 1.5em 0;
+  color: #a6a6a6;
+  font-weight: 400;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: contain;
+  background-position: start;
+  background-repeat: no-repeat;
+}
+
+.previewImage {
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+
+.uploadText {
+  position: relative;
+  padding: 0 1em;
+}
+  
+.trashBinIcon{
+  width: 2em;
+  cursor: pointer;
+}
+
+.priceSection {
+    display: flex;
+    gap: 2em;
+  }
+
+.priceSection div{
+margin-top: 0; 
+}
+
+
+.timeSelectionWrapper{
+    display: flex;
+    gap: 2em;
+    align-items: center;
+    margin-bottom: 1.5em;
+}
+
+
+.durationInput {
+    width:100px;
+    margin: 0;
+    padding-top: 8px !important;
+}
+  
+
+.categorySelector {
+    width: 100%;
+    margin-bottom: 3em;
+}
+
+.categoryHeaderSection{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.categoryHeader h2{
+  margin-bottom: 0;
+}
+
+.categoryHeader p{
+  margin-top: 0;
+}
+
+.addCategoryBtn{
+  text-transform: capitalize !important;
+}
+
+.chipContainer {
+  width: 75%;
+  margin-top: .5em;
+}
+
+@media (width <= 991px) {
+    .imageUploader,
+    .uploadArea {
+      max-width: 100%;
+    }
+  
+    .uploadButton {
+      padding: 14px 20px;
+    }
+}
+
+@media (width <= 991px) {
+.offerForm {
+    max-width: 100%;
+}
+
+.title,
+.titleInput,
+.titleHint {
+    max-width: 100%;
+}
+
+.priceSection {
+    flex-wrap: wrap;
+}
+
+.priceInput,
+.priceTypeSelect {
+    width: 100%;
+}
+}

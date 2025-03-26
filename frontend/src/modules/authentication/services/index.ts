@@ -1,14 +1,25 @@
 import { apiRequest } from "../../shared/services";
-import { ContextData, ErrorBody } from "../../shared/Types";
+import { ContextData, ContextStoreData, ErrorBody, VoidPositiveResponse } from "../../shared/Types";
 import urls from "../../shared/Types/urls";
-import { LoginRequestBody, RegisterRequestBody, TokenResponse } from "../Types";
+import { ForgotPasswordRequestBody, LoginRequestBody, RegisterRequestBody, ResetPasswordRequestBody, TokenResponse } from "../Types";
 
-export const login= async (loginFormData: LoginRequestBody, context: ContextData): Promise<TokenResponse | ErrorBody>=> {
-  const response = await apiRequest<LoginRequestBody, TokenResponse>(urls.login, loginFormData, context.token, context.locale, "post")
+export const login= async (loginFormData: LoginRequestBody, store: ContextStoreData<ContextData>): Promise<TokenResponse | ErrorBody>=> {
+
+  const response = await apiRequest<LoginRequestBody, TokenResponse>(urls.login, loginFormData, store.context.token, store.context.locale, "post", store)
   return response
 }
 
-export const register = async (registerFormData: RegisterRequestBody, context: ContextData): Promise<TokenResponse | ErrorBody> => {
-    const response = await apiRequest<RegisterRequestBody, TokenResponse>(urls.register, registerFormData, context.token, context.locale, "post")
+export const register = async (registerFormData: RegisterRequestBody, store: ContextStoreData<ContextData>): Promise<TokenResponse | ErrorBody> => {
+    const response = await apiRequest<RegisterRequestBody, TokenResponse>(urls.register, registerFormData, store.context.token, store.context.locale, "post", store)
     return response
+}
+
+export const forgotPassword = async (forgotPasswordFormData: ForgotPasswordRequestBody, store: ContextStoreData<ContextData>): Promise<VoidPositiveResponse | ErrorBody> => {
+  const response = await apiRequest<ForgotPasswordRequestBody, VoidPositiveResponse>(urls.forgotPassword, forgotPasswordFormData, "", store.context.locale, "post", store)
+  return response;
+}
+
+export const resetPassword = async (resetPasswordFormData: ResetPasswordRequestBody, token: string, store: ContextStoreData<ContextData>): Promise<TokenResponse | ErrorBody> => {
+  const response = await apiRequest<ResetPasswordRequestBody, TokenResponse>(urls.resetPassword, resetPasswordFormData, token, store.context.locale, "post", store)
+  return response
 }

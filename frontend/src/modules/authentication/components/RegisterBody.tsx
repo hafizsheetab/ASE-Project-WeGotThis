@@ -3,8 +3,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import styles from "../css/Register.module.css";
 import styles from "./Authentication.module.css";
-import { RegisterFormBody } from "../Types";
-import { showAlert } from "../../shared/services";
+import { RegisterFormBody, TokenResponse } from "../Types";
+import { checkForError, showAlert } from "../../shared/services";
 import { register } from "../services";
 import ContextStore from "../../../utils/ContextStore";
 
@@ -50,10 +50,11 @@ const RegisterBody: React.FC = () => {
             showAlert("Passwords do not match", "error")
             return
         }
-        const response = await register({email: registerForm.email, password: registerForm.password, expire: true, firstName: registerForm.firstName, lastName: registerForm.lastName}, store.context)
-        if("status" in response){
+        let response = await register({email: registerForm.email, password: registerForm.password, expire: true, firstName: registerForm.firstName, lastName: registerForm.lastName}, store)
+        if(checkForError(response)){
             return
         }
+        response = response as TokenResponse
         store.setContext({...store.context, token: response.access_token})
         // Form submission logic
         console.log("Form submitted");

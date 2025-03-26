@@ -8,7 +8,9 @@ export interface ResponseBody<T>{
     resource: T
     popupMessage: string
 }
-
+export interface VoidPositiveResponse {
+    status: true
+}
 export interface ErrorBody {
     status: false
     statusCode: number
@@ -29,5 +31,7 @@ export interface ContextData {
     token: string
     expire: boolean
     locale: "en" | "de"
+    loading: boolean
+    color: string
 }
 

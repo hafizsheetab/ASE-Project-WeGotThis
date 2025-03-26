@@ -1,4 +1,5 @@
-const dynamoose = require("dynamoose")
+const dynamoose = require("dynamoose");
+const User = require("../Schema/User");
 
 
 const connectDB = async () => {

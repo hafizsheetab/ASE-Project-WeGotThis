@@ -30,3 +30,36 @@
     responses:
       "200":
         description: OK
+"/v1/auth/forgotPassword":
+    post:
+      security:
+        - Locale: []
+      tags:
+        - Auth
+      summary: Forgot password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ForgotPasswordRequest"
+      responses:
+        "200":
+          description: OK
+"/v1/auth/resetPassword":
+    post:
+      security:
+        - Locale: [ ]
+      tags:
+        - Auth
+      summary: Reset password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResetPasswordRequest"
+      responses:
+        "200":
+          description:
+            OK

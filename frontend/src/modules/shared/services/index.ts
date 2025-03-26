@@ -1,64 +1,93 @@
-import axios from "axios"
-import { ErrorBody, ResponseBody } from "../Types"
-import { Bounce, toast } from "react-toastify"
+import axios from "axios";
+import { ContextData, ContextStoreData, ErrorBody, ResponseBody } from "../Types";
+import { Bounce, toast } from "react-toastify";
 
-export const apiRequest = async <ReqBody, ResBody> (url: string,requestBody: ReqBody | null, token: string, locale: string, type: "get"| "post"| "put"| "delete"): Promise<ResBody | ErrorBody> => {
+export const apiRequest = async <ReqBody, ResBody>(
+    url: string,
+    requestBody: ReqBody | null,
+    token: string,
+    locale: string,
+    type: "get" | "post" | "put" | "delete",
+    store: ContextStoreData<ContextData>
+): Promise<ResBody | ErrorBody> => {
+    const setLoading = (loading: boolean) => {
+        store.setContext({
+          ...store.context,
+          loading: loading
+        })
+      }
     const headers = {
         "x-auth-token": token,
-        "x-locale": locale
-    }
-    let response
-    try{
-        switch(type){
+        "x-locale": locale,
+    };
+    let response;
+    setLoading(true);
+    try {
+        switch (type) {
             case "get":
-                response = await axios.get<ResponseBody<ResBody> | ErrorBody>(url, {
-                    headers
-                })
-                break
+                response = await axios.get<ResponseBody<ResBody> | ErrorBody>(
+                    url,
+                    {
+                        headers,
+                    }
+                );
+                break;
             case "post":
-                response = await axios.post<ResponseBody<ResBody> | ErrorBody>(url, requestBody,{
-                    headers
-                })
-                break
+                response = await axios.post<ResponseBody<ResBody> | ErrorBody>(
+                    url,
+                    requestBody,
+                    {
+                        headers,
+                    }
+                );
+                break;
             case "put":
-                response = await axios.put<ResponseBody<ResBody> | ErrorBody>(url, requestBody,{
-                    headers
-                })
-                break
+                response = await axios.put<ResponseBody<ResBody> | ErrorBody>(
+                    url,
+                    requestBody,
+                    {
+                        headers,
+                    }
+                );
+                break;
             case "delete":
-                response = await axios.delete<ResponseBody<ResBody> | ErrorBody>(url, {
-                    headers
-                })
-                break
+                response = await axios.delete<
+                    ResponseBody<ResBody> | ErrorBody
+                >(url, {
+                    headers,
+                });
+                break;
             default:
-                processAlert({status: false} as ErrorBody)
-                return {status: false} as ErrorBody
+                processAlert({ status: false } as ErrorBody);
+                return { status: false } as ErrorBody;
         }
-        processAlert(response.data)
-        if(response.data.status){
-            return response.data.resource
+        setLoading(false);
+        processAlert(response.data);
+        if (response.data.status) {
+            return response.data.resource;
+        } else {
+            return response.data;
         }
-        else {
-            return response.data
+    } catch (err) {
+        setLoading(false);
+        if (axios.isAxiosError(err)) {
+            processAlert(err.response?.data);
+            return err.response?.data;
         }
+        processAlert({ status: false } as ErrorBody);
+        return { status: false } as ErrorBody;
     }
-    catch(err){
-        if(axios.isAxiosError(err)){
-            processAlert(err.response?.data)
-            return err.response?.data
-        }
-        processAlert({status: false} as ErrorBody)
-        return {status: false} as ErrorBody
-    }
-}
+};
 export const checkForError = <T extends Object>(response: T | ErrorBody) => {
-    if("status" in response){
-        return true
+    if ("status" in response && !response.status) {
+        return true;
     }
-    else false
-    
-}
-export const showAlert = (text: string, type: "info" | "success" | "warning" | "error") => {
+    return false;
+};
+export const showAlert = (
+    text: string,
+    type: "info" | "success" | "warning" | "error"
+) => {
     toast(text, {
         type,
         position: "top-right",
@@ -70,27 +99,22 @@ export const showAlert = (text: string, type: "info" | "success" | "warning" | "
         progress: undefined,
         theme: "light",
         transition: Bounce,
-    })
-}
+    });
+};
 
 export const processAlert = <T>(response: ResponseBody<T> | ErrorBody) => {
-    console.log(response)
-    if(response.status){
-        if(response.popupMessage){
-            showAlert(response.popupMessage, "success")
+    console.log(response);
+    if (response.status) {
+        if (response.popupMessage) {
+            showAlert(response.popupMessage, "success");
+        } else {
+            showAlert("Your action has been successful", "success");
         }
-        else {
-            showAlert("Your action has been successful",  "success")
+    } else {
+        if (response.popupMessage) {
+            showAlert(response.popupMessage, "error");
+        } else {
+            showAlert("Unknown Error Occured", "error");
         }
     }
-    else {
-        if(response.popupMessage){
-            showAlert(response.popupMessage, "error")
-        }
-        else {
-            showAlert("Unknown Error Occured", "error")
-        }
-
-    }
-}
-
+};
