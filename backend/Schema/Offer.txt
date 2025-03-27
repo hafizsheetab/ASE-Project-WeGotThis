@@ -1,0 +1,42 @@
+Offer Detail
+
+|id | name  | descipr| Offer type (seeker/providing) | Categories (array max 5 items) | active : bool | User ID who created offer
+
+
+Offer Price:
+| Offer Id | Current Price | Temporary Price | Price Type | Price Currency 
+
+1 | 10 | 10 | Fixed | CH
+2 | 10 | 20 | Negotiable | CH
+
+
+Offer Availability/ Status
+Availability ID | Offer Id | Start Date | End Date 
+
+
+Booking Information
+Offer ID | Availability ID | User Requested | Status
+
+
+Location:
+Offer ID | Adress Line 1 | Adress Line2 | Country | Country Code | …
+
+
+Status Values: 
+Nothing
+Requested 
+In Negotiation 
+In Progress
+In Review
+Completed
+Rejected
+
+
+Category Value: 
+[{Main Category: “Outdoor”, Sub Category : “Walking” },
+{Main Category: “Outdoor”, Sub Category : “Walking” },
+{Main Category: “Outdoor”, Sub Category : “Walking” },
+{Main Category: “Outdoor”, Sub Category : “Walking” },
+{Main Category: “Outdoor”, Sub Category : “Walking” }]
+
+[{Main Category: “Outdoor”, Sub Category : “Walking” }, {Main Category: “Outdoor”, Sub Category : “Walking” },{Main Category: “Outdoor”, Sub Category : “Walking” },{},{}]
