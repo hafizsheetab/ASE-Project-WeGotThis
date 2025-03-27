@@ -120,6 +120,19 @@ const deleteSession =  async(identifier) => {
     const sessionKey = _getSessionKey(identifier);
     await redisClient.del(sessionKey)
 }
+const deleteKey = async (key) => {
+    try {
+        const result = await redisClient.del(key);
+        if (result === 1) {
+            console.log(`✅ Deleted Redis key: ${key}`);
+        } else {
+            console.log(`⚠️ Redis key not found: ${key}`);
+        }
+    } catch (err) {
+        console.error(`❌ Redis delete error: ${err}`);
+    }
+};
+
 module.exports = {
     storeSessionInRedis,
     getAndRefreshSessionFromRedis,
@@ -129,5 +142,6 @@ module.exports = {
     deleteSession,
     setOtp,
     getOtp,
-    deleteOtp
+    deleteOtp,
+    deleteKey
 };

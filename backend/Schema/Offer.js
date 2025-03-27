@@ -4,7 +4,9 @@ const dynamoose = require("dynamoose");
 const OfferSchema = new dynamoose.Schema({
         "id": String,
         "owner": String,
+
         "requests": [String],
+
         "title": String,
         "description": String,
         "images": {
@@ -60,4 +62,3 @@ const OfferSchema = new dynamoose.Schema({
 
 const Offer = dynamoose.model("Offer", OfferSchema, {initialize: true, update: true});
 module.exports = Offer
-

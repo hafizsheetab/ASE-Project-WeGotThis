@@ -1,5 +1,6 @@
 module.exports = {
   user: "USER",
-  auth: "AUTH"
+  auth: "AUTH",
+  offer: "OFFER",
 }
 

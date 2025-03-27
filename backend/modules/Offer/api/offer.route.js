@@ -111,9 +111,11 @@ router.delete("/delete/:offerId",PreProcessing, async (req, res) => {
             err.apiErrorCode,
             req.locale
         );
+
         res.status(statusCode).json(error);
     }
 });
 
 module.exports = router
+
 
