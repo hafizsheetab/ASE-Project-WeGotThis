@@ -15,7 +15,7 @@
     "@emotion/styled": "^11.14.0",
     "@geoapify/react-geocoder-autocomplete": "^2.0.1",
     "@mui/icons-material": "6.4.7",
-    "@mui/material": "^6.4.7",
+    "@mui/material": "^6.4.7", 
     "@mui/x-date-pickers": "7.28.0",
     "@types/geojson": "^7946.0.16",
     "axios": "^1.8.3",
