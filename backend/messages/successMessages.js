@@ -12,6 +12,13 @@ module.exports = (entityId) => {
         user: {
           getSelf: `SUCCESS MESSAGE OF GETTING SELF USER - EN WITH ENTITY ID ${entityId}` 
         },
+        offer:{
+            createOffer: "SUCCESS MESSAGE OF CREATING OFFER SERVICE - EN",
+            editOffer:"SUCCESS MESSAGE OF EDITING OFFER SERVICE - EN",
+            getOffers: "SUCCESS MESSAGE OF GETTING OFFERS SERVICE - EN",
+            getOffer: "SUCCESS MESSAGE OF GETTING OFFER SERVICE - EN",
+            deleteOffer: "SUCCESS MESSAGE OF DELETING OFFER SERVICE - EN"
+        }
       },
       de: {
         auth: {
@@ -20,6 +27,13 @@ module.exports = (entityId) => {
         },
         user: {
           getSelf: `SUCCESS MESSAGE OF GETTING SELF USER - DE WITH ENTITY ID ${entityId}` 
+        },
+        offer:{
+            createOffer: "SUCCESS MESSAGE OF CREATING OFFER SERVICE - DE",
+            editOffer:"SUCCESS MESSAGE OF EDITING OFFER SERVICE - DE",
+            getOffer: "SUCCESS MESSAGE OF GETTING OFFER SERVICE - DE",
+            getOffers: "SUCCESS MESSAGE OF GETTING OFFERS SERVICE - DE",
+            deleteOffer: "SUCCESS MESSAGE OF DELETING OFFER SERVICE- DE"
         }
       }
     }
