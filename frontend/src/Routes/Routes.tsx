@@ -12,38 +12,33 @@ import ResetPassword from "../pages/authentication/ResetPassword";
 import ForgotPassword from "../pages/authentication/ForgotPassword";
 import Home from "../pages/home/Home.tsx";
 import OfferCreation from "../pages/offer/OfferCreation.tsx";
-import Navbar from "../modules/shared/components/Navbar.tsx";
-import Footer from "../modules/shared/components/Footer.tsx";
 import OfferEdit from "../pages/offer/OfferEdit.tsx";
 import OfferView from "../pages/offer/OfferView.tsx";
+import LayoutWithNavbarFooter from "../layouts/LayoutWithNavbarFooter.tsx";
 
 const AppRoutes = () => {
     const { context } = useContext(ContextStore);
     return (
         <Router>
-            <Navbar/>
-            {!context.token ? (
+            {context.token ? (
                 <Routes>
-                    <Route path="/home" element={<Home />} />
-                    <Route
-                        path="*"
-                        element={<Navigate to="/home" replace={true} />}
-                    />
-                    <Route path="/offer/create" element={<OfferCreation/>}/>
-                    <Route path="/offer/edit/:offerId" element={<OfferEdit/>}/>
-                    <Route path="/offer/:offerId" element={<OfferView/>}/>
-
+                    <Route element={<LayoutWithNavbarFooter/>}>
+                        <Route path="/home" element={<Home/>}/>
+                        <Route path="*" element={<Navigate to="/home" replace={true}/>}/>
+                        <Route path="/offer/create" element={<OfferCreation/>}/>
+                        <Route path="/offer/edit/:offerId" element={<OfferEdit/>}/>
+                        <Route path="/offer/:offerId" element={<OfferView/>}/>
+                    </Route>
                 </Routes>
             ) : (
                 <Routes>
-                    <Route path="/login" element={<Login />} />
+                    <Route path="/login" element={<Login/>}/>
                     <Route path="/register" element={<Register />} />
                     <Route path="/forgotPassword" element={<ForgotPassword />} />
                     <Route path="/reset" element={<ResetPassword/>}/>
                     <Route path="*" element={<Navigate to="/login" replace={true}/>}/>
                 </Routes>
             )}
-            <Footer/>
         </Router>
     );
 };

@@ -25,7 +25,6 @@ module.exports = (entityName) => {
                     service,
                 }
             }
-            //TODO: add expectedType to decodeTokenAndReturnIdentifier
             const userId = await decodeTokenAndReturnIdentifier(token);
             if (!userId) {
                 throw {
@@ -42,6 +41,7 @@ module.exports = (entityName) => {
                     service,
                 };
             }
+
             await getAndRefreshSessionFromRedis({expire: user.expire, identifier: userId})
             req.locale = locale;
             req.userId = user.id;
