@@ -5,24 +5,48 @@ import { ContextData } from "./modules/shared/Types";
 import ContextStore from "./utils/ContextStore";
 import { ToastContainer } from "react-toastify";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { deepPurple } from "@mui/material/colors";
 import { ClipLoader } from 'react-spinners';
+import {Box} from "@mui/material";
 
 const theme = createTheme({
-  palette: {
-    primary: deepPurple,
-    secondary:{
-      main: "#fa921a",
-      light: "#ffa733",
-      dark: "#b26500",
-      contrastText: "#FFFFFF"
+    palette: {
+        primary: {
+            main: "#6B63EB",
+            contrastText: "#fff"
+        },
+        secondary: {
+            main: "#f97316",
+            light: "#fa921a",
+            contrastText: "#fff"
+        },
+        success: {
+            main: "#CFF7D3",
+            contrastText: "#02542D"
+        },
+        text: {
+            primary: "#1f2937",
+            secondary: "#6b7280"
+        },
+        background: {
+            default: "#ffffff",
+            paper: "#f9fafb",
+        },
+        error: {
+            main: "#B00020"
+        }
     },
-    success:{
-      main: "#CFF7D3",
-      contrastText: "#02542D",
-    }
-  },
+    typography: {
+        fontFamily: "'Inter', sans-serif",
+        button: {
+            textTransform: "none",
+            fontWeight: 600
+        }
+    },
+    shape: {
+        borderRadius: 8
+    },
 });
+
 const override= {
   display: "block",
   margin: "0 auto",
@@ -37,7 +61,7 @@ function App() {
     color: "#ffffff",
     loading: false
   })
-  
+
   return (
     <ContextStore.Provider value={{context, setContext}}>
       <ClipLoader
@@ -49,9 +73,15 @@ function App() {
         data-testid="loader"
       />
       <ThemeProvider theme={theme}>
-      <div className="app-container">
+          <Box
+              sx={{
+                  maxWidth: "1280px",
+                  mx: "auto",
+                  px: {xs: 2, sm: 3},
+              }}
+          >
       <AppRoutes />
-    </div>
+          </Box>
     <ToastContainer />
       </ThemeProvider>
     </ContextStore.Provider>

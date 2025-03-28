@@ -11,12 +11,24 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-export default function DialogSelect() {
-  const [open, setOpen] = React.useState(false);
-  const [age, setAge] = React.useState<number | string>('');
+type DialogSelectProps = {
+  initialSelected?: string[];
+  onSelect?: (selected: string[]) => void;
+};
 
-  const handleChange = (event: SelectChangeEvent<typeof age>) => {
-    setAge(Number(event.target.value) || '');
+export default function DialogSelect({
+                                       initialSelected = [],
+                                       onSelect,
+                                     }: DialogSelectProps) {
+  const [open, setOpen] = React.useState(false);
+  const [selected, setSelected] = React.useState<string[]>(initialSelected);
+
+  const handleChange = (event: SelectChangeEvent<typeof selected>) => {
+    const {
+      target: {value},
+    } = event;
+    const newValue = typeof value === 'string' ? value.split(',') : value;
+    setSelected(newValue);
   };
 
   const handleClickOpen = () => {
@@ -26,54 +38,43 @@ export default function DialogSelect() {
   const handleClose = (event: React.SyntheticEvent<unknown>, reason?: string) => {
     if (reason !== 'backdropClick') {
       setOpen(false);
+      if (onSelect) {
+        onSelect(selected);
+      }
     }
   };
 
   return (
-    <div>
-      <Button onClick={handleClickOpen}>Add more </Button>
-      <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
-        <DialogTitle>Select Category</DialogTitle>
-        <DialogContent>
-          <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel htmlFor="demo-dialog-native">Category</InputLabel>
-              <Select
-                native
-                value={age}
-                onChange={handleChange}
-                input={<OutlinedInput label="Category" id="demo-dialog-native" />}
-              >
-                <option aria-label="None" value="" />
-                <option value={10}>Ten</option>
-                <option value={20}>Twenty</option>
-                <option value={30}>Thirty</option>
-              </Select>
-            </FormControl>
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-dialog-select-label">Sub-Category</InputLabel>
-              <Select
-                labelId="demo-dialog-select-label"
-                id="demo-dialog-select"
-                value={age}
-                onChange={handleChange}
-                input={<OutlinedInput label="Sub-Category" />}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Ok</Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+      <div>
+        <Button onClick={handleClickOpen}>Add more</Button>
+        <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
+          <DialogTitle>Select Category</DialogTitle>
+          <DialogContent>
+            <Box component="form" sx={{display: 'flex', flexWrap: 'wrap'}}>
+              <FormControl sx={{m: 1, minWidth: 120}}>
+                <InputLabel id="dialog-multiple-category-label">Category</InputLabel>
+                <Select
+                    labelId="dialog-multiple-category-label"
+                    id="dialog-multiple-category"
+                    multiple
+                    value={selected}
+                    onChange={handleChange}
+                    input={<OutlinedInput label="Category"/>}
+                >
+                  <MenuItem value="Dog">Dog</MenuItem>
+                  <MenuItem value="Walking">Walking</MenuItem>
+                  <MenuItem value="Cleaning">Cleaning</MenuItem>
+                  <MenuItem value="Shopping">Shopping</MenuItem>
+                  <MenuItem value="Development">Development</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleClose}>Ok</Button>
+          </DialogActions>
+        </Dialog>
+      </div>
   );
 }

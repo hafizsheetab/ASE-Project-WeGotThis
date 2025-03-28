@@ -1,17 +1,26 @@
-import styles from "./OfferCreation.module.css"
+import styles from "./OfferCreation.module.css";
 import DateTimeRange from "./DateTimeRange";
 
-const TimeSelection = () => {
-  return (
-    <section>
+type TimeSelectionProps = {
+    initialValues?: {
+        startTime?: Date;
+        endTime?: Date;
+    };
+};
+
+const TimeSelection: React.FC<TimeSelectionProps> = ({initialValues}) => {
+    return (
+        <section>
             <div className={styles.categoryHeader}>
                 <h2>Time</h2>
-                <p>Enter for when you are looking</p>
+                <p>Enter when you are looking</p>
             </div>
+            <DateTimeRange
+                initialStartTime={initialValues?.startTime}
+                initialEndTime={initialValues?.endTime}
+            />
+        </section>
+    );
+};
 
-            <DateTimeRange/>
-    </section>
-  )
-}
-
-export default TimeSelection
+export default TimeSelection;

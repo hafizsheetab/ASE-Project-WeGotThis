@@ -1,79 +1,91 @@
+import {Box, Grid2, IconButton, Paper} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import DropdownField from "../../shared/components/DropdownField";
 import styles from "./Home.module.css";
+import {styled} from "@mui/material/styles";
+
+const SearchInput = styled("input")(() => ({
+    flex: 1,
+    border: "none",
+    outline: "none",
+    fontSize: "1rem",
+    padding: "10px 16px",
+    color: "black",
+    backgroundColor: "white",
+}));
 
 const SearchFilters = () => {
-  return (
-    <div className={styles.searchFiltersContainer}>
-      <div className={styles.searchFiltersRow}>
-        <input
-          type="text"
-          placeholder="Search..."
-          className={styles.searchInput}
-        />
-
-        <select className={styles.select}>
-          <option>All Categories</option>
-          <option>Pets</option>
-          <option>Gardening</option>
-        </select>
-
-        <select className={styles.select}>
-          <option>Location</option>
-          <option>NY</option>
-          <option>LA</option>
-        </select>
-
-        <select className={styles.select}>
-          <option>Price Range</option>
-          <option>$0 - $50</option>
-          <option>$50 - $100</option>
-        </select>
-
-        <select className={styles.select}>
-          <option>Next Availability</option>
-          <option>Today</option>
-          <option>Tomorrow</option>
-        </select>
-      </div>
-
-      <div className={styles.searchFiltersRow}>
-        <select className={styles.select}>
-          <option>Service Type</option>
-          <option>Walking</option>
-          <option>Pet Sitting</option>
-        </select>
-
-        <select className={styles.select}>
-          <option>User's Rating</option>
-          <option>4+ Stars</option>
-          <option>3+ Stars</option>
-        </select>
-
-        <select className={styles.select}>
-          <option>Estimated Duration</option>
-          <option>1 hr</option>
-          <option>2 hrs</option>
-        </select>
-
-        <button className={styles.advancedSearchButton}>Advanced Search</button>
-
-        <select className={styles.select}>
-          <option>Sort By</option>
-          <option>Price</option>
-          <option>Rating</option>
-        </select>
-
-        <button className={styles.searchButton}>Search</button>
-      </div>
-
-      <div className={styles.paginationRow}>
-        <span className={styles.pageLink}>1</span>
-        <span className={styles.pageLink}>2</span>
-        <span className={styles.pageLink}>3</span>
-        <span className={styles.pageLink}>...</span>
-        <span className={styles.pageLink}>10</span>
-      </div>
-    </div>
-  );
+    return (
+        <Box className={styles.searchFiltersWrapper}>
+            <Paper
+                sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    width: "100%",
+                    height: "55px",
+                    borderRadius: "2px",
+                    boxShadow: "none",
+                    border: "1px solid #d1d5db",
+                    overflow: "hidden",
+                    mb: 1.5
+                }}
+            >
+                <SearchInput placeholder="Search Aladdin"/>
+                <DropdownField
+                    itemsArray={["All Categories", "Pets", "Gardening"]}
+                    defaultItem="All Categories"
+                    containerSx={{border: "none",}}
+                />
+                <IconButton
+                    sx={{
+                        backgroundColor: "#f97316",
+                        borderRadius: 0,
+                        height: "100%",
+                        width: "60px",
+                        "&:hover": {
+                            backgroundColor: "#fa921a",
+                        },
+                    }}
+                >
+                    <SearchIcon sx={{color: "white"}}/>
+                </IconButton>
+            </Paper>
+            <Grid2 container spacing={1.5}>
+                <DropdownField
+                    itemsArray={["Location", "Zurich", "Bern"]}
+                    defaultItem="Location"
+                />
+                <DropdownField
+                    itemsArray={["Price Range", "$0 - $50", "$50 - $100"]}
+                    defaultItem="Price Range"
+                />
+                <DropdownField
+                    itemsArray={["Next Availability", "Today", "Tomorrow"]}
+                    defaultItem="Next Availability"
+                />
+                <DropdownField
+                    itemsArray={["Service Type", "Walking", "Pet Sitting"]}
+                    defaultItem="Service Type"
+                />
+                <DropdownField
+                    itemsArray={["User's Rating", "4+ Stars", "3+ Stars"]}
+                    defaultItem="User's Rating"
+                />
+                <DropdownField
+                    itemsArray={["Estimated Duration", "1 hr", "2 hrs"]}
+                    defaultItem="Estimated Duration"
+                />
+                <DropdownField
+                    itemsArray={["Advanced Search", "Option A", "Option B"]}
+                    defaultItem="Advanced Search"
+                />
+                <DropdownField
+                    itemsArray={["Sorting", "Price", "Rating"]}
+                    defaultItem="Sorting"
+                />
+            </Grid2>
+        </Box>
+    );
 };
 
 export default SearchFilters;

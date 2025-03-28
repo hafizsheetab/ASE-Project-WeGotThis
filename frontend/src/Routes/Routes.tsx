@@ -5,26 +5,34 @@ import {
     Navigate,
 } from "react-router-dom";
 import Login from "../pages/authentication/Login";
-import OfferCreation from "../pages/offerCreation/OfferCreation";
 import Register from "../pages/authentication/Register";
-import Home from "../pages/Home";
 import { useContext } from "react";
 import ContextStore from "../utils/ContextStore";
-// import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/authentication/ResetPassword";
 import ForgotPassword from "../pages/authentication/ForgotPassword";
+import Home from "../pages/home/Home.tsx";
+import OfferCreation from "../pages/offer/OfferCreation.tsx";
+import Navbar from "../modules/shared/components/Navbar.tsx";
+import Footer from "../modules/shared/components/Footer.tsx";
+import OfferEdit from "../pages/offer/OfferEdit.tsx";
+import OfferView from "../pages/offer/OfferView.tsx";
 
 const AppRoutes = () => {
     const { context } = useContext(ContextStore);
     return (
         <Router>
-            {context.token ? (
+            <Navbar/>
+            {!context.token ? (
                 <Routes>
                     <Route path="/home" element={<Home />} />
                     <Route
                         path="*"
                         element={<Navigate to="/home" replace={true} />}
                     />
+                    <Route path="/offer/create" element={<OfferCreation/>}/>
+                    <Route path="/offer/edit/:offerId" element={<OfferEdit/>}/>
+                    <Route path="/offer/:offerId" element={<OfferView/>}/>
+
                 </Routes>
             ) : (
                 <Routes>
@@ -32,12 +40,10 @@ const AppRoutes = () => {
                     <Route path="/register" element={<Register />} />
                     <Route path="/forgotPassword" element={<ForgotPassword />} />
                     <Route path="/reset" element={<ResetPassword/>}/>
-                    <Route
-                        path="*"
-                        element={<Navigate to="/login" replace={true} />}
-                    />
+                    <Route path="*" element={<Navigate to="/login" replace={true}/>}/>
                 </Routes>
             )}
+            <Footer/>
         </Router>
     );
 };

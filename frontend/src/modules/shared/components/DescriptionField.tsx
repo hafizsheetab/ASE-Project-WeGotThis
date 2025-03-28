@@ -1,47 +1,63 @@
-import { useState } from "react";
+import {useState, useEffect} from "react";
 import { TextField } from "@mui/material";
 
 type DescriptionFieldProps = {
   placeholder?: string;
-  label? : string
-  maxWords? : number
+    label?: string;
+    maxWords?: number;
+    value?: string;
+    onChange?: (value: string) => void;
 };
 
-const DescriptionField: React.FC<DescriptionFieldProps> = ({ label, maxWords = -1, placeholder }) => {
-  const [text, setText] = useState("");
+const DescriptionField: React.FC<DescriptionFieldProps> = ({
+                                                               label,
+                                                               maxWords = -1,
+                                                               placeholder,
+                                                               value: initialValue = "",
+                                                               onChange,
+                                                           }) => {
+    const [text, setText] = useState(initialValue);
   const [wordCount, setWordCount] = useState(0);
   const [error, setError] = useState(false);
 
+    useEffect(() => {
+        setText(initialValue);
+    }, [initialValue]);
+
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const words = event.target.value.trim().split(/\s+/).filter(Boolean);
-    
+      const newText = event.target.value;
+      const words = newText.trim().split(/\s+/).filter(Boolean);
+
     if (maxWords >= 0 && words.length <= maxWords) {
-      setText(event.target.value);
+        setText(newText);
       setWordCount(words.length);
       setError(false);
-    } else if (maxWords >= 0){
+        if (onChange) onChange(newText);
+    } else if (maxWords >= 0) {
       setError(true);
     }
   };
 
   return (
-    <TextField
-        id="outlined-multiline-static"
-        label={label}
-        multiline
-        fullWidth
-        minRows={5}
-        maxRows={10}
-        placeholder={placeholder}
-        value={text}
-        onChange={handleTextChange}
-        error={error}
-        FormHelperTextProps={{ sx: { textAlign: "right", marginRight: 0 } }}
-        helperText={(maxWords>=0) ? 
-          (error
-            ? `Word limit reached (${maxWords} max)`
-            : `${wordCount} / ${maxWords} words`) : " "
-        }
+      <TextField
+          id="outlined-multiline-static"
+          label={label}
+          multiline
+          fullWidth
+          minRows={5}
+          maxRows={10}
+          placeholder={placeholder}
+          value={text}
+          onChange={handleTextChange}
+          error={error}
+          FormHelperTextProps={{sx: {textAlign: "right", marginRight: 0}}}
+          helperText={
+              maxWords >= 0
+                  ? error
+                      ? `Word limit reached (${maxWords} max)`
+                      : `${wordCount} / ${maxWords} words`
+                  : " "
+          }
       />
   );
 };

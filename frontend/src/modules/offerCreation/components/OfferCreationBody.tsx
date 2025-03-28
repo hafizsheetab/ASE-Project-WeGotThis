@@ -1,6 +1,6 @@
 import ImageUploader from './ImageUploader';
 import styles from './OfferCreation.module.css'
-import { Divider } from "@mui/material";
+import {Box, Divider} from "@mui/material";
 import OfferForm from './OfferForm';
 import CategorySelector from './CategorySelector';
 import TaskDescriptionSection from './TaskDescriptionSection';
@@ -13,7 +13,7 @@ const OfferCreationBody = () => {
             <div className={styles.offerCreationWrapper}>
                 <ImageUploader/>
                 <OfferForm/>
-            </div>  
+            </div>
 
             <Divider/>
             <TimeSelection/>
@@ -22,10 +22,11 @@ const OfferCreationBody = () => {
             <Divider/>
             <TaskDescriptionSection/>
 
-            <ActiveButton buttonTxt="Create Offer"/>
+            <Box sx={{display: "flex", justifyContent: "center", mb: 4}}>
+                <ActiveButton buttonTxt="Create Offer"/>
+            </Box>
         </section>
     )
   };
-  
-  export default OfferCreationBody;
-  
+
+export default OfferCreationBody;
