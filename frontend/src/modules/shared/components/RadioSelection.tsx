@@ -12,7 +12,6 @@ type ActiveRadioGroupProps = {
 };
 
 const ActiveRadioGroup: FC<ActiveRadioGroupProps> = ({
-  label = "Select an option",
   name,
   options,
   row = true,
