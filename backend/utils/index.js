@@ -1,4 +1,5 @@
 
+const path = require("path")
 const formatErrors = (errors, errorMessages) => {
     const formErrors = [];
     errors.map((error) => {
@@ -30,4 +31,17 @@ const formDataSchemaValidationErrorHandler = (
         formDataErrorHandler(error, errorMessages, entityName, service);
 };
 
-module.exports = {formDataSchemaValidationErrorHandler}
+const getIdsOfEnum = (enumObj) => {
+    const ids = []
+    for(const key of Object.keys(enumObj)){
+        if(enumObj[key].id) {
+            ids.push(enumObj[key].id)
+        }
+        
+    }
+    return ids
+}
+const getS3Key = (fileType, identifier, serviceName, filename) => {
+    return path.join(fileType, identifier, serviceName, Date.now() + "_" + filename);
+}
+module.exports = {formDataSchemaValidationErrorHandler, getIdsOfEnum, getS3Key}

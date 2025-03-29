@@ -1,10 +1,12 @@
 import styles from "./OfferCreation.module.css";
 import CategoryList from "../../shared/components/CategoryChipDisplay";
 import DialogSelect from "./CategorySelectorDialog";
+import { OfferTemplateResponse } from "../Types";
 
 type CategorySelectorProps = {
     initialValues?: {
-        categories?: string[];
+        categories?: string[],
+        template: OfferTemplateResponse;
     };
 };
 

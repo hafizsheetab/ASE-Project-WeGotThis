@@ -1,15 +1,15 @@
 
 const dynamoose = require("dynamoose");
+const { getIdsOfEnum } = require("../utils");
+const { PriceModeEnum } = require("../Types/OfferTypeEnums");
 
 const OfferSchema = new dynamoose.Schema({
         "id": String,
         "owner": String,
-
         "requests": [String],
-
         "title": String,
         "description": String,
-        "images": {
+        "imageUrls": {
             type: Array,
             schema: [String]
         },
@@ -19,38 +19,32 @@ const OfferSchema = new dynamoose.Schema({
                 address: String
             }
         },
-        "priceMode": {
-            type: String,
-            enum: ["fixed", "negotiation"]
+        "priceModeId": {
+            type: Number,
+            enum: getIdsOfEnum(PriceModeEnum)
         },
         "price": {
             type: Number,
-            required: function () {
-                return this.priceMode === "fixed";
-            }
-        },
-        "startingPrice": {
-            type: Number,
-            required: function () {
-                return this.priceMode === "negotiation";
-            }
         },
         "availability": {
             type: Boolean,
             default: true
         },
-        "type": {
-            type: String,
-            enum: ["offering", "seeking"]
+        "typeId": {
+            type: Number,
+            enum: getIdsOfEnum(PriceModeEnum)
         },
-        "status": {
-            type: String,
-            enum: ["active", "inactive"],
-            default: "active"
-        },
-        "categories": {
+        "categoryIds": {
             type: Array,
-            schema: [String]
+            schema: [
+                {
+                    type: Object,
+                    schema: {
+                        id: Number,
+                        subcategoryId: Number
+                    }
+                }
+            ]
         },
         "estimatedTime": {
             type: Number,

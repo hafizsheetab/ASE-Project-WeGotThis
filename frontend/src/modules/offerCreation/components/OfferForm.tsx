@@ -4,14 +4,16 @@ import RadioSelection from "../../shared/components/RadioSelection"
 import { DropdownField } from "../../shared/components/DropdownField"
 import LocationTextInputField from '../../shared/components/LocationTextInputField'
 import { Divider} from '@mui/material'
+import { OfferTemplateResponse } from '../Types'
 
 type OfferFormProps = {
-    initialValues?: {
+    initialValues: {
         radioValue?: string;
         title?: string;
         location?: string;
         price?: string;
         priceType?: string;
+        template: OfferTemplateResponse
     };
 };
 
@@ -23,10 +25,12 @@ const OfferForm: React.FC<OfferFormProps> = ({initialValues}) => {
           <RadioSelection
               name="price"
               defaultValue={initialValues?.radioValue}
-              options={[
-                  {value: "Service Seeker", label: "Service Seeker"},
-                  {value: "Service Provider/Volunteer", label: "Service Provider/Volunteer"},
-              ]}
+              options={initialValues.template.offerTypes.map(otype => {
+                
+                    return {value: String(otype.id), label: otype.displayValue}
+   
+                
+              })}
           />
           <TextInputField placeholder="Title" footerTxt="Enter here your title (min. 10 characters)"
                           value={initialValues?.title}/>
@@ -49,8 +53,8 @@ const OfferForm: React.FC<OfferFormProps> = ({initialValues}) => {
                 />
                 <DropdownField
                     labelTxt="Price Type"
-                    itemsArray={["Fixed", "Negotiable"]}
-                    defaultItem={initialValues?.priceType || "Fixed"}
+                    itemsArray={initialValues.template.priceModes.map(ot => ot.displayValue)}
+                    defaultItem={initialValues.template.priceModes[0].displayValue}
                 />
             </section>
         </section>

@@ -10,14 +10,14 @@ module.exports = {
     },
     offer:{
         createOffer: [
-            "title", "description", "images", "location",
-            "priceMode", "price", "startingPrice", "availability",
-            "type", "categories", "estimatedTime", "status"
+            "title", "description", "location",
+            "priceModeId", "price",  "availability",
+            "typeId", "categoryIds", "startTime", "endTime"
         ],
         editOffer: [
-            "title", "description", "images", "location",
-            "priceMode", "price", "startingPrice", "availability",
-            "type", "categories", "estimatedTime", "status"
+            "title", "description", "location",
+            "priceModeId", "price",  "availability",
+            "typeId", "categoryIds", "startTime", "endTime"
         ],
         getOffer: [],
         getOffers: [],

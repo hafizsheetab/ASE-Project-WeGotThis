@@ -1,25 +1,12 @@
 require("dotenv").config();
 const multer = require("multer");
-const PostErrorProcessing = require("../../../middleware/Response/PostErrorProcessing");
-const EntityNames = require("../../../StaticTypes/EntityNames");
-const { checkDirectory } = require("../utils");
+const EntityNames = require("../Types/EntityNames");
+const PostErrorProcessing = require("../middleware/Response/PostErrorProcessing");
+
 const FILE_SIZE_LIMIT = parseInt(process.env.FILE_SIZE_LIMIT);
 
 
 const service = "configureStorage"
-
-const configureStorage = (fileType, userId, serviceName) => {
-    const storageDirectory = checkDirectory(fileType, userId, serviceName)
-    return multer.diskStorage({
-        destination: function (req, file, cb) {
-            const directory = storageDirectory
-            cb(null, directory);
-        },
-        filename: function (req, file, cb) {
-            cb(null, Date.now() + "_" + file.originalname);
-        },
-    })
-}
 
 
 function upload(expectedMimeTypes, fileType, userId, serviceName) {
@@ -40,7 +27,7 @@ function upload(expectedMimeTypes, fileType, userId, serviceName) {
     };
 
     return multer({
-        storage: configureStorage(fileType, userId, serviceName),
+        storage: multer.memoryStorage(),
         limits: { fileSize: parseInt(FILE_SIZE_LIMIT) },
         fileFilter: fileFilter,
     });

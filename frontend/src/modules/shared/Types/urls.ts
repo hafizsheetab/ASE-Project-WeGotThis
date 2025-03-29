@@ -5,4 +5,5 @@ export default {
     register: `${baseUrl}/${preamble}/auth/register`,
     forgotPassword: `${baseUrl}/${preamble}/auth/forgotPassword`,
     resetPassword: `${baseUrl}/${preamble}/auth/resetPassword`,
+    getOfferCreationTemplate: `${baseUrl}/${preamble}/offer/template`,
 }

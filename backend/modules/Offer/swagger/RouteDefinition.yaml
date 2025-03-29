@@ -13,7 +13,7 @@
           schema:
             $ref: "#/components/schemas/CreateOfferRequest"
     responses:
-      "201":
+      "200":
         description: Offer created successfully
 
 "/v1/offer/edit/{offerId}":
@@ -90,3 +90,46 @@
     responses:
       "200":
         description: Offer deleted successfully
+
+"/v1/offer/template":
+  get:
+    security:
+      - Locale: []
+      - ApiToken: []
+    tags:
+      - Offer
+    summary: Get a list of all offers
+    responses:
+      "200":
+        description: List of offers retrieved successfully
+
+"/v1/offer/upload/images/{offerId}":
+  put:
+    security:
+      - Locale: []
+      - ApiToken: []
+    tags:
+      - Offer
+    summary: Upload images for offers
+    parameters:
+      - in: path
+        name: offerId
+        required: true
+        description: ID of the offer to delete
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              images:
+                type: array
+                items:
+                  type: string
+                  format: binary
+    responses:
+      "200":
+        description: List of offers retrieved successfully

@@ -24,10 +24,10 @@ const AppRoutes = () => {
                 <Routes>
                     <Route element={<LayoutWithNavbarFooter/>}>
                         <Route path="/home" element={<Home/>}/>
-                        <Route path="*" element={<Navigate to="/home" replace={true}/>}/>
                         <Route path="/offer/create" element={<OfferCreation/>}/>
                         <Route path="/offer/edit/:offerId" element={<OfferEdit/>}/>
                         <Route path="/offer/:offerId" element={<OfferView/>}/>
+                        <Route path="*" element={<Navigate to="/home" replace={true}/>}/>
                     </Route>
                 </Routes>
             ) : (

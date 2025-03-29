@@ -1,47 +1,41 @@
-const Joi = require('joi')
-
+const Joi = require('joi');
+const { getIdsOfEnum } = require('../../../utils');
+const { PriceModeEnum, OfferTypeEnum, OfferCategoryEnum } = require('../../../Types/OfferTypeEnums');
+console.log(...getIdsOfEnum(PriceModeEnum))
 const OfferValidationSchema=Joi.object({
     title:Joi.string().min(10).max(500).required(),
     description:Joi.string().min(10).max(500).required(),
-    images:Joi.array().items(Joi.string().uri()).required(),
-    //TODO: check if this is right
     location:Joi.object({
         address:Joi.string().required(),
     }),
-    priceMode:Joi.string().valid('fixed','negotiation').required(),
-    price:Joi.number().when('priceMode',{
-        is:'fixed',
-        then:Joi.number().required()
-    }),
-    startingPrice: Joi.number()
-        .when('priceMode', {
-            is: 'negotiation',
-            then: Joi.required(),
-            otherwise: Joi.strip() // remove the field from the output
-        }),
+    priceModeId:Joi.number().valid(...getIdsOfEnum(PriceModeEnum)).required(),
+    price:Joi.number().required(),
     availability:Joi.boolean().default(true),
-    type:Joi.string().valid('offering','seeking').required(),
-    categories:Joi.array().items(Joi.string().required()).required(),
-    estimatedTime: Joi.number().integer().positive().required(),
-    status:Joi.string().valid('active','inactive').default('active')
-
+    typeId:Joi.string().valid(...getIdsOfEnum(OfferTypeEnum)).required(),
+    categoryIds:Joi.array().items(Joi.object({
+        id: Joi.number().valid(...getIdsOfEnum(OfferCategoryEnum)).required(),
+        subcategoryId: Joi.number().required()
+    })).required(),
+    startTime: Joi.number().required(),
+    endTime: Joi.number().required()
 }).options({abortEarly:false})
 
 const EditOfferValidationSchema = Joi.object({
-    title: Joi.string().min(10).max(500),
-    description: Joi.string().min(10).max(500),
-    images: Joi.array().items(Joi.string().uri()),
-    location: Joi.object({
-        address: Joi.string()
+    title:Joi.string().min(10).max(500).required(),
+    description:Joi.string().min(10).max(500).required(),
+    location:Joi.object({
+        address:Joi.string().required(),
     }),
-    priceMode: Joi.string().valid('fixed', 'negotiation'),
-    price: Joi.number(),
-    startingPrice: Joi.number(),
-    availability: Joi.boolean(),
-    type: Joi.string().valid('offering', 'seeking'),
-    status: Joi.string().valid('active', 'inactive'),
-    categories: Joi.array().items(Joi.string()),
-    estimatedTime: Joi.number().integer().positive()
+    priceModeId:Joi.number().valid(...getIdsOfEnum(PriceModeEnum)).required(),
+    price:Joi.number().required(),
+    availability:Joi.boolean().default(true),
+    typeId:Joi.string().valid(...getIdsOfEnum(OfferTypeEnum)).required(),
+    categoryIds:Joi.array().items(Joi.object({
+        id: Joi.number().valid(...getIdsOfEnum(OfferCategoryEnum)).required(),
+        subcategoryId: Joi.number().required()
+    })).required(),
+    startTime: Joi.number().required(),
+    endTime: Joi.number().required()
 }).options({ abortEarly: false });
 
 

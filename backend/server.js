@@ -7,6 +7,7 @@ const { connectToRedis } = require("./config/redisClient");
 const { enrollRoutes } = require("./modules");
 const cors = require("cors");
 const swaggerDocs = require("./config/swaggerDocs");
+const { establishBucket } = require("./config/s3");
 // const cors = require("cors");
 // const cluster_server = require("./cluster_server");
 app.use(cors())
@@ -16,6 +17,7 @@ app.listen(PORT, async () => {
   await connectDB()
   await connectToRedis()
   await enrollRoutes(app)
+  await establishBucket()
     console.log("Server started on PORT: ", PORT);
   });
 
