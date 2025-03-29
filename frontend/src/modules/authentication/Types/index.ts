@@ -9,7 +9,6 @@ export interface RegisterFormBody {
     lastName: string,
     email: string,
     password: string,
-    confirmPassword: string,
     isPasswordVisible: boolean,
     agreedToTerms: boolean,
 }

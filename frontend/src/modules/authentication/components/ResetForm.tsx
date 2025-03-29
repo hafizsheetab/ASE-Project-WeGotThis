@@ -1,6 +1,6 @@
 import styles from "./Authentication.module.css";
 import AuthenticationHeader from "./AuthenticationHeader";
-import AuthTextInputs from "./AuthTextInputs";
+import ResetTextInputs from "./ResetTextInputs";
 
 export function ResetForm() {
   const pageHeader = "Reset Password";
@@ -9,7 +9,7 @@ export function ResetForm() {
   return (
     <section className={styles.formSection}>
       <AuthenticationHeader header={pageHeader} text={pageDescrip}/>
-      <AuthTextInputs/>
+      <ResetTextInputs/>
     </section>
   );
 }
