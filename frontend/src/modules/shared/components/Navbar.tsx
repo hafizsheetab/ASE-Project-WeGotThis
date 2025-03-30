@@ -1,5 +1,10 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import MailIcon from '@mui/icons-material/Mail';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import MoreIcon from '@mui/icons-material/MoreVert';
+import PublicIcon from '@mui/icons-material/Public';
 import {
     AppBar,
     Toolbar,
@@ -7,21 +12,33 @@ import {
     Box,
     Menu,
     MenuItem, Divider,
+    IconButton,
+    Badge,
+    Button,
 } from "@mui/material";
-import {styled} from "@mui/material/styles";
+import { ArrowDropDown, Edit, FavoriteBorderOutlined } from "@mui/icons-material";
 
-const StyledToolbar = styled(Toolbar)(() => ({
-    minHeight: "127px",
-    display: "flex",
-    justifyContent: "space-between",
-}));
-
-type MenuType = "offer" | "favorites" | "notifications" | "account" | " lang" | null;
+type MenuType = "offer" | "favorites" | "notifications" | "account" | "lang" | null;
 
 const Navbar: React.FC = () => {
+    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
+    React.useState<null | HTMLElement>(null);
+    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+    const mobileMenuId = 'primary-search-account-menu-mobile';
+
+    const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+        setMobileMoreAnchorEl(event.currentTarget);
+      };
+
+    const handleMobileMenuClose = () => {
+        setMobileMoreAnchorEl(null);
+    };
+
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [menuType, setMenuType] = useState<MenuType>(null);
     const navigate = useNavigate();
+
     const handleOpenMenu = (event: React.MouseEvent<HTMLElement>, type: MenuType) => {
         setAnchorEl(event.currentTarget);
         setMenuType(type);
@@ -32,21 +49,52 @@ const Navbar: React.FC = () => {
         setMenuType(null);
     };
 
+    const renderMobileMenu = (
+        <Menu
+          anchorEl={mobileMoreAnchorEl}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          id={mobileMenuId}
+          keepMounted
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          open={isMobileMenuOpen}
+          onClose={handleMobileMenuClose}
+        >
+          <MenuItem>
+            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+              <Badge badgeContent={4} color="error">
+                <MailIcon />
+              </Badge>
+            </IconButton>
+            <p>Messages</p>
+          </MenuItem>
+          <MenuItem>
+            <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
+              <Badge badgeContent={17} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <p>Notifications</p>
+          </MenuItem>
+        </Menu>
+      );
+
     const renderMenuItems = () => {
         switch (menuType) {
-            case "offer":
-                return (
-                    <>
-                        <MenuItem onClick={() => navigate("/offer/create")}>Service Providing Offer</MenuItem>
-                        <MenuItem onClick={handleCloseMenu}>Service Seeking Offer</MenuItem>
-                        <MenuItem onClick={handleCloseMenu}>Users</MenuItem>
-                    </>
-                );
             case "favorites":
                 return (
                     <>
-                        <MenuItem onClick={handleCloseMenu}>Favorite 1</MenuItem>
-                        <MenuItem onClick={handleCloseMenu}>Favorite 2</MenuItem>
+                        <MenuItem onClick={handleCloseMenu}>Offers</MenuItem>
+                        <MenuItem onClick={handleCloseMenu}>Users</MenuItem>
                     </>
                 );
             case "notifications":
@@ -69,9 +117,9 @@ const Navbar: React.FC = () => {
             case "lang":
                 return (
                     <>
-                        <MenuItem onClick={handleCloseMenu}>English</MenuItem>
-                        <MenuItem onClick={handleCloseMenu}>German</MenuItem>
-                        <MenuItem onClick={handleCloseMenu}>French</MenuItem>
+                        <MenuItem onClick={handleCloseMenu}>EN</MenuItem>
+                        <MenuItem onClick={handleCloseMenu}>DE</MenuItem>
+                        <MenuItem onClick={handleCloseMenu}>FR</MenuItem>
                     </>
                 );
             default:
@@ -86,49 +134,142 @@ const Navbar: React.FC = () => {
                 backgroundColor: "#6B63EB",
             }}
         >
-            <StyledToolbar>
+            <Toolbar style={{width: "90%", margin: '0 auto'}}>
                 <Typography variant="h5" sx={{color: "#fff", fontWeight: 700,}}
                             onClick={() => navigate("/home")}>
                     WeGotThis
                 </Typography>
 
-                <Box sx={{display: "flex", alignItems: "center", gap: 4}}>
-                    <Typography
-                        sx={{color: "#fff", cursor: "pointer", fontWeight: 700}}
-                        onClick={(e) => handleOpenMenu(e, "offer")}
-                    >
-                        + Create Offer
-                    </Typography>
+                <Box sx={{ flexGrow: 1 }} />
 
-                    <Typography
-                        sx={{color: "#fff", cursor: "pointer", fontWeight: 700}}
+                <Box sx={{display: { xs: 'none', md: 'flex' }, alignItems: "center", gap: 2}}>
+                    
+                    <Button
+                        onClick={() => navigate("/offer/create")}
+                        startIcon={<IconButton
+                            sx={{
+                                pointerEvents: 'none', 
+                                }}
+                            size="large"
+                            edge="end"
+                            aria-label="create new offer"
+                            aria-haspopup="true"
+                            color="inherit"
+                            >
+                            <Edit/> 
+                        </IconButton>} 
+                        color="inherit"
+                        > Create Offer
+                    </Button>
+
+                    <Button
                         onClick={(e) => handleOpenMenu(e, "favorites")}
-                    >
-                        &lt;3 Favorites
-                    </Typography>
+                        startIcon={<IconButton
+                            sx={{
+                                pointerEvents: 'none', 
+                                }}
+                            size="large"
+                            edge="end"
+                            aria-label="favorite menu"
+                            aria-haspopup="true"
+                            color="inherit"
+                            >
+                            <FavoriteBorderOutlined /> 
+                        </IconButton>} 
+                        color="inherit"
+                        endIcon={<IconButton
+                            sx={{
+                                pointerEvents: 'none', 
+                                }}
+                                size="large"
+                                edge="start"
+                                aria-label="expand more"
+                                aria-haspopup="true"
+                                color="inherit"
+                                >
+                                <ArrowDropDown />
+                            </IconButton>}
+                        > Favorites
+                    </Button>
 
-                    <Typography
-                        sx={{color: "#fff", cursor: "pointer", fontWeight: 700}}
+                    <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                        <Badge badgeContent={4} color="error">
+                            <MailIcon />
+                        </Badge>
+                    </IconButton>
+
+                    <IconButton
                         onClick={(e) => handleOpenMenu(e, "notifications")}
-                    >
-                        O Notifications
-                    </Typography>
+                        size="large"
+                        aria-label="show 17 new notifications"
+                        color="inherit"
+                        >
+                        <Badge badgeContent={17} color="error">
+                            <NotificationsIcon />
+                        </Badge>
+                    </IconButton>
 
-                    <Typography
-                        sx={{color: "#fff", cursor: "pointer", fontWeight: 700}}
+                    <Button
                         onClick={(e) => handleOpenMenu(e, "account")}
-                    >
-                        My Account
-                    </Typography>
+                        startIcon={<IconButton
+                            sx={{
+                                pointerEvents: 'none', 
+                                }}
+                            size="large"
+                            edge="end"
+                            aria-label="account of current user"
+                            aria-haspopup="true"
+                            color="inherit"
+                            >
+                            <AccountCircle /> 
+                        </IconButton>} 
+                        color="inherit"> Login
+                    </Button>
+
                     <Divider orientation="vertical" color="white" flexItem sx={{bgcolor: "white"}}/>
-                    <Typography
-                        sx={{color: "#fff", cursor: "pointer", fontWeight: 700}}
+
+                    <Button
                         onClick={(e) => handleOpenMenu(e, "lang")}
-                    >
-                        en
-                    </Typography>
+                        startIcon={<IconButton
+                            size="large"
+                            edge="end"
+                            aria-label="select language"
+                            aria-haspopup="true"
+                            color="inherit"sx={{
+                                pointerEvents: 'none', 
+                                }}
+                            >
+                            <PublicIcon />
+                        </IconButton>} 
+                        endIcon={<IconButton
+                            sx={{
+                                pointerEvents: 'none', 
+                                }}
+                                size="large"
+                                edge="start"
+                                aria-label="expand more"
+                                aria-haspopup="true"
+                                color="inherit"
+                                >
+                                <ArrowDropDown />
+                            </IconButton>}
+                        color="inherit" >EN
+                    </Button>
                 </Box>
-            </StyledToolbar>
+
+                <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                    <IconButton 
+                        size="large"
+                        aria-label="show more"
+                        aria-controls={mobileMenuId}
+                        aria-haspopup="true"
+                        onClick={handleMobileMenuOpen}
+                        color="inherit"
+                        >
+                        <MoreIcon />
+                    </IconButton>
+                </Box>
+            </Toolbar>
 
             <Menu
                 anchorEl={anchorEl}
@@ -145,6 +286,8 @@ const Navbar: React.FC = () => {
             >
                 {renderMenuItems()}
             </Menu>
+
+            {renderMobileMenu}
         </AppBar>
     );
 };

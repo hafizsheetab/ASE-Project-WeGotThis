@@ -1,8 +1,11 @@
-import {Box, Grid2, IconButton, Paper} from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
+import {Autocomplete, Box, Grid2, IconButton, Paper, Stack, TextField} from "@mui/material";
 import DropdownField from "../../shared/components/DropdownField";
 import styles from "./Home.module.css";
 import {styled} from "@mui/material/styles";
+import { useState } from "react";
+import Searchbar from "./Searchbar";
+import DefaultDropdownField from "../../shared/components/DefaultDropdownField";
+import CheckmarkDropdown from "../../shared/components/CheckmarkDropdown";
 
 const SearchInput = styled("input")(() => ({
     flex: 1,
@@ -15,73 +18,50 @@ const SearchInput = styled("input")(() => ({
 }));
 
 const SearchFilters = () => {
+    const [textFieldValue, setTextFieldValue] = useState<string | null>("")
+
+    const handleSearch = (searchInput : string | null) => {
+        //...
+        console.log(searchInput);
+        setTextFieldValue(searchInput)
+      };
+
     return (
         <Box className={styles.searchFiltersWrapper}>
-            <Paper
-                sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    width: "100%",
-                    height: "55px",
-                    borderRadius: "2px",
-                    boxShadow: "none",
-                    border: "1px solid #d1d5db",
-                    overflow: "hidden",
-                    mb: 1.5
-                }}
-            >
-                <SearchInput placeholder="Search Aladdin"/>
-                <DropdownField
-                    itemsArray={["All Categories", "Pets", "Gardening"]}
-                    defaultItem="All Categories"
-                    containerSx={{border: "none",}}
+            <Searchbar onNewSearch={handleSearch}/>
+
+            <Grid2 sx={{marginTop: "2em"}} container>
+                <CheckmarkDropdown 
+                        itemArray={["Zurich", "Bern"]}
+                        label="Location"
+                    />
+                <CheckmarkDropdown
+                    itemArray={["$0 - $50", "$50 - $100"]}
+                    label="Price Range"
                 />
-                <IconButton
-                    sx={{
-                        backgroundColor: "#f97316",
-                        borderRadius: 0,
-                        height: "100%",
-                        width: "60px",
-                        "&:hover": {
-                            backgroundColor: "#fa921a",
-                        },
-                    }}
-                >
-                    <SearchIcon sx={{color: "white"}}/>
-                </IconButton>
-            </Paper>
-            <Grid2 container spacing={1.5}>
-                <DropdownField
-                    itemsArray={["Location", "Zurich", "Bern"]}
-                    defaultItem="Location"
+                <CheckmarkDropdown
+                    itemArray={["Today", "Tomorrow"]}
+                    label="Next Availability"
                 />
-                <DropdownField
-                    itemsArray={["Price Range", "$0 - $50", "$50 - $100"]}
-                    defaultItem="Price Range"
+                <CheckmarkDropdown
+                    itemArray={["Walking", "Pet Sitting"]}
+                    label="Service Type"
                 />
-                <DropdownField
-                    itemsArray={["Next Availability", "Today", "Tomorrow"]}
-                    defaultItem="Next Availability"
+                <CheckmarkDropdown
+                    itemArray={["4+ Stars", "3+ Stars"]}
+                    label="User's Rating"
                 />
-                <DropdownField
-                    itemsArray={["Service Type", "Walking", "Pet Sitting"]}
-                    defaultItem="Service Type"
+                <CheckmarkDropdown
+                    itemArray={["1 hr", "2 hrs"]}
+                    label="Estimated Duration"
                 />
-                <DropdownField
-                    itemsArray={["User's Rating", "4+ Stars", "3+ Stars"]}
-                    defaultItem="User's Rating"
+                <CheckmarkDropdown
+                    itemArray={["Option A", "Option B"]}
+                    label="Advanced Search"
                 />
-                <DropdownField
-                    itemsArray={["Estimated Duration", "1 hr", "2 hrs"]}
-                    defaultItem="Estimated Duration"
-                />
-                <DropdownField
-                    itemsArray={["Advanced Search", "Option A", "Option B"]}
-                    defaultItem="Advanced Search"
-                />
-                <DropdownField
-                    itemsArray={["Sorting", "Price", "Rating"]}
-                    defaultItem="Sorting"
+                <CheckmarkDropdown
+                    itemArray={["Price", "Rating"]}
+                    label="Sorting"
                 />
             </Grid2>
         </Box>

@@ -11,7 +11,7 @@ import { resetPassword } from "../services";
 import ContextStore from "../../../utils/ContextStore";
 import { TokenResponse } from "../Types";
 
-const AuthTextInputs = () => {
+const ResetTextInputs = () => {
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState({ newPassword: false, confirmPassword: false });
@@ -119,10 +119,10 @@ const AuthTextInputs = () => {
         <ActiveButton
             onClick={handleSubmit}
             buttonTxt="Reset Password"
-            style={{ width: "100%", padding: ".75em 0", marginTop: "1em" }}
+            style={{ width: "100%", padding: ".75em 0", marginTop: "2em" }}
         />
       </form>
   )
 }
 
-export default AuthTextInputs
+export default ResetTextInputs

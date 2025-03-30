@@ -1,4 +1,4 @@
-import { InputAdornment, TextField } from '@mui/material'
+import { InputAdornment, Link, TextField } from '@mui/material'
 import styles from './TextInputField.module.css'
 
 import { ReactNode } from 'react'
@@ -8,7 +8,8 @@ type TextInputFieldProps = {
     placeholder : string
     labelTxt? : string
     footerTxt? : string
-
+    extraLink? : string
+    extraLinkOnClick?: () => void;
     startIcon? : string | number | ReactNode
     endIcon? : string | number | ReactNode
     readonly? : boolean
@@ -23,6 +24,8 @@ type TextInputFieldProps = {
 const TextInputField: React.FC<TextInputFieldProps> = ({
     type,
     labelTxt,
+    extraLink,
+    extraLinkOnClick,
     placeholder,
     footerTxt,
     startIcon,
@@ -37,8 +40,24 @@ const TextInputField: React.FC<TextInputFieldProps> = ({
     
     return (
         <div className={styles.inputGroup}>
+            <div className={styles.labelGroup}>
+                <label>
+                    {labelTxt && <span>{labelTxt}</span>}
+                </label>
 
-            {labelTxt && <label className={styles.label}>{labelTxt}</label>}
+                {extraLink && (
+                    <span>
+                        <Link
+                            component="button"
+                            underline="hover"
+                            variant="body2"
+                            onClick={extraLinkOnClick}
+                        >
+                            {extraLink}
+                        </Link>
+                    </span>
+                )}
+            </div>
             <TextField
                 placeholder={placeholder}
                 variant="outlined"

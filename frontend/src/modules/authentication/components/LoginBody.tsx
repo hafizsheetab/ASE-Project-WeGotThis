@@ -1,42 +1,20 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
-import styles from "./Authentication.module.css"; // Import the combined CSS file
-import { LoginFormBody, TokenResponse } from "../Types";
-import { login } from "../services";
+import styles from "./Authentication.module.css";
 import ContextStore from "../../../utils/ContextStore";
-import { checkForError } from "../../shared/services";
+import AuthenticationHeader from "./AuthenticationHeader";
+import LoginTextInputs from "./LoginTextInputs";
+import { Link, Typography } from "@mui/material";
 
 function LoginBody() {
     const navigate = useNavigate(); // Initialize navigate function
     const store = useContext(ContextStore);
-    const [loginForm, setLoginForm] = useState<LoginFormBody>({
-        email: "",
-        password: "",
-        isPasswordVisible: false
-    });
-
-    const handleLogin = async(e: React.FormEvent) => {
-        e.preventDefault();
-        console.log("Logging in with", loginForm);
-        let response = await login({email: loginForm.email, password: loginForm.password, expire: true}, store)
-        if(checkForError(response)){
-            return
-        }
-        response = response as TokenResponse
-        store.setContext({...store.context, token: response.access_token})
-        // After successful login, navigate to /home
-        // navigate("/home");
-    };
 
     const handleCreateAccount = () => {
         // Redirect to /register when the user clicks to create an account
         navigate("/register");
     };
-
-    const handleForgotPassword = () => {
-        navigate("/forgotPassword")
-    }
 
     useEffect(() => {
         if(store.context.token){
@@ -44,96 +22,26 @@ function LoginBody() {
             navigate("/home")
         }
     },[])
+
+    const pageHeader = "Welcome Back!"
+    const pageDescrip = "Please enter your email and password";
     return (
-        <main >
-            {/* Left Side */}
-            <section className={styles.leftSide}>
-                {/* <header className={styles.logo}>WeGotThis</header> */}
+        <section className={styles.formSection}>
+            <AuthenticationHeader header={pageHeader} text={pageDescrip}/>
+            <LoginTextInputs/>
 
-                <div className={styles.welcomeSection}>
-                    <h1 className={styles.welcomeTitle}>Welcome Back</h1>
-                    <p className={styles.welcomeSubtitle}>
-                        Please enter your email and password
-                    </p>
-                </div>
-
-                <form className={styles.loginForm} onSubmit={handleLogin}>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="email" className={styles.label}>
-                            Email
-                        </label>
-                        <input
-                            id="email"
-                            type="email"
-                            value={loginForm.email}
-                            onChange={(e) =>
-                                setLoginForm({
-                                    ...loginForm,
-                                    email: e.target.value,
-                                })
-                            }
-                            className={styles.input}
-                            required
-                            placeholder="Enter your email"
-                        />
-                    </div>
-
-                    <div className={styles.formGroup}>
-                        <div className={styles.passwordHeader}>
-                            <label htmlFor="password" className={styles.label}>
-                                Password
-                            </label>
-                            <a href="#" className={styles.forgotPassword} onClick={handleForgotPassword}>
-                                Forgot Password?
-                            </a>
-                        </div>
-                        <div style={{ position: 'relative' }}>
-                            <input
-                                id="password"
-                                type={loginForm.isPasswordVisible ? "text" : "password"}
-                                value={loginForm.password}
-                                onChange={(e) =>
-                                    setLoginForm({
-                                        ...loginForm,
-                                        password: e.target.value,
-                                    })
-                                }
-                                className={styles.input}
-                                required
-                                placeholder="Enter your password"
-                            />
-                            <button
-                                type="button"
-                                onClick={() =>
-                                    setLoginForm({...loginForm, isPasswordVisible: !loginForm.isPasswordVisible})
-                                }
-                                className={styles.togglePasswordVisibility}
-                            >
-                                {loginForm.isPasswordVisible ? "Hide" : "Show"}
-                            </button>
-                        </div>
-                    </div>
-
-                    <button type="submit" className={styles.loginButton}>
-                        Login
-                    </button>
-                </form>
-
-                <p className={styles.signupText}>
-                    <span>Don't have an account? </span>
-                    <a
-                        href="#"
-                        onClick={handleCreateAccount} // Navigate to /register
-                        className={styles.signupLink}
-                    >
-                        Click here to create one.
-                    </a>
-                </p>
-            </section>
-
-            {/* Right Side */}
-           
-        </main>
+            <Typography  style={{marginTop: '1em', cursor:"default", width:'90%'}} variant="body2" align="center">
+                Don't have an account? &nbsp;
+                <Link
+                    underline="hover"
+                    variant="body2"
+                    style={{cursor:"pointer"}}
+                    onClick={handleCreateAccount}
+                >
+                    Click here to create one.
+                </Link>
+            </Typography> 
+        </section>
     );
 }
 

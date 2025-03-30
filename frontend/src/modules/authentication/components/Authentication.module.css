@@ -167,20 +167,6 @@
     }
 }
 
-.signupText {
-    color: #4b5563;
-    text-align: center;
-    font-family: Inter, sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    margin: 0;
-}
-
-.signupLink {
-    color: #6366f1;
-    text-decoration: none;
-}
-
 @media (max-width: 991px) {
     .rightSide {
         width: 100%;
@@ -220,8 +206,7 @@
 
 .form {
     flex-direction: column;
-    gap: 30px;
-    width: 100%;
+    width: 90%;
     display: flex;
 }
 
@@ -355,7 +340,7 @@
 
 .formSection {
     flex-direction: column;
-    padding: 3em 4em;
+    padding: 2em 4em 3em;
     display: flex;
     flex: 1;
 }
