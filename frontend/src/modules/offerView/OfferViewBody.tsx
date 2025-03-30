@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
+import styles from '../offerCreation/components/OfferCreation.module.css'
 import {
     Box,
     Typography,
@@ -14,7 +15,11 @@ import {
     Button,
     Link,
     CircularProgress,
+    Card,
+    Paper,
 } from "@mui/material";
+import ImageUploader from "../offerCreation/components/ImageUploader";
+import OfferForm from "../offerCreation/components/OfferForm";
 
 const OfferViewBody: React.FC = () => {
     const {offerId} = useParams();
@@ -31,7 +36,6 @@ const OfferViewBody: React.FC = () => {
                 title: "Offer Title",
                 radioValue: "Service Seeking",
                 location: "Zurich, 8004",
-                estimatedDuration: "1 hour",
                 price: "50CHF/h",
                 negotiable: true,
                 creatorName: "UsernameClickable",
@@ -80,7 +84,14 @@ const OfferViewBody: React.FC = () => {
         .filter(Boolean).length;
 
     return (
-        <Box
+
+        <Paper sx={
+            {
+                width : "70%", 
+                padding: "2em",
+                margin: "4em auto"
+            }}> 
+            <Box
             sx={{
                 maxWidth: 1000,
                 mx: "auto",
@@ -209,6 +220,8 @@ const OfferViewBody: React.FC = () => {
                 </Box>
             </Box>
         </Box>
+        </Paper>
+
     );
 };
 
