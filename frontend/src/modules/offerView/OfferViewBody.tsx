@@ -29,6 +29,8 @@ const OfferViewBody: React.FC = () => {
     const [newPrice, setNewPrice] = useState("");
     const [availability, setAvailability] = useState("");
 
+
+
     useEffect(() => {
         setTimeout(() => {
             setOffer({

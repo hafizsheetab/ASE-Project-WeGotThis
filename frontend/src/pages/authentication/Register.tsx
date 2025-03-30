@@ -7,10 +7,13 @@ import { Paper } from "@mui/material";
 const Register: React.FC = () => {
 
   return (
-    <Paper className={styles.authenticationContainer} elevation={3}>
-      <RegisterBody />
-      <Sidebar />
-    </Paper>
+    <div style={{minHeight: "100vh", display:"flex", alignItems:"center"}}>
+      <Paper className={styles.authenticationContainer} elevation={3}>
+        <RegisterBody />
+        <Sidebar />
+      </Paper>
+    </div>
+
   )
 };
 

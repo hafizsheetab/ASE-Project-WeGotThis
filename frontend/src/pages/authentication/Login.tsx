@@ -7,10 +7,12 @@ import { Paper } from "@mui/material";
 function Login() {
 
   return (
-    <Paper className={styles.authenticationContainer} elevation={3}>
+    <div style={{minHeight: "100vh", display:"flex", alignItems:"center"}}>
+          <Paper className={styles.authenticationContainer} elevation={3}>
       <LoginBody />
       <Sidebar />
     </Paper>
+    </div>
   );
 }
 

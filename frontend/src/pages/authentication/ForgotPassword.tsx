@@ -7,10 +7,12 @@ import styles from "../css/Pages.module.css";
 function ForgotPassword() {
 
   return (
-    <Paper className={styles.authenticationContainer} elevation={3}>
+    <div style={{minHeight: "100vh", display:"flex", alignItems:"center"}}>
+          <Paper className={styles.authenticationContainer} elevation={3}>
       <ForgotPasswordBody />
       <Sidebar />
     </Paper>
+    </div>
   );
 }
 
