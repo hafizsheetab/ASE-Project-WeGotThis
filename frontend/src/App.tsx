@@ -75,12 +75,12 @@ function App() {
       <ThemeProvider theme={theme}>
           <Box
               sx={{
-                  maxWidth: "1280px",
+                  width: "100vw",
                   mx: "auto",
-                  px: {xs: 2, sm: 3},
+                  px: 0,
               }}
           >
-      <AppRoutes />
+        <AppRoutes />
           </Box>
     <ToastContainer />
       </ThemeProvider>
