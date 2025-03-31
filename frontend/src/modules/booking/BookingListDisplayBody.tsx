@@ -1,5 +1,5 @@
 import BookingStatusTab from "./BookingStatusTab";
-import PaginationControlled from './PaginationControls';
+import PaginationControlled from '../shared/components/PaginationControls';
 import RadioSeekerType from "./SeekerTypeRadioSelection";
 import BookingList from "./BookingList";
 

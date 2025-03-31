@@ -23,9 +23,10 @@ const PaginationControlled : React.FC<PaginationControlledProps> = ({numberOfIte
   return (
     <Stack spacing={2} direction="row" sx={{
         justifyContent: "space-between",
-        alignItems: "flex-end"
+        alignItems: "flex-end",
+        my: 2
       }}>
-      <Typography>{rangeStart} to {rangeEnd} out of {numberOfItems} results</Typography>
+      <Typography variant='subtitle2' color='textSecondary'>{rangeStart} to {rangeEnd} out of {numberOfItems} results</Typography>
       <Pagination count={limitPages} page={page} onChange={handleChange} shape="rounded" color="primary" />
     </Stack>
   );
