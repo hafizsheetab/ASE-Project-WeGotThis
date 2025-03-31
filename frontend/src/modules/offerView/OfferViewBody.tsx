@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import styles from '../offerCreation/components/OfferCreation.module.css'
 import {
     Box,
     Typography,
@@ -17,6 +16,10 @@ import {
     CircularProgress,
     Card,
     Paper,
+    Stack,
+    Avatar,
+    useTheme,
+    Switch,
 } from "@mui/material";
 import ImageUploader from "../offerCreation/components/ImageUploader";
 import OfferForm from "../offerCreation/components/OfferForm";
@@ -24,17 +27,33 @@ import { OfferResponseBody } from "../offerCreation/Types";
 import { getOneOffer } from "../home/services";
 import ContextStore from "../../utils/ContextStore";
 import dayjs from "dayjs";
+import ActiveButton from "../shared/components/ActiveClickButton";
+import CategoryList from "../shared/components/CategoryChipDisplay";
+import TaskDescriptionSection from "../offerCreation/components/TaskDescriptionSection";
 
 const OfferViewBody: React.FC = () => {
     const {offerId} = useParams();
+    const theme = useTheme();
     const [offer, setOffer] = useState<OfferResponseBody | null>(null);
 
     const [negotiable, setNegotiable] = useState(false);
     const [newPrice, setNewPrice] = useState("");
-    const [availability, setAvailability] = useState("");
 
 
     const store = useContext(ContextStore)
+
+    const formatDuration = (startTime: number, endTime: number) => {
+        const diffMinutes = dayjs(endTime).diff(dayjs(startTime), "minutes");
+    
+        if (diffMinutes >= 1440) {
+            return `${Math.floor(diffMinutes / 1440)} days`;
+        } else if (diffMinutes >= 60) {
+            return `${Math.floor(diffMinutes / 60)} hours`;
+        } else {
+            return `${diffMinutes} minutes`;
+        }
+    };
+    
     useEffect(() => {
         (async () => {
             if(offerId){
@@ -47,20 +66,9 @@ const OfferViewBody: React.FC = () => {
         })()
     }, [offerId]);
 
-    useEffect(() => {
-        if (offer) {
-            setNegotiable(offer.priceMode.id === 2);
-            setAvailability(dayjs(offer.startTime).toISOString());
-        }
-    }, [offer]);
-
     if (!offer) {
         return <CircularProgress/>;
     }
-
-    const handleNegotiableChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNegotiable(e.target.checked);
-    };
 
     const handleChat = () => {
         console.log("Chat clicked clicked"); //todo
@@ -69,153 +77,115 @@ const OfferViewBody: React.FC = () => {
     const handleSendRequest = () => {
         console.log("Send Request with data:", {
             newPrice,
-            availability,
             negotiable,
         });
     };
 
-    const wordCount = offer.description
-        .split(/\s+/)
-        .filter(Boolean).length;
-
     return (
+        <Box sx={{ width : "90%", padding: "2em 5em 3em" }}>
 
-        <Paper sx={
-            {
-                width : "70%", 
-                padding: "2em",
-                margin: "4em auto"
-            }}> 
-            <Box
-            sx={{
-                maxWidth: 1000,
-                mx: "auto",
-                mt: 4,
-                px: 2,
-                display: "flex",
-                flexDirection: "column",
-                gap: 3,
-            }}
-        >
-            <Box sx={{display: "flex", flexWrap: "wrap", gap: 3}}>
-                <Box
-                    sx={{
-                        flex: "0 0 300px",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 2,
-                    }}
-                >
+            <Stack direction="row" spacing={2} sx={{
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    my: 1,
+                    gap: "5em"
+                }}useFlexGap >
+
+                <Stack spacing={2} style={{flex: 1, alignSelf:"start", marginTop:"1em"}}>
                     <Box
                         sx={{
-                            width: "100%",
-                            height: 300,
-                            border: "1px solid #ccc",
-                            borderRadius: 2,
-                            backgroundColor: "#f3f4f6",
-                            backgroundImage: offer.imageUrl
-                                ? `url('${offer.imageUrl}')`
-                                : "url('https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fb707cecb19022155ef85c595c58bf811f0e8827f21cea70f32d42de1d417c80d')",
+                            height: 240,
+                            backgroundImage: `url('${offer.imageUrl}')`,
                             backgroundSize: "cover",
                             backgroundPosition: "center",
+                            borderRadius: 2,
+                            border: "1px solid #e0e0e0",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            p: 2,
                         }}
                     />
 
+                    <Stack style={{marginTop: "1em"}} direction="row" justifyContent="space-between" alignItems="center">
+                        <Stack direction="row" spacing={1}>
+                            <Avatar sx={{bgcolor:theme.palette.primary.main}}>U</Avatar>
+                            <Stack>
+                                <Typography variant="body2" color={theme.palette.text.secondary}>Creator:</Typography>
+                                <Link href="#"
+                                    underline="hover"
+                                    sx={{cursor: "pointer"}}
+                                >
+                                    {offer.owner.firstName + " " + offer.owner.lastName}
+                                </Link>
+                            </Stack>
+                        </Stack>
+                        <ActiveButton buttonTxt="Chat" variant="outlined" onClick={handleChat}/>
+                    </Stack>
+                </Stack>
+
+                <Stack sx={{flex: 1.5}} spacing={2}>
                     <Box>
-                        <Typography variant="body2" sx={{fontWeight: "bold", mb: 1}}>
-                            Offer Creator:{" "}
-                            <Link
-                                href="#"
-                                underline="hover"
-                                sx={{ml: 0.5, cursor: "pointer"}}
-                            >
-                                {offer.owner.firstName + " " + offer.owner.lastName}
-                            </Link>
+                        <h1 style={{marginBottom:".1em"}}> {offer.title} </h1>
+                        <Typography variant="body1" color={theme.palette.text.secondary}>
+                            Service {offer.type.displayValue}
                         </Typography>
-                        <Button variant="outlined" onClick={handleChat}>
-                            Chat
-                        </Button>
                     </Box>
-                </Box>
+                    <Box>
+                        <Typography variant="body1">
+                            <strong>Location:</strong> {offer.location}
+                        </Typography>
+                        <Typography variant="body1">
+                            <strong>Date :</strong> {dayjs(offer.startTime).format("llll")} - {dayjs(offer.endTime).format("llll")}
+                        </Typography>
+                        <Typography variant="body1">
+                            <strong>Estimated Duration:</strong> {formatDuration(offer.startTime, offer.endTime)}
+                        </Typography>
+                        <Typography variant="body1">
+                            <strong>Price:</strong> {offer.price} CHF
+                        </Typography>
+                    </Box>
+                    <CategoryList categories={offer.categories} />
 
-                <Box sx={{flex: 1, display: "flex", flexDirection: "column", gap: 2}}>
-                    <Typography variant="h4" fontWeight="bold">
-                        {offer.title}
-                    </Typography>
+                    <Box>
+                        <Stack direction="row" alignItems="center" justifyContent="space-between">
+                            <Typography variant="body1">
+                                <strong>Price:</strong> {offer.price} CHF
+                            </Typography>
+                            { offer.priceMode.id != 2? 
+                                <Typography color={theme.palette.text.secondary}>Fixed Price</Typography> : 
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            onChange={(e) => setNegotiable(e.target.checked)}
+                                            />
+                                    }
+                                    label="Negotiate?"
+                                    labelPlacement="start"
+                                />
+                            }
+                            
+                        </Stack>
 
-                    <Typography variant="body2" color="text.secondary">
-                        {offer.description}
-                    </Typography>
-
-                    <Typography variant="body2">
-                        <strong>Location:</strong> {offer.location}
-                    </Typography>
-                    <Typography variant="body2">
-                        <strong>Estimated Duration:</strong> {dayjs(offer.endTime).diff(offer.startTime)} minutes
-                    </Typography>
-
-                    <Typography variant="body2">
-                        <strong>Price:</strong> {offer.price}
-                    </Typography>
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={negotiable}
-                                onChange={handleNegotiableChange}
-                                disabled
-                            />
-                        }
-                        label="Negotiable Price"
-                    />
-
-                    <Box sx={{maxWidth: 200}}>
                         <TextField
+                            style={{width: "50%", marginTop:".2em"}}
+                            disabled={!negotiable}
                             label="New Price"
                             size="small"
                             value={newPrice}
                             onChange={(e) => setNewPrice(e.target.value)}
                             placeholder="Enter a new price"
-                            fullWidth
                         />
                     </Box>
 
-                    {/* <FormControl size="small" sx={{maxWidth: 200}}>
-                        <InputLabel>Availabilities</InputLabel>
-                        <Select
-                            label="Availabilities"
-                            value={availability}
-                            onChange={(e) => setAvailability(e.target.value)}
-                        >
-                            {offer.availabilities.map((time) => (
-                                <MenuItem key={time} value={time}>
-                                    {time}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl> */}
+                    <ActiveButton buttonTxt="Send Request" onClick={handleSendRequest} style={{width: "40%", margin:"2.5em auto"}}/>
+                </Stack>
+            </Stack>
 
-                    <Box sx={{display: "flex", justifyContent: "center", mt: 2}}>
-                        <Button variant="contained" color="secondary" onClick={handleSendRequest}>
-                            Send Request
-                        </Button>
-                    </Box>
-                </Box>
-            </Box>
 
-            <Divider/>
-            <Box sx={{mt: 1}}>
-                <Typography variant="h5" sx={{mb: 2}}>
-                    Description
-                </Typography>
-                <Typography variant="body2" sx={{whiteSpace: "pre-line"}}>
-                    {offer.description}
-                </Typography>
-                <Box sx={{textAlign: "right", mt: 1, color: "text.secondary"}}>
-                    {wordCount} words
-                </Box>
-            </Box>
-        </Box>
-        </Paper>
+        <Divider/>
+        <TaskDescriptionSection value={offer.description} readonly={true}/>
+    </Box>
 
     );
 };

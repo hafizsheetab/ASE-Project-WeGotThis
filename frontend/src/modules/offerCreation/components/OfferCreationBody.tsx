@@ -92,7 +92,7 @@ const OfferCreationBody = () => {
             <Divider/>
             <CategorySelector initialValues={{template}} addCategory = {addCategory} removeCategory = {removeCategory} categoryIds={formData.categoryIds}/>
             <Divider/>
-            <TaskDescriptionSection value={formData.description} setValue={setDescription} hasError={formError.descriptionError}/>
+            <TaskDescriptionSection maxWordsCount={150} value={formData.description} setValue={setDescription} hasError={formError.descriptionError}/>
 
             <Box sx={{display: "flex", justifyContent: "center", mb: 4}}>
                 <ActiveButton style={{width: "20%"}} buttonTxt="Create Offer" type='submit' onClick={async() => {

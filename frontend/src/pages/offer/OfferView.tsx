@@ -1,10 +1,12 @@
 import OfferViewBody from "../../modules/offerView/OfferViewBody.tsx";
+import { Paper } from "@mui/material";
+import styles from "../css/Pages.module.css";
 
 const OfferView = () => {
     return (
-        <div style={{minHeight: "100vh", display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column"}}>
+        <Paper className={styles.offerSectionContainer} elevation={3}>
             <OfferViewBody/>
-        </div>
+        </Paper>
     )
 };
 

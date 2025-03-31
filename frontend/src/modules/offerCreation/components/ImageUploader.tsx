@@ -61,7 +61,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({initialImage, setFile}) =>
 
                 <IconButton 
                     disabled={!image}
-                    onClick={handleDeleteImage} color="black" aria-label="delete image" >
+                    onClick={handleDeleteImage} color="inherit" aria-label="delete image" >
                     <DeleteIcon/>
                 </IconButton>
             </Stack>
