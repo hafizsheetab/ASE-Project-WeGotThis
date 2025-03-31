@@ -34,6 +34,8 @@ services:
     ports:
       - "6379:6379"
       - "8001:8001"
+    volumes:
+      - redis_data:/data
   localstack:
     profiles:
     - backend
@@ -50,5 +52,7 @@ services:
     volumes:
       - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
+volumes:
+  redis_data:
     
     

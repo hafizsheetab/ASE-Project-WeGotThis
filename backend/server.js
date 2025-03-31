@@ -1,4 +1,6 @@
-require("dotenv").config();
+
+const executionType = process.argv[2]
+require("dotenv").config({path: executionType === "docker" ? ".env.docker" : ".env"});
 const express = require("express");
 const app = express();
 app.use(express.json({ extende: false }));
