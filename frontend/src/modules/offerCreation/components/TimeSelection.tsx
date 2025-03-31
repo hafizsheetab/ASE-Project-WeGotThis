@@ -14,7 +14,7 @@ const TimeSelection: React.FC<TimeSelectionProps> = ({initialValues, setTime}) =
         <section>
             <div className={styles.categoryHeader}>
                 <h2>Time</h2>
-                <p>Enter when you are looking</p>
+                <p>When should the task take place?</p>
             </div>
             <DateTimeRange
                 initialStartTime={initialValues?.startTime}

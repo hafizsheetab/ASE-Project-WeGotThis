@@ -223,7 +223,7 @@ const Navbar: React.FC = () => {
                             >
                             <AccountCircle /> 
                         </IconButton>} 
-                        color="inherit"> Login
+                        color="inherit"> User
                     </Button>
 
                     <Divider orientation="vertical" color="white" flexItem sx={{bgcolor: "white"}}/>

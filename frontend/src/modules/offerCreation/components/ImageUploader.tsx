@@ -30,11 +30,10 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({initialImage, setFile}) =>
     };
 
     return (
-        <Stack spacing={2}>
+        <Stack spacing={2} style={{flex: 1}}>
             <Box
                 sx={{
                     height: 240,
-                    width: "100%",
                     backgroundImage: `url(${image || previewImg})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
@@ -53,17 +52,18 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({initialImage, setFile}) =>
                 )}
             </Box>
 
-            <Stack direction="row" spacing={2} alignItems="center">
+            <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
                 <ActiveFileUploadButton
                     buttonTxt="Upload Image"
                     onFileUpload={handleImageUpload}
                     resetTrigger={resetTrigger}
                 />
-                {image && (
-                    <IconButton onClick={handleDeleteImage} color="error" aria-label="delete image">
-                        <DeleteIcon/>
-                    </IconButton>
-                )}
+
+                <IconButton 
+                    disabled={!image}
+                    onClick={handleDeleteImage} color="black" aria-label="delete image" >
+                    <DeleteIcon/>
+                </IconButton>
             </Stack>
         </Stack>
     );

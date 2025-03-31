@@ -5,6 +5,15 @@
   display: flex;
 }
 
+.offerSectionContainer{
+  width: 70vw;
+  margin: 4em auto;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .appContainerBackground {
   background: rgb(79,70,229);
   background: radial-gradient(circle, rgba(79,70,229,1) 0%, rgba(148,213,233,1) 100%);

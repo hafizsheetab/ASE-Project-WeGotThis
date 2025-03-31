@@ -1,6 +1,7 @@
 import { GeoapifyContext, GeoapifyGeocoderAutocomplete} from "@geoapify/react-geocoder-autocomplete";
 import styles from "./TextInputField.module.css";
 import "@geoapify/geocoder-autocomplete/styles/minimal.css";
+import { FormControl, InputAdornment, InputLabel, OutlinedInput } from "@mui/material";
 
 
 type TextInputFieldProps = {
@@ -35,7 +36,7 @@ const LocationTextInputField: React.FC<TextInputFieldProps> = ({
 
   return (
     <div className={`${styles.inputGroup} ${styles.geoapifyWrapper}`}>
-      {label && <label className={styles.label}>{inputTxt}</label>}
+      {label && <InputLabel>{inputTxt}</InputLabel>}
 
       <GeoapifyContext className={styles.geoapifyWrapper} apiKey={API_KEY}>
         <GeoapifyGeocoderAutocomplete placeholder={placeholder}
