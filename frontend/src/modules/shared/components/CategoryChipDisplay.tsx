@@ -21,7 +21,7 @@ const CategoryList : React.FC<CategoryListProps> = ({className, deletableChip = 
             gap: "1em"
         }}>
             {categories?.map((item) => (
-            <InterestChip size={size} label={item.displayValue} deletable={deletableChip} onDelete={(label) => {
+            <InterestChip key={item.displayValue} size={size} label={item.displayValue} deletable={deletableChip} onDelete={(label) => {
                 const category = categories?.find(ct => ct.displayValue === label)
                 if(category && removeCategory){
                     removeCategory(category.id)
