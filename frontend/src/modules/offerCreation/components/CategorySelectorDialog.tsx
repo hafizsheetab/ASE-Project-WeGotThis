@@ -10,27 +10,37 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { OfferTemplateResponse } from '../Types';
 
 type DialogSelectProps = {
   initialSelected?: string[];
   onSelect?: (selected: string[]) => void;
+  addCategory: (x : number[]) => void
+    removeCategory: (x : number) => void
+    categoryIds: number[]
+    template?: OfferTemplateResponse
 };
 
 export default function DialogSelect({
                                        initialSelected = [],
                                        onSelect,
+                                       addCategory,
+                                       removeCategory,
+                                       categoryIds, template
                                      }: DialogSelectProps) {
   const [open, setOpen] = React.useState(false);
-  const [selected, setSelected] = React.useState<string[]>(initialSelected);
-
+  const [selected, setSelected] = React.useState<string[]>(initialSelected);                                  
   const handleChange = (event: SelectChangeEvent<typeof selected>) => {
     const {
       target: {value},
     } = event;
+    console.log(value)
     const newValue = typeof value === 'string' ? value.split(',') : value;
     setSelected(newValue);
   };
-
+  React.useEffect(() => {
+    
+  },[selected])
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -38,12 +48,24 @@ export default function DialogSelect({
   const handleClose = (event: React.SyntheticEvent<unknown>, reason?: string) => {
     if (reason !== 'backdropClick') {
       setOpen(false);
+      setSelected([])
       if (onSelect) {
         onSelect(selected);
       }
     }
   };
-
+  const handleCloseSave = () => {
+    const ids = new Array<number>()
+    selected.map(sl => {
+      const offerCategory = template?.offerCategories.find(oct => oct.displayValue === sl)
+      if(offerCategory){
+        ids.push(offerCategory.id)
+      }
+    })
+    addCategory(ids)
+    setSelected([])
+    setOpen(false);
+  }
   return (
       <div>
         <Button onClick={handleClickOpen}>Add more</Button>
@@ -61,18 +83,19 @@ export default function DialogSelect({
                     onChange={handleChange}
                     input={<OutlinedInput label="Category"/>}
                 >
-                  <MenuItem value="Dog">Dog</MenuItem>
-                  <MenuItem value="Walking">Walking</MenuItem>
-                  <MenuItem value="Cleaning">Cleaning</MenuItem>
-                  <MenuItem value="Shopping">Shopping</MenuItem>
-                  <MenuItem value="Development">Development</MenuItem>
+                  {template?.offerCategories.map(oct => {
+                    if(!categoryIds.find(cid => oct.id ===  cid)){
+                      return <MenuItem id={String(oct.id)} value={oct.displayValue}>{oct.displayValue}</MenuItem>
+                    }
+                  })}
+                 
                 </Select>
               </FormControl>
             </Box>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose}>Ok</Button>
+            <Button onClick={handleCloseSave}>Ok</Button>
           </DialogActions>
         </Dialog>
       </div>

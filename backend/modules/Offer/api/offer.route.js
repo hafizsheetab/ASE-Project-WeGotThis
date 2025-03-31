@@ -1,6 +1,6 @@
 
 const router=require('express').Router()
-const { ConfigureMulterStorageMultiple } = require('../../../config/uploadFile')
+const { ConfigureMulterStorageMultiple, ConfigureMulterStorage } = require('../../../config/uploadFile')
 const successMessages = require("../../../messages/successMessages")
 const PreProcessing = require("../../../middleware/Request/PreProcessing")("offer")
 const PreProcessingWithoutToken = require("../../../middleware/Request/PreProcessingWithoutToken")
@@ -138,9 +138,9 @@ router.delete("/delete/:offerId",PreProcessing, async (req, res) => {
     }
 });
 
-router.put("/upload/images/:offerId",PreProcessing, ConfigureMulterStorageMultiple(UploadValidMimeTypes.IMAGES, UploadedFileTypes.IMAGE, EntityNames.offer, "images", 5), async (req, res) => {
+router.put("/upload/images/:offerId",PreProcessing, ConfigureMulterStorage(UploadValidMimeTypes.IMAGES, UploadedFileTypes.IMAGE, EntityNames.offer, "image"), async (req, res) => {
     try{
-        const files=await uploadOfferImages(req.locale, req.userId, req.params.offerId, req.files, EntityNames.offer, UploadedFileTypes.IMAGE)
+        const files=await uploadOfferImages(req.locale, req.userId, req.params.offerId, req.file, EntityNames.offer, UploadedFileTypes.IMAGE)
         const popupMessage = successMessages()[req.locale].offer.deleteOffer
         const response = PostSuccessProcessing(popupMessage, files)
         res.status(response.statusCode).json(response)

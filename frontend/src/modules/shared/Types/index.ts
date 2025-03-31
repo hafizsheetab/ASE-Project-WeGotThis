@@ -35,3 +35,10 @@ export interface ContextData {
     color: string
 }
 
+export interface UserResponse {
+    firstName: string
+    lastName: string
+    email: string
+    expire: boolean
+    id: string
+}

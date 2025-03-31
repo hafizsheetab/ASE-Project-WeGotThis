@@ -5,17 +5,12 @@ console.log(...getIdsOfEnum(PriceModeEnum))
 const OfferValidationSchema=Joi.object({
     title:Joi.string().min(10).max(500).required(),
     description:Joi.string().min(10).max(500).required(),
-    location:Joi.object({
-        address:Joi.string().required(),
-    }),
+    location:Joi.string().required(),
     priceModeId:Joi.number().valid(...getIdsOfEnum(PriceModeEnum)).required(),
     price:Joi.number().required(),
     availability:Joi.boolean().default(true),
     typeId:Joi.string().valid(...getIdsOfEnum(OfferTypeEnum)).required(),
-    categoryIds:Joi.array().items(Joi.object({
-        id: Joi.number().valid(...getIdsOfEnum(OfferCategoryEnum)).required(),
-        subcategoryId: Joi.number().required()
-    })).required(),
+    categoryIds:Joi.array().items(Joi.number().valid(...getIdsOfEnum(OfferCategoryEnum))).required(),
     startTime: Joi.number().required(),
     endTime: Joi.number().required()
 }).options({abortEarly:false})
@@ -23,17 +18,12 @@ const OfferValidationSchema=Joi.object({
 const EditOfferValidationSchema = Joi.object({
     title:Joi.string().min(10).max(500).required(),
     description:Joi.string().min(10).max(500).required(),
-    location:Joi.object({
-        address:Joi.string().required(),
-    }),
+    location:Joi.string().required(),
     priceModeId:Joi.number().valid(...getIdsOfEnum(PriceModeEnum)).required(),
     price:Joi.number().required(),
     availability:Joi.boolean().default(true),
     typeId:Joi.string().valid(...getIdsOfEnum(OfferTypeEnum)).required(),
-    categoryIds:Joi.array().items(Joi.object({
-        id: Joi.number().valid(...getIdsOfEnum(OfferCategoryEnum)).required(),
-        subcategoryId: Joi.number().required()
-    })).required(),
+    categoryIds:Joi.array().items(Joi.number().valid(...getIdsOfEnum(OfferCategoryEnum))).required(),
     startTime: Joi.number().required(),
     endTime: Joi.number().required()
 }).options({ abortEarly: false });

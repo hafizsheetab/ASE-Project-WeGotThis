@@ -9,16 +9,8 @@ const OfferSchema = new dynamoose.Schema({
         "requests": [String],
         "title": String,
         "description": String,
-        "imageUrls": {
-            type: Array,
-            schema: [String]
-        },
-        "location": {
-            type: Object,
-            schema: {
-                address: String
-            }
-        },
+        "imageUrl": String,
+        "location": String,
         "priceModeId": {
             type: Number,
             enum: getIdsOfEnum(PriceModeEnum)
@@ -37,18 +29,11 @@ const OfferSchema = new dynamoose.Schema({
         "categoryIds": {
             type: Array,
             schema: [
-                {
-                    type: Object,
-                    schema: {
-                        id: Number,
-                        subcategoryId: Number
-                    }
-                }
+                Number
             ]
         },
-        "estimatedTime": {
-            type: Number,
-        }
+        startTime: Number,
+        endTime: Number
     },
 {
         timestamps: true

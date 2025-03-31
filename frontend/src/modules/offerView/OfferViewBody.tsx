@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import styles from '../offerCreation/components/OfferCreation.module.css'
 import {
@@ -20,44 +20,37 @@ import {
 } from "@mui/material";
 import ImageUploader from "../offerCreation/components/ImageUploader";
 import OfferForm from "../offerCreation/components/OfferForm";
+import { OfferResponseBody } from "../offerCreation/Types";
+import { getOneOffer } from "../home/services";
+import ContextStore from "../../utils/ContextStore";
+import dayjs from "dayjs";
 
 const OfferViewBody: React.FC = () => {
     const {offerId} = useParams();
-    const [offer, setOffer] = useState<any | null>(null);
+    const [offer, setOffer] = useState<OfferResponseBody | null>(null);
 
     const [negotiable, setNegotiable] = useState(false);
     const [newPrice, setNewPrice] = useState("");
     const [availability, setAvailability] = useState("");
 
 
-
+    const store = useContext(ContextStore)
     useEffect(() => {
-        setTimeout(() => {
-            setOffer({
-                id: offerId || "123",
-                title: "Offer Title",
-                radioValue: "Service Seeking",
-                location: "Zurich, 8004",
-                price: "50CHF/h",
-                negotiable: true,
-                creatorName: "UsernameClickable",
-                image: "https://picsum.photos/200/200",
-                description:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam in tincidunt risus. Donec iaculis lacus ex, sed ornare ex tristique nec. Aliquam erat volutpat. Suspendisse in mollis quam. Maecenas euismod, dui quis finibus dictum, ex felis congue tortor, at aliquet nulla ex nec velit. Proin tincidunt, nisl sed vestibulum facilisis, massa justo convallis odio, ac volutpat diam sem nec ipsum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed blandit laoreet metus, vel hendrerit urna bibendum vel.",
-                availabilities: [
-                    "Choose a time",
-                    "Mar 10, 10:00",
-                    "Mar 11, 14:00",
-                    "Mar 12, 09:00",
-                ],
-            });
-        }, 500);
+        (async () => {
+            if(offerId){
+                const response = await getOneOffer(offerId, store)
+                if("status" in response){
+                    return
+                }
+                setOffer(response)
+            }
+        })()
     }, [offerId]);
 
     useEffect(() => {
         if (offer) {
-            setNegotiable(offer.negotiable);
-            setAvailability(offer.availabilities[0]);
+            setNegotiable(offer.priceMode.id === 2);
+            setAvailability(dayjs(offer.startTime).toISOString());
         }
     }, [offer]);
 
@@ -120,8 +113,8 @@ const OfferViewBody: React.FC = () => {
                             border: "1px solid #ccc",
                             borderRadius: 2,
                             backgroundColor: "#f3f4f6",
-                            backgroundImage: offer.image
-                                ? `url(${offer.image})`
+                            backgroundImage: offer.imageUrl
+                                ? `url('${offer.imageUrl}')`
                                 : "url('https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fb707cecb19022155ef85c595c58bf811f0e8827f21cea70f32d42de1d417c80d')",
                             backgroundSize: "cover",
                             backgroundPosition: "center",
@@ -136,7 +129,7 @@ const OfferViewBody: React.FC = () => {
                                 underline="hover"
                                 sx={{ml: 0.5, cursor: "pointer"}}
                             >
-                                {offer.creatorName}
+                                {offer.owner.firstName + " " + offer.owner.lastName}
                             </Link>
                         </Typography>
                         <Button variant="outlined" onClick={handleChat}>
@@ -151,14 +144,14 @@ const OfferViewBody: React.FC = () => {
                     </Typography>
 
                     <Typography variant="body2" color="text.secondary">
-                        {offer.radioValue}
+                        {offer.description}
                     </Typography>
 
                     <Typography variant="body2">
                         <strong>Location:</strong> {offer.location}
                     </Typography>
                     <Typography variant="body2">
-                        <strong>Estimated Duration:</strong> {offer.estimatedDuration}
+                        <strong>Estimated Duration:</strong> {dayjs(offer.endTime).diff(offer.startTime)} minutes
                     </Typography>
 
                     <Typography variant="body2">
@@ -186,7 +179,7 @@ const OfferViewBody: React.FC = () => {
                         />
                     </Box>
 
-                    <FormControl size="small" sx={{maxWidth: 200}}>
+                    {/* <FormControl size="small" sx={{maxWidth: 200}}>
                         <InputLabel>Availabilities</InputLabel>
                         <Select
                             label="Availabilities"
@@ -199,7 +192,7 @@ const OfferViewBody: React.FC = () => {
                                 </MenuItem>
                             ))}
                         </Select>
-                    </FormControl>
+                    </FormControl> */}
 
                     <Box sx={{display: "flex", justifyContent: "center", mt: 2}}>
                         <Button variant="contained" color="secondary" onClick={handleSendRequest}>

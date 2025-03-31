@@ -10,6 +10,7 @@ type TextInputFieldProps = {
   footer?: boolean;
   footerTxt?: string;
   value?: string;
+  onSelect?: (location: string) => void
 };
 
 const LocationTextInputField: React.FC<TextInputFieldProps> = ({
@@ -18,11 +19,13 @@ const LocationTextInputField: React.FC<TextInputFieldProps> = ({
   footer = false,
   placeholder = "Enter address here",
   footerTxt,
+  onSelect,
                                                                  value = "",
 }) => {
   const API_KEY = "3f77cd19690242aa94338bc6405e52d7"; // Replace with your actual API key
 
   const onPlaceSelect = (value : GeoJSON.Feature) => {
+    onSelect && onSelect(value.properties?.formatted)
     console.log(value);
   }
 

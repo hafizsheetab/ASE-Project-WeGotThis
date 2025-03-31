@@ -8,11 +8,15 @@ import { InputAdornment, TextField } from "@mui/material";
 type DateTimeRangeProps = {
     initialStartTime?: Dayjs | Date;
     initialEndTime?: Dayjs | Date;
+
+    setTime: (startTime: number, endTime: number) =>  void
+
 };
 
 const DateTimeRange: React.FC<DateTimeRangeProps> = ({
                                                          initialStartTime,
                                                          initialEndTime,
+                                                        setTime
                                                      }) => {
     const [duration, setDuration] = useState(0);
     const [durationUnit, setDurationUnit] = useState<"min" | "hours" | "days">("min");
@@ -23,10 +27,11 @@ const DateTimeRange: React.FC<DateTimeRangeProps> = ({
         initialEndTime ? dayjs(initialEndTime) : dayjs('2022-04-17T15:30')
     );
 
+
     useEffect(() => {
         if (startDate && endDate) {
+            setTime(startDate.unix(), endDate.unix())
             const diffMinutes = endDate.diff(startDate, "minutes");
-
             if (diffMinutes >= 1440) { // More than 24 hours
                 setDuration(endDate.diff(startDate, "days"));
                 setDurationUnit("days");

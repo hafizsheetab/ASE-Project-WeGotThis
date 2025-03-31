@@ -1,16 +1,19 @@
 import styles from "./OfferCreation.module.css";
 import CategoryList from "../../shared/components/CategoryChipDisplay";
 import DialogSelect from "./CategorySelectorDialog";
-import { OfferTemplateResponse } from "../Types";
+import { OfferCategory, OfferTemplateResponse } from "../Types";
 
 type CategorySelectorProps = {
     initialValues?: {
         categories?: string[],
         template: OfferTemplateResponse;
     };
+    addCategory: (x : number[]) => void
+    removeCategory: (x : number) => void
+    categoryIds: number[]
 };
 
-const CategorySelector: React.FC<CategorySelectorProps> = ({initialValues}) => {
+const CategorySelector: React.FC<CategorySelectorProps> = ({initialValues, addCategory, removeCategory, categoryIds}) => {
     return (
         <section className={styles.categorySelector}>
             <div className={styles.categoryHeaderSection}>
@@ -18,9 +21,9 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({initialValues}) => {
                     <h2>Categories</h2>
                     <p>You can select up to 5 categories</p>
                 </div>
-                <DialogSelect initialSelected={initialValues?.categories}/>
+                <DialogSelect initialSelected={initialValues?.categories} addCategory={addCategory} removeCategory={removeCategory} categoryIds={categoryIds} template={initialValues?.template}/>
             </div>
-            <CategoryList className={styles.chipContainer} deletableChip={true}/>
+            <CategoryList className={styles.chipContainer} deletableChip={true} categories={initialValues?.template.offerCategories.filter(oct => categoryIds.includes(oct.id))} removeCategory={removeCategory}/>
         </section>
     );
 };

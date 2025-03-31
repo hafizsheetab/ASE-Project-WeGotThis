@@ -1,6 +1,5 @@
 import Chip from "@mui/material/Chip";
 import { styled } from "@mui/material/styles";
-import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 
 const StyledInterestChip = styled(Chip)(({ theme }) => ({
@@ -15,28 +14,31 @@ const StyledInterestChip = styled(Chip)(({ theme }) => ({
 type InterestChipProps = {
     label: string;
     deletable?: boolean;
+    onDelete?: (label: string) => void 
 };
 
-const InterestChip: React.FC<InterestChipProps> = ({ label, deletable = false }) => {
-    const [visible, setVisible] = useState(true);
+const InterestChip: React.FC<InterestChipProps> = ({ label, deletable = false, onDelete }) => {
+
     const handleDelete = () => {
-        setVisible(false);
+        if(onDelete){
+            onDelete(label)
+        }
     };
-    return visible ? (
-        <StyledInterestChip
-            color="primary"
-            variant="filled"
-            onClick={handleDelete}
-            {...(deletable && { onDelete: handleDelete })}
-            deleteIcon={<CloseIcon />}
-            label={label}
-            sx={{
-                "&:hover .MuiChip-deleteIcon": {
-                    color: "white", 
-                },
-            }}
-        />
-    ) : null;
+
+       return  <StyledInterestChip
+       color="primary"
+       variant="filled"
+       onClick={handleDelete}
+       {...(deletable && { onDelete: handleDelete })}
+       deleteIcon={<CloseIcon />}
+       label={label}
+       sx={{
+           "&:hover .MuiChip-deleteIcon": {
+               color: "white", 
+           },
+       }}
+   />
+    
 };
 
 export default InterestChip;

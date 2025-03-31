@@ -4,7 +4,7 @@ import RadioSelection from "../../shared/components/RadioSelection"
 import { DropdownField } from "../../shared/components/DropdownField"
 import LocationTextInputField from '../../shared/components/LocationTextInputField'
 import { Divider} from '@mui/material'
-import { OfferTemplateResponse } from '../Types'
+import { OfferRequestBody, OfferTemplateResponse } from '../Types'
 
 type OfferFormProps = {
     initialValues: {
@@ -15,9 +15,28 @@ type OfferFormProps = {
         priceType?: string;
         template: OfferTemplateResponse
     };
+    formData: OfferRequestBody
+    setFormData: React.Dispatch<React.SetStateAction<OfferRequestBody>>
 };
 
-const OfferForm: React.FC<OfferFormProps> = ({initialValues}) => {
+const OfferForm: React.FC<OfferFormProps> = ({initialValues, formData, setFormData}) => {
+    const onChangeRadio = (value: string) => {
+        
+            setFormData({...formData, typeId: Number(value)})
+        
+    }
+    const onChangeTitle = (value: string) => {
+        setFormData({...formData, title: value})
+    }
+    const onChangeLocation = (value: string) => {
+        setFormData({...formData, location: value})
+    }
+    const onChangePriceMode = (value: string) => {
+        const priceMode = initialValues?.template.priceModes.find(pm => pm.displayValue === value)
+        if(priceMode){
+            setFormData({...formData, priceModeId: priceMode.id})
+        }
+    }
   return (
     <form>
       <section>
@@ -31,9 +50,12 @@ const OfferForm: React.FC<OfferFormProps> = ({initialValues}) => {
    
                 
               })}
+              onChange={onChangeRadio}
           />
           <TextInputField placeholder="Title" footerTxt="Enter here your title (min. 10 characters)"
-                          value={initialValues?.title}/>
+                          value={formData.title} onChange={(e) => {
+                            onChangeTitle(e.target.value)
+                          }}/>
       </section>
 
       <Divider/>
@@ -43,6 +65,7 @@ const OfferForm: React.FC<OfferFormProps> = ({initialValues}) => {
                 inputTxt="Location"
                 placeholder="Where does the task take place?"
                 value={initialValues?.location}
+                onSelect={onChangeLocation}
             />
             <section className={styles.priceSection}>
                 <TextInputField
@@ -50,11 +73,14 @@ const OfferForm: React.FC<OfferFormProps> = ({initialValues}) => {
                     placeholder="Service cost"
                     startIcon="CHF"
                     value={initialValues?.price}
+                    onChange={(e) => {
+                        setFormData({...formData, price: Number(e.target.value)})
+                    }}
                 />
                 <DropdownField
                     labelTxt="Price Type"
                     itemsArray={initialValues.template.priceModes.map(ot => ot.displayValue)}
-                    defaultItem={initialValues.template.priceModes[0].displayValue}
+                    onChange={onChangePriceMode}
                 />
             </section>
         </section>

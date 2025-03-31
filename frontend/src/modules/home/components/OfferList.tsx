@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {Box, Typography, Pagination, Grid2} from "@mui/material";
 import OfferCard from "./OfferCard";
+import { OfferResponseBody } from "../../offerCreation/Types";
+import { getAllOffers } from "../services";
+import ContextStore from "../../../utils/ContextStore";
 
 const mockOffers = [
   {
@@ -97,12 +100,23 @@ const OfferList = () => {
   const totalResults = 634;
   const currentPage = 1;
   const totalPages = 10;
-
+  const [offers, setOffers] = useState<Array<OfferResponseBody>>([])
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
     console.log("Go to page:", page);
     // TODO: fetch or update state with new page data
   };
-
+  const store = useContext(ContextStore)
+  useEffect(() => {
+    (async () => {
+      const vOffers = await getAllOffers(store)
+      if("status" in vOffers){
+        return
+      }
+      console.log(vOffers)
+      setOffers(vOffers)
+      
+    })()  
+  },[])
   return (
       <Box sx={{maxWidth: "1200px", mx: "auto", px: 2, my: 4}}>
         <Box
@@ -114,7 +128,7 @@ const OfferList = () => {
             }}
         >
           <Typography variant="body2" color="text.secondary">
-            {`${currentPage * mockOffers.length} of ${totalResults} results`}
+            {`${currentPage * offers.length} of ${totalResults} results`}
           </Typography>
 
           <Pagination
@@ -141,9 +155,9 @@ const OfferList = () => {
         </Box>
 
         <Grid2 container spacing={3}>
-          {mockOffers.map((offer, idx) => (
+          {offers.map((offer, idx) => (
               <Grid2 size={{xs: 12, sm: 12, md: 6}} key={idx}>
-                <OfferCard {...offer} />
+                <OfferCard offer={offer} />
               </Grid2>
           ))}
         </Grid2>

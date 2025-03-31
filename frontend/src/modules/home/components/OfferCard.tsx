@@ -11,32 +11,20 @@ import {
 } from "@mui/material";
 import ActiveButton from "../../shared/components/ActiveClickButton";
 import {useNavigate} from "react-router-dom";
+import { OfferResponseBody } from "../../offerCreation/Types";
+import dayjs from "dayjs";
 
 type OfferCardProps = {
-    id: string;
-    title: string;
-    description: string;
-    category: string;
-    tags: string[];
-    availability: string;
-    price: string;
-    imageUrl: string;
+    offer: OfferResponseBody
 };
 
 const OfferCard: React.FC<OfferCardProps> = ({
-                                                 id,
-                                                 title,
-                                                 description,
-                                                 category,
-                                                 tags,
-                                                 availability,
-                                                 price,
-                                                 imageUrl,
+                                                 offer
                                              }) => {
     const navigate = useNavigate();
 
     const handleViewOffer = () => {
-        navigate(`/offer/${id}`);
+        navigate(`/offer/${offer.id}`);
     };
 
     return (
@@ -59,8 +47,8 @@ const OfferCard: React.FC<OfferCardProps> = ({
             >
                 <CardMedia
                     component="img"
-                    src={imageUrl}
-                    alt={title}
+                    src={offer.imageUrl}
+                    alt={offer.title}
                     sx={{
                         width: 180,
                         height: 180,
@@ -76,8 +64,8 @@ const OfferCard: React.FC<OfferCardProps> = ({
                 />
 
                 <Stack direction="row" spacing={1} flexWrap="wrap">
-                    {tags?.map((tag, idx) => (
-                        <Chip key={idx} label={tag} color="primary"/>
+                    {offer.categories?.map((tag, idx) => (
+                        <Chip key={idx} label={tag.displayValue} color="primary"/>
                     ))}
                 </Stack>
             </Box>
@@ -86,21 +74,21 @@ const OfferCard: React.FC<OfferCardProps> = ({
 
             <CardContent sx={{flex: 1, p: 0, "&:last-child": {paddingBottom: 0}}}>
                 <Typography variant="h5" fontWeight={700}>
-                    {title}
+                    {offer.title}
                 </Typography>
 
                 <Typography variant="subtitle1" color="text.secondary" sx={{mb: 1}}>
-                    {category}
+                    {offer.type.displayValue}
                 </Typography>
 
                 <Typography variant="body2" sx={{mb: 0.5}}>
-                    <strong>Next Availability:</strong> {availability}
+                    <strong>Next Availability:</strong> {dayjs(offer.startTime).toISOString()}
                 </Typography>
                 <Typography variant="body2" sx={{mb: 1}}>
-                    <strong>Price:</strong> {price}
+                    <strong>Price:</strong> {offer.price}
                 </Typography>
 
-                <Typography variant="body2">{description}</Typography>
+                <Typography variant="body2">{offer.description}</Typography>
             </CardContent>
         </Card>
     );

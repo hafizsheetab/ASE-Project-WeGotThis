@@ -3,11 +3,11 @@ import {Box, Typography, Stack, IconButton} from "@mui/material";
 import ActiveFileUploadButton from "../../shared/components/ActiveFileUploadButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-type ImageUploaderProps = { initialImage?: string; };
+type ImageUploaderProps = { initialImage?: string; setFile: React.Dispatch<React.SetStateAction<File | null | undefined>>};
 
 const previewImg = "https://cdn.builder.io/api/v1/image/assets/TEMP/b707cecb19022155ef85c595c58bf811f0e8827f21cea70f32d42de1d417c80d";
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({initialImage}) => {
+const ImageUploader: React.FC<ImageUploaderProps> = ({initialImage, setFile}) => {
     const [image, setImage] = useState<string | null>(initialImage || null);
     const [resetTrigger, setResetTrigger] = useState(0);
 
@@ -17,6 +17,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({initialImage}) => {
 
     const handleImageUpload = (file: File | null) => {
         if (file) {
+            setFile(file)
             const reader = new FileReader();
             reader.onload = () => setImage(reader.result as string);
             reader.readAsDataURL(file);

@@ -1,5 +1,5 @@
 const User = require("../../../Schema/User")
-const { PriceModeEnum, OfferCategoryEnum } = require("../../../Types/OfferTypeEnums")
+const { PriceModeEnum, OfferCategoryEnum, OfferTypeEnum } = require("../../../Types/OfferTypeEnums")
 const { userResponseFormat } = require("../../User/responseFormatter/userResponseFormatter")
 
 module.exports = async(offer) => {
@@ -15,8 +15,8 @@ module.exports = async(offer) => {
 
 const _formatResponse = async (offer) => {
     const priceMode = PriceModeEnum.getFromId(offer.priceModeId)
-    const type = PriceModeEnum.getFromId(offer.typeId)
-    const categories = offer.categoryIds.map(cid => OfferCategoryEnum.getFromId(cid.id, cid.subcategoryId))
+    const type = OfferTypeEnum.getFromId(offer.typeId)
+    const categories = offer.categoryIds.map(cid => OfferCategoryEnum.getFromId(cid))
     let owner = await User.get(offer.owner)
     owner = userResponseFormat(owner)
     return {
@@ -32,6 +32,6 @@ const _formatResponse = async (offer) => {
         availability: offer.availability,
         startTime: offer.startTime,
         endTime: offer.endTime,
-        imageUrls: offer.imageUrls
+        imageUrl: offer.imageUrl
     }
 }

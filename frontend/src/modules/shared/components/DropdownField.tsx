@@ -8,6 +8,7 @@ type DropdownFieldProps = {
     labelTxt?: string;
     itemsArray: string[];
     defaultItem?: string;
+    onChange?: (x: string) => void
 };
 
 export const DropdownField: React.FC<DropdownFieldProps> = ({
@@ -15,10 +16,12 @@ export const DropdownField: React.FC<DropdownFieldProps> = ({
                                                                 itemsArray,
                                                                 helperTxt,
                                                                 defaultItem,
+                                                                onChange
                                                             }) => {
     const [value, setValue] = useState(defaultItem);
 
     const handleChange = (event: SelectChangeEvent) => {
+        onChange && onChange(event.target.value)
         setValue(event.target.value);
     };
 

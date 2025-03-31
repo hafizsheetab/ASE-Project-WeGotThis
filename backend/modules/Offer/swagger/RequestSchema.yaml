@@ -10,11 +10,8 @@ components:
           type: string
           example: "I can walk your dog for 30 minutes."
         location:
-          type: object
-          properties:
-            address:
-              type: string
-              example: "New York, NY"
+          type: string
+          example: "New York, NY"     
         priceModeId:
           type: number
           example: 1
@@ -31,14 +28,8 @@ components:
         categoryIds:
           type: array
           items:
-            type: object
-            properties:
-              id: 
-                type: number
-                example: 1
-              subcategoryId: 
-                type: number
-                example: 1
+            type: number
+            example: 1
         startTime:
           type: number
           description: Estimated start timestamp
@@ -58,11 +49,8 @@ components:
           type: string
           example: "I can walk your dog for 30 minutes."
         location:
-          type: object
-          properties:
-            address:
-              type: string
-              example: "New York, NY"
+          type: string
+          example: "New York, NY"     
         priceModeId:
           type: number
           example: 1
@@ -79,14 +67,8 @@ components:
         categoryIds:
           type: array
           items:
-            type: object
-            properties: 
-              id: 
-                type: number
-                example: 1
-              subcategoryId: 
-                type: number
-                example: 1
+            type: number
+            example: 1
         startTime:
           type: number
           description: Estimated start timestamp

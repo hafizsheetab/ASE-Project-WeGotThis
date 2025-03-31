@@ -6,9 +6,10 @@ type TimeSelectionProps = {
         startTime?: Date;
         endTime?: Date;
     };
+    setTime: (x: number, y: number) => void
 };
 
-const TimeSelection: React.FC<TimeSelectionProps> = ({initialValues}) => {
+const TimeSelection: React.FC<TimeSelectionProps> = ({initialValues, setTime}) => {
     return (
         <section>
             <div className={styles.categoryHeader}>
@@ -18,6 +19,7 @@ const TimeSelection: React.FC<TimeSelectionProps> = ({initialValues}) => {
             <DateTimeRange
                 initialStartTime={initialValues?.startTime}
                 initialEndTime={initialValues?.endTime}
+                setTime={setTime}
             />
         </section>
     );
