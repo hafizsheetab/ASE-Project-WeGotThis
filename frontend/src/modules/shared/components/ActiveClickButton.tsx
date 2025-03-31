@@ -12,6 +12,7 @@ type ActiveButtonProps = {
   onClick?: (event: React.FormEvent) => void;
   disabled?: boolean;
   type?: "button" | "submit" | "reset";
+  size? : "small" | "medium" | "large";
 };
 
 const ActiveButton: React.FC<ActiveButtonProps> = ({ 
@@ -26,12 +27,13 @@ const ActiveButton: React.FC<ActiveButtonProps> = ({
   onClick, 
   disabled = false, 
   type = "button", 
+  size = "medium"
 }) => {
   return (
     <StyledButton 
       className={`${className}`} 
       style={style}
-
+      size={size}
       variant={variant} 
       color={color} 
       startIcon={startIcon} 

@@ -5,10 +5,11 @@ type CategoryListProps = {
     deletableChip? : boolean;
     className? : string;
     removeCategory? : (x: number) => void
-    categories?: Array<OfferCategory>
+    categories?: Array<OfferCategory>;
+    size?: "medium" | "small"
 }
 
-const CategoryList : React.FC<CategoryListProps> = ({className, deletableChip = false, removeCategory, categories}) => {
+const CategoryList : React.FC<CategoryListProps> = ({className, deletableChip = false, removeCategory, categories, size="medium"}) => {
 
 
 
@@ -20,7 +21,7 @@ const CategoryList : React.FC<CategoryListProps> = ({className, deletableChip = 
             gap: "1em"
         }}>
             {categories?.map((item) => (
-            <InterestChip label={item.displayValue} deletable={deletableChip} onDelete={(label) => {
+            <InterestChip size={size} label={item.displayValue} deletable={deletableChip} onDelete={(label) => {
                 const category = categories?.find(ct => ct.displayValue === label)
                 if(category && removeCategory){
                     removeCategory(category.id)
