@@ -22,8 +22,9 @@ const PaginationControlled : React.FC<PaginationControlledProps> = ({numberOfIte
 
   return (
     <Stack spacing={2} direction="row" sx={{
+        width: "100%",
         justifyContent: "space-between",
-        alignItems: "flex-end",
+        alignItems: "flex-cent",
         my: 2
       }}>
       <Typography variant='subtitle2' color='textSecondary'>{rangeStart} to {rangeEnd} out of {numberOfItems} results</Typography>

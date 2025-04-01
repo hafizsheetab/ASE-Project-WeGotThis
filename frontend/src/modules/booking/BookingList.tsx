@@ -1,5 +1,6 @@
 import React from 'react'
 import BookingCard from './BookingCard';
+import { Divider, Stack } from '@mui/material';
 
 interface Booking {
     id : string;
@@ -9,7 +10,7 @@ interface Booking {
     availability : string;
     location : string;
     originalPrice : number; 
-    currency : string;
+    priceMode : number;
     newPrice? : number;
     offerId : string;
     createdUserId : string;
@@ -22,7 +23,7 @@ type BookingListProps = {
 
 const BookingList : React.FC<BookingListProps> = ({bookingsArr}) => {
   return (
-    <section>
+    <Stack divider={<Divider orientation="horizontal" flexItem />}>
         {bookingsArr.map((booking) => 
             <BookingCard 
             key={booking.offerId}
@@ -32,11 +33,11 @@ const BookingList : React.FC<BookingListProps> = ({bookingsArr}) => {
             availability={booking.availability}
             location={booking.location}
             originalPrice={booking.originalPrice}
-            currency={booking.currency}
+            priceMode={booking.priceMode}
             newPrice={booking.newPrice}
           />
           )}
-    </section>
+    </Stack>
   )
 }
 
