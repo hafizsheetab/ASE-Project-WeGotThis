@@ -26,9 +26,10 @@ type BookingCardProps = {
   originalPrice : number; 
   priceMode : number;
   newPrice? : number;
+  bookingType : string
 }
 
-const BookingCard : React.FC<BookingCardProps> = ({title, requestedOn, type, availability, location, originalPrice, priceMode, newPrice}) => {
+const BookingCard : React.FC<BookingCardProps> = ({title, requestedOn, type, availability, location, originalPrice, priceMode, newPrice, bookingType}) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -40,11 +41,9 @@ const BookingCard : React.FC<BookingCardProps> = ({title, requestedOn, type, ava
     setAnchorEl(null);
   };
 
-  return (
-    <Card sx={{width: "100%", margin: "3em 0", backgroundColor:"inherit", border:"none"}}>
-    <CardHeader
-        action={
-            <CardActions sx={{display:"flex", justifyContent:"space-between"}}>
+  const cardActionRequested = () => {
+    return (
+    <CardActions sx={{display:"flex", justifyContent:"space-between"}}>
         <Button size="small" color="primary">
           Accept new Price
         </Button>
@@ -56,7 +55,7 @@ const BookingCard : React.FC<BookingCardProps> = ({title, requestedOn, type, ava
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}>
-      <MoreVertIcon />
+          <MoreVertIcon />
         </IconButton>
         <Menu
             id="basic-menu"
@@ -71,8 +70,89 @@ const BookingCard : React.FC<BookingCardProps> = ({title, requestedOn, type, ava
             <MenuItem onClick={handleClose}>View Offer</MenuItem>
             <MenuItem onClick={handleClose}>Withdraw</MenuItem>
         </Menu>
-      </CardActions>
-        }
+    </CardActions> )
+  }
+
+  const cardActionRejected = () => {
+    return <Typography color='error'  sx={{py: 1, px:2}}>Rejected</Typography>
+  }
+
+  const cardActionAccepted = () => {
+    return (
+      <CardActions sx={{display:"flex", justifyContent:"space-between"}}>
+          <Button size="small" color="primary">
+            {type == 'seeking' ? 'Confirm Service' : 'Confirm Payment'}
+          </Button>
+          <IconButton aria-label="settings"
+          onClick={handleClick}
+          aria-controls={open ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}>
+            <MoreVertIcon />
+          </IconButton>
+          <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+              'aria-labelledby': 'basic-button',
+              }}
+          >
+              <MenuItem onClick={handleClose}>Chat</MenuItem>
+              <MenuItem onClick={handleClose}>View Offer</MenuItem>
+          </Menu>
+      </CardActions> )
+  }
+
+  const cardActionRating = () => {
+    return (
+      <CardActions sx={{display:"flex", justifyContent:"space-between"}}>
+          <Button size="small" color="primary">
+            Give Review
+          </Button>
+          <IconButton aria-label="settings"
+          onClick={handleClick}
+          aria-controls={open ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}>
+            <MoreVertIcon />
+          </IconButton>
+          <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+              'aria-labelledby': 'basic-button',
+              }}
+          >
+              <MenuItem onClick={handleClose}>Chat</MenuItem>
+              <MenuItem onClick={handleClose}>View Offer</MenuItem>
+          </Menu>
+      </CardActions> )
+  }
+
+  const cardActionFinished = () => {
+    return <Typography color='success.dark' sx={{py: 1, px:2}}>Completed</Typography>
+  }
+
+  const selectCardAction = () => {
+    switch (bookingType) {
+      case "requested": return cardActionRequested();
+      case "rejected": return cardActionRejected();
+      case "accepted": return cardActionAccepted();
+      case "review": return cardActionRating();
+      case "completed": return cardActionFinished();
+      default: return <></>;
+    }
+  };
+  
+
+  return (
+    <Card sx={{width: "100%", margin: "2em 0", backgroundColor:"inherit", border:"none"}}>
+    <CardHeader
+        action={selectCardAction()}
         title={title}
         subheader={`Requested on: ${requestedOn}`}
       />

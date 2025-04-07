@@ -11,8 +11,8 @@ const BookingListDisplayBody = () => {
   const maxNumOfItemsOnPage = 25;
 
     const [tabSetting, setTabSetting] = useState({
-      serviceType : 0,
-      bookingType : 0
+      serviceType : "seeking",
+      bookingType : 'requested'
     });
   
     function a11yProps(index: number) {
@@ -27,18 +27,8 @@ const BookingListDisplayBody = () => {
     console.log(`Page has changed to ${page}`)
   }
 
-  const handleServiceTypeChange = (type : string) => {
-    console.log(`Service Type has changed to ${type}`)
-  }
-
-  const handleTabChange = (tabVal : string) => {
-    console.log(`Tab has changed to ${tabVal}`)
-  }
-
   return (
     <Stack className={styles.bookingContent} spacing={3}>
-      <Typography variant="h4">My Bookings:</Typography>
-
       <Paper sx={{ flexGrow: 1, display: 'flex'}}>
           <Tabs
               orientation='vertical'
@@ -46,19 +36,21 @@ const BookingListDisplayBody = () => {
               value={tabSetting.bookingType}
               onChange={(e, val) => setTabSetting({...tabSetting, bookingType: val})}
               aria-label="Vertical tabs example"
-              sx={{ borderRight: 1, borderColor: 'divider', paddingTop:"5em", ".MuiTabs-list": {
+              sx={{ borderRight: 1, borderColor: 'divider', paddingTop:"9em", ".MuiTabs-list": {
                 justifyContent: 'space-between',
                 textAlign: 'end',
                 alignItems: 'end',
                 height: '15em',
               }}}
             >
-              <Tab  value={0} label="Requested" {...a11yProps(0)}/>
-              <Tab value={1} label="Rejected" {...a11yProps(1)}/>
-              <Tab value={2} label="Accepted & Ongoing" sx={{textAlign: 'end'}}{...a11yProps(2)} />
-              <Tab value={3} label="Completed" {...a11yProps(3)}/>
+              <Tab  value={'requested'} label="Requested" {...a11yProps(0)}/>
+              <Tab value={'rejected'} label="Rejected" {...a11yProps(1)}/>
+              <Tab value={'accepted'} label="Accepted & Ongoing" sx={{textAlign: 'end'}}{...a11yProps(2)} />
+              <Tab value={'completed'} label="Completed" {...a11yProps(3)}/>
           </Tabs>
-            
+
+          <Box sx={{width: "100%", py: 2}}>
+          <h2 style={{padding: "0 0 0 1em", margin: ".5em 0 0 0 "}}>My Bookings as a:</h2>
           <Stack divider={<Divider orientation="horizontal" flexItem />} sx={{width: "100%", py: 2}}>
               <Tabs
                 orientation='horizontal'
@@ -69,15 +61,16 @@ const BookingListDisplayBody = () => {
                 aria-label="Vertical tabs example"
                 sx={{ borderRight: 1, borderColor: 'divider' }}
               >
-                <Tab value={0} label="Service Seeker"/>
-                <Tab value={1} label="Service Provider"/>
+                <Tab value={'seeking'} label="Service Seeker"/>
+                <Tab value={'providing'} label="Service Provider"/>
               </Tabs>
 
               <Box sx={{ flex: 1, overflowY: "auto", maxHeight: "calc(100vh - 10em)", px: 6, py: 4}}>  
                 <PaginationControlled numberOfItems={numberOfItems} maxItemsOnOnePage={maxNumOfItemsOnPage} onPaginationClick={handlePaginationChange}/>
-                <BookingList bookingsArr={bookingArr} />
+                <BookingList bookingsArr={bookingArr} bookingType={tabSetting.bookingType} serviceType={tabSetting.serviceType}/>
               </Box>
         </Stack>
+          </Box>
       </Paper>
 {/* 
       <div style={{margin: "3em 0 0", display:"flex", justifyContent:"space-between", alignItems:"center", flexDirection:"row"}}>
@@ -116,7 +109,8 @@ const bookingArr = [
     newPrice : 8,
     offerId : "123",
     createdUserId : "11",
-    requestedUserId : "23",},
+    requestedUserId : "23",
+    bookingType: "requested"},
   { id : "2",
     title : "Do my homework ",
     requestedOn : "12 February 2025",
@@ -126,10 +120,10 @@ const bookingArr = [
     originalPrice : 4, 
     priceMode : 1,
     newPrice : 8,
-    offerId : "123",
+    offerId : "1234",
     createdUserId : "11",
-    requestedUserId : "23",},
-  { id : "2",
+    requestedUserId : "23",bookingType: "requested"},
+  { id : "3",
     title : "I do your homework ",
     requestedOn : "12 February 2025",
     type : "providing",
@@ -138,10 +132,10 @@ const bookingArr = [
     originalPrice : 4, 
     priceMode : 2,
     newPrice : 8,
-    offerId : "123",
+    offerId : "1235",
     createdUserId : "11",
-    requestedUserId : "23",},
-    { id : "2",
+    requestedUserId : "23",bookingType: "completed"},
+    { id : "4",
       title : "I do your homework ",
       requestedOn : "12 February 2025",
       type : "providing",
@@ -150,10 +144,10 @@ const bookingArr = [
       originalPrice : 4, 
       priceMode : 2,
       newPrice : 8,
-      offerId : "123",
+      offerId : "1236",
       createdUserId : "11",
-      requestedUserId : "23",},
-      { id : "2",
+      requestedUserId : "23",bookingType: "review"},
+      { id : "5",
         title : "I do your homework ",
         requestedOn : "12 February 2025",
         type : "providing",
@@ -162,10 +156,10 @@ const bookingArr = [
         originalPrice : 4, 
         priceMode : 2,
         newPrice : 8,
-        offerId : "123",
+        offerId : "1237",
         createdUserId : "11",
-        requestedUserId : "23",},
-        { id : "2",
+        requestedUserId : "23",bookingType: "accepted"},
+        { id : "6",
           title : "I do your homework ",
           requestedOn : "12 February 2025",
           type : "providing",
@@ -174,7 +168,7 @@ const bookingArr = [
           originalPrice : 4, 
           priceMode : 2,
           newPrice : 8,
-          offerId : "123",
+          offerId : "1238",
           createdUserId : "11",
-          requestedUserId : "23",}
+          requestedUserId : "23",bookingType: "rejected"}
 ]
