@@ -16,7 +16,7 @@ import TodayIcon from '@mui/icons-material/Today';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import NearMeOutlinedIcon from '@mui/icons-material/NearMeOutlined';
 import { Stack } from '@mui/material';
-
+import {useMatch, useNavigate} from "react-router-dom";
 type BookingCardProps = {
   title : string;
   requestedOn : string;
@@ -32,6 +32,7 @@ type BookingCardProps = {
 const BookingCard : React.FC<BookingCardProps> = ({title, requestedOn, type, availability, location, originalPrice, priceMode, newPrice, bookingType}) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const navigate = useNavigate();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -45,7 +46,7 @@ const BookingCard : React.FC<BookingCardProps> = ({title, requestedOn, type, ava
     return (
     <CardActions sx={{display:"flex", justifyContent:"space-between"}}>
         <Button size="small" color="primary">
-          Accept new Price
+          Accept
         </Button>
         <Button size="small" color="primary">
           Reject
@@ -133,6 +134,32 @@ const BookingCard : React.FC<BookingCardProps> = ({title, requestedOn, type, ava
       </CardActions> )
   }
 
+  const cardActionOffer = () => {
+    return (
+      <CardActions sx={{display:"flex", justifyContent:"space-between"}}>
+          <IconButton aria-label="settings"
+          onClick={handleClick}
+          aria-controls={open ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}>
+            <MoreVertIcon />
+          </IconButton>
+          <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+              'aria-labelledby': 'basic-button',
+              }}
+          >
+              <MenuItem onClick={() => navigate(`/offer/edit`)}>Edit Offer</MenuItem>
+              <MenuItem onClick={handleClose}>View Offer</MenuItem>
+              <MenuItem onClick={handleClose}>Delete Offer</MenuItem>
+          </Menu>
+      </CardActions> )
+  }
+
   const cardActionFinished = () => {
     return <Typography color='success.dark' sx={{py: 1, px:2}}>Completed</Typography>
   }
@@ -144,13 +171,14 @@ const BookingCard : React.FC<BookingCardProps> = ({title, requestedOn, type, ava
       case "accepted": return cardActionAccepted();
       case "review": return cardActionRating();
       case "completed": return cardActionFinished();
+      case "offer": return cardActionOffer();
       default: return <></>;
     }
   };
   
 
   return (
-    <Card sx={{width: "100%", margin: "2em 0", backgroundColor:"inherit", border:"none"}}>
+    <Card sx={{ margin: "2em 0", backgroundColor:"inherit", border:"none"}}>
     <CardHeader
         action={selectCardAction()}
         title={title}

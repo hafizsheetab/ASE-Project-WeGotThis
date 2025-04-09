@@ -9,6 +9,7 @@ import PaginationControlled from "../../shared/components/PaginationControls";
 
 const OfferList = () => {
   const [offers, setOffers] = useState<Array<OfferResponseBody>>([])
+  
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
     console.log("Go to page:", page);
   };
