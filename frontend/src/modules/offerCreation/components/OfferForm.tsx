@@ -51,6 +51,8 @@ const OfferForm: React.FC<OfferFormProps> = ({initialValues, formData, setFormDa
     }
 
     const itemsArray = initialValues.template.priceModes.map(ot => ot.displayValue)
+    console.log(initialValues.radioValue)
+    console.log(formData)
 
   return (
     <form style={{flex: 1.5}} >
@@ -104,7 +106,7 @@ const OfferForm: React.FC<OfferFormProps> = ({initialValues, formData, setFormDa
                     <InputLabel>Price Type</InputLabel>
                     <Select
                         label="Price Type"
-                        value={priceTypeChoice}
+                        value={initialValues?.priceType || priceTypeChoice}
                         onChange={handlePriceTypeChange}
                     >
                         {itemsArray.map((item, idx) => (
