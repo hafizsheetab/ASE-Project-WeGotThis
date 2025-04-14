@@ -17,6 +17,7 @@ import OfferView from "../pages/offer/OfferView.tsx";
 import LayoutWithNavbarFooter from "../layouts/LayoutWithNavbarFooter.tsx";
 import MyBookingListDisplay from "../pages/booking/BookingList.tsx";
 import MyOfferListDisplay from "../pages/offer/OfferList.tsx";
+import ProfileManagement from "../pages/profile/ProfileManagement.tsx";
 
 const AppRoutes = () => {
     const { context } = useContext(ContextStore);
@@ -32,6 +33,7 @@ const AppRoutes = () => {
                         <Route path="/offer" element={<MyOfferListDisplay/>}/>
                         <Route path="/booking" element={<MyBookingListDisplay/>}/>
                         <Route path="*" element={<Navigate to="/home" replace={true}/>}/>
+                        <Route path="/profile" element={<ProfileManagement/>}/>
                     </Route>
                 </Routes>
             ) : (

@@ -1,11 +1,12 @@
 import { OfferCategory } from '../../offerCreation/Types';
+import { UserCategory } from '../../profile/Types';
 import InterestChip from './InterestChip';
 
 type CategoryListProps = {
     deletableChip? : boolean;
     className? : string;
     removeCategory? : (x: number) => void
-    categories?: Array<OfferCategory>;
+    categories?: Array<OfferCategory> | Array<UserCategory>;
     size?: "medium" | "small"
 }
 
