@@ -1,6 +1,5 @@
 import ImageUploader from './ImageUploader';
-import styles from './OfferCreation.module.css'
-import {Box, Divider} from "@mui/material";
+import {Alert, Box, Divider, Snackbar, SnackbarCloseReason, Stack} from "@mui/material";
 import OfferForm from './OfferForm';
 import CategorySelector from './CategorySelector';
 import TaskDescriptionSection from './TaskDescriptionSection';
@@ -12,9 +11,14 @@ import ContextStore from '../../../utils/ContextStore';
 import { OfferRequestBody, OfferTemplateResponse } from '../Types';
 import { showAlert } from '../../shared/services';
 import { useNavigate } from 'react-router-dom';
+import AlertToast from '../../shared/components/AlertToast';
 
 const OfferCreationBody = () => {
     const nav = useNavigate()
+    const [openAlert, setOpenAlert] = useState({
+        open: false,
+        message: ""
+    });
     const store = useContext(ContextStore)
     const [image, setImage] = useState<File | null>()
     const [formData, setFormData] = useState<OfferRequestBody>({
@@ -30,6 +34,13 @@ const OfferCreationBody = () => {
         availability: true,
 
     })
+
+    const [formError, setFormError] = useState({
+        titleError: false,
+        locationError: false,
+        descriptionError: false,
+    })
+    
     const setTime = (startTime: number, endTime: number) => {
         setFormData({...formData, startTime, endTime})
     }
@@ -60,28 +71,54 @@ const OfferCreationBody = () => {
         })()
     },[])
     return (
-        <section>
-            <div className={styles.offerCreationWrapper}>
+        <Box sx={
+            {
+                width : "90%",
+                padding: "2em 5em 3em"
+            }}> 
+            <Stack direction="row" spacing={2} sx={{
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    my: 1,
+                    gap: "5em"
+                }}useFlexGap
+               >
                 <ImageUploader setFile={setImage}/>
-                <OfferForm initialValues={{template}} formData={formData} setFormData={setFormData}/>
-            </div>
+                <OfferForm initialValues={{template}} formData={formData} setFormData={setFormData} setError={formError}/>
+            </Stack>
 
             <Divider/>
             <TimeSelection setTime = {setTime} />
             <Divider/>
             <CategorySelector initialValues={{template}} addCategory = {addCategory} removeCategory = {removeCategory} categoryIds={formData.categoryIds}/>
             <Divider/>
-            <TaskDescriptionSection value={formData.description} setValue={setDescription}/>
+            <TaskDescriptionSection maxWordsCount={150} value={formData.description} setValue={setDescription} hasError={formError.descriptionError}/>
 
             <Box sx={{display: "flex", justifyContent: "center", mb: 4}}>
-                <ActiveButton buttonTxt="Create Offer" onClick={async() => {
+                <ActiveButton style={{width: "20%"}} buttonTxt="Create Offer" type='submit' onClick={async() => {
+
+
+                    setFormError(prevError => ({
+                        ...prevError,
+                        titleError: formData.title.length <= 7,
+                        locationError: formData.location == "",
+                        descriptionError: formData.description.length <= 0,
+                    }));
+
                     if(!image){
-                        showAlert("Please Select Image", "error")
+                        setOpenAlert({...openAlert, open:true, message:"Image is missing"});
                         return
                     }
+
+                    if(Object.values(formError).includes(true)){
+                        setOpenAlert({...openAlert, open: true, message:"Form is not fully filled out"})
+                        return
+                    }
+                    
                     console.log(formData)
                     const response = await createOffer(formData, store)
                     if("status" in response){
+                        console.log(response)
                         return
                     }
                     const imageFormData = new FormData()
@@ -93,7 +130,11 @@ const OfferCreationBody = () => {
                     nav("/home")
                 }}/>
             </Box>
-        </section>
+
+            <AlertToast text={openAlert.message} open={openAlert.open} severity='error' handleClose={() => {
+                setOpenAlert({...openAlert, open:false});
+            }}/>
+        </Box>
     )
   };
 

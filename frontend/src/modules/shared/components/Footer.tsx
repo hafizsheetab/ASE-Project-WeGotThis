@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, Typography} from "@mui/material";
+import {Box, CssBaseline, Typography} from "@mui/material";
 import {Facebook, LinkedIn, Twitter, Instagram} from "@mui/icons-material";
 
 const Footer: React.FC = () => {
@@ -7,17 +7,20 @@ const Footer: React.FC = () => {
         <Box
             component="footer"
             sx={{
+                position: "static",
+                bottom: 0,
+                width: "100%",
                 color: "black",
                 backgroundColor: "#fff",
                 borderTop: "1px solid #ddd",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
-                px: 4,
-                py: 1,
+                alignItems: "center",
+                py: 2,
             }}
         >
-            <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "flex-end"}}>
+            <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "90%"}}>
                 <Box>
                     <Typography variant="h6" fontWeight={700}>
                         WeGotThis

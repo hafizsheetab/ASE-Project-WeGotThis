@@ -107,10 +107,10 @@ const Navbar: React.FC = () => {
             case "account":
                 return (
                     <>
-                        <MenuItem onClick={handleCloseMenu}>My Offers</MenuItem>
-                        <MenuItem onClick={handleCloseMenu}>My Bookings</MenuItem>
+                        <MenuItem onClick={() => navigate(`/offer`)}>My Offers</MenuItem>
+                        <MenuItem onClick={() => navigate(`/booking`)}>My Bookings</MenuItem>
                         <MenuItem onClick={handleCloseMenu}>My Account</MenuItem>
-                        <MenuItem onClick={handleCloseMenu}>My User Profile</MenuItem>
+                        <MenuItem onClick={() => navigate(`/profile`)}>My User Profile</MenuItem>
                         <MenuItem onClick={handleCloseMenu}>Logout</MenuItem>
                     </>
                 );
@@ -162,7 +162,7 @@ const Navbar: React.FC = () => {
                         > Create Offer
                     </Button>
 
-                    <Button
+                    {/* <Button
                         onClick={(e) => handleOpenMenu(e, "favorites")}
                         startIcon={<IconButton
                             sx={{
@@ -190,7 +190,7 @@ const Navbar: React.FC = () => {
                                 <ArrowDropDown />
                             </IconButton>}
                         > Favorites
-                    </Button>
+                    </Button> */}
 
                     <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                         <Badge badgeContent={4} color="error">
@@ -223,7 +223,7 @@ const Navbar: React.FC = () => {
                             >
                             <AccountCircle /> 
                         </IconButton>} 
-                        color="inherit"> Login
+                        color="inherit"> User
                     </Button>
 
                     <Divider orientation="vertical" color="white" flexItem sx={{bgcolor: "white"}}/>

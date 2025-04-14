@@ -1,5 +1,6 @@
 import React from 'react'
 import BookingCard from './BookingCard';
+import { Divider, Stack, Typography } from '@mui/material';
 
 interface Booking {
     id : string;
@@ -9,34 +10,55 @@ interface Booking {
     availability : string;
     location : string;
     originalPrice : number; 
-    currency : string;
+    priceMode : number;
     newPrice? : number;
     offerId : string;
     createdUserId : string;
     requestedUserId : string;
+    bookingType : string;
 }
 
 type BookingListProps = {
-    bookingsArr : Booking[]
+    bookingsArr : Booking[],
+    bookingType: string,
+    serviceType: string, 
 }
 
-const BookingList : React.FC<BookingListProps> = ({bookingsArr}) => {
+const BookingList : React.FC<BookingListProps> = ({bookingsArr, bookingType, serviceType}) => {
   return (
-    <section>
-        {bookingsArr.map((booking) => 
-            <BookingCard 
-            key={booking.offerId}
-            title={booking.title}
-            requestedOn={booking.requestedOn}
-            type={booking.type}
-            availability={booking.availability}
-            location={booking.location}
-            originalPrice={booking.originalPrice}
-            currency={booking.currency}
-            newPrice={booking.newPrice}
-          />
-          )}
-    </section>
+    <Stack divider={<Divider orientation="horizontal" flexItem />}>
+  {bookingsArr.filter(
+    (booking) =>
+      booking.bookingType.match(bookingType) &&
+      booking.type.match(serviceType)
+  ).length > 0 ? (
+    bookingsArr
+      .filter(
+        (booking) =>
+          booking.bookingType.match(bookingType) &&
+          booking.type.match(serviceType)
+      )
+      .map((booking) => (
+        <BookingCard
+          bookingType={booking.bookingType}
+          key={booking.offerId}
+          title={booking.title}
+          requestedOn={booking.requestedOn}
+          type={booking.type}
+          availability={booking.availability}
+          location={booking.location}
+          originalPrice={booking.originalPrice}
+          priceMode={booking.priceMode}
+          newPrice={booking.newPrice}
+        />
+      ))
+  ) : (
+    <Typography sx={{ py: 15, textAlign: "center", width: "100%" }} color="text.secondary">
+      No bookings found matching your criteria.
+    </Typography>
+  )}
+</Stack>
+
   )
 }
 

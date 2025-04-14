@@ -7,6 +7,8 @@ type DescriptionFieldProps = {
     maxWords?: number;
     value?: string;
     onChange?: (value: string) => void;
+    hasError? : boolean;
+    readonly? : boolean;
 };
 
 const DescriptionField: React.FC<DescriptionFieldProps> = ({
@@ -14,7 +16,7 @@ const DescriptionField: React.FC<DescriptionFieldProps> = ({
                                                                maxWords = -1,
                                                                placeholder,
                                                                value: initialValue = "",
-                                                               onChange,
+                                                               onChange, hasError, readonly
                                                            }) => {
     const [text, setText] = useState(initialValue);
   const [wordCount, setWordCount] = useState(0);
@@ -49,7 +51,12 @@ const DescriptionField: React.FC<DescriptionFieldProps> = ({
           placeholder={placeholder}
           value={text}
           onChange={handleTextChange}
-          error={error}
+          error={hasError || error}
+          slotProps={{
+            input: {
+              readOnly: readonly,
+            },
+          }}
           FormHelperTextProps={{sx: {textAlign: "right", marginRight: 0}}}
           helperText={
               maxWords >= 0

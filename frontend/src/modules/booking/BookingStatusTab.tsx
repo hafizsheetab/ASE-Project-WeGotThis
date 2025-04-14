@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
+import { Paper } from '@mui/material';
 
 type BookingStatusTabProps = {
   onTabChange : (value : string) => void
@@ -15,22 +15,32 @@ const BookingStatusTab : React.FC<BookingStatusTabProps> = ({onTabChange}) =>  {
     onTabChange(newValue);
   };
 
+  function a11yProps(index: number) {
+    return {
+      id: `vertical-tab-${index}`,
+      'aria-controls': `vertical-tabpanel-${index}`,
+    };
+  }
+
   return (
-    <Box sx={{ width: '100%' }}>
       <Tabs
+        orientation='vertical'
+        variant="scrollable"
         value={value}
         onChange={handleChange}
-        textColor="primary"
-        variant="fullWidth"
-        indicatorColor="primary"
-        aria-label="secondary tabs example"
+        aria-label="Vertical tabs example"
+        sx={{ borderRight: 1, borderColor: 'divider', paddingTop:"5em", ".MuiTabs-list": {
+          justifyContent: 'space-between',
+          textAlign: 'end',
+          alignItems: 'end',
+          height: '15em',
+        }}}
       >
-        <Tab value="requested" label="Requested" />
-        <Tab value="rejected" label="Rejected" />
-        <Tab value="accepted" label="Accepted & Ongoing" />
-        <Tab value="completed" label="Completed" />
+        <Tab  value="requested" label="Requested" {...a11yProps(0)}/>
+        <Tab value="rejected" label="Rejected" {...a11yProps(1)}/>
+        <Tab value="accepted" label="Accepted & Ongoing" sx={{textAlign: 'end'}}{...a11yProps(2)} />
+        <Tab value="completed" label="Completed" {...a11yProps(3)}/>
       </Tabs>
-    </Box>
   );
 }
 
