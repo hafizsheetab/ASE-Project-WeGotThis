@@ -109,7 +109,7 @@ const Navbar: React.FC = () => {
                     <>
                         <MenuItem onClick={() => navigate(`/offer`)}>My Offers</MenuItem>
                         <MenuItem onClick={() => navigate(`/booking`)}>My Bookings</MenuItem>
-                        <MenuItem onClick={handleCloseMenu}>My Account</MenuItem>
+                        <MenuItem onClick={() => navigate(`/account`)}>My Account</MenuItem>
                         <MenuItem onClick={() => navigate(`/profile`)}>My User Profile</MenuItem>
                         <MenuItem onClick={handleCloseMenu}>Logout</MenuItem>
                     </>
