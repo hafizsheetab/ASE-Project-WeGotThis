@@ -131,3 +131,33 @@
     responses:
       "200":
         description: List of offers retrieved successfully
+"/v1/offer/my/offers":
+  get:
+    security:
+      - Locale: []
+      - ApiToken: []
+    tags:
+      - Offer
+    summary: Get a list of offers created by the current user
+    responses:
+      "200":
+        description: List of offers retrieved successfully
+"/v1/offer/add/requests/{offerId}":
+  post:
+    security:
+      - Locale: []
+      - ApiToken: []
+    tags:
+      - Offer
+    summary: Add a request to an offer
+    parameters:
+      - in: path
+        name: offerId
+        required: true
+        description: ID of the offer to add a request to
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Request added to offer successfully
+

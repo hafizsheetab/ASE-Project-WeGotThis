@@ -6,6 +6,7 @@ import OfferList from './OfferList';
 import { OfferResponseBody } from '../offerCreation/Types';
 import ContextStore from '../../utils/ContextStore';
 import { getAllOffers } from '../home/services';
+import { getMyOffers } from './services';
 
 const OfferListDisplayBody = () => {
   const maxNumOfItemsOnPage = 25;
@@ -15,7 +16,7 @@ const OfferListDisplayBody = () => {
 
   useEffect(() => {
     (async () => {
-      const vOffers = await getAllOffers(store)
+      const vOffers = await getMyOffers(store)
       if("status" in vOffers){
         return
       }

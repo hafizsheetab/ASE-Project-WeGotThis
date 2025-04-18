@@ -10,7 +10,9 @@ module.exports = (entityId) => {
           resetPassword: "SUCCESS MESSAGE OF RESET PASSWORD SERVICE - EN"
         },
         user: {
-          getSelf: `SUCCESS MESSAGE OF GETTING SELF USER - EN WITH ENTITY ID ${entityId}` 
+          getSelf: `SUCCESS MESSAGE OF GETTING SELF USER - EN WITH ENTITY ID ${entityId}`,
+          changeSelf: `SUCCESS MESSAGE OF CHANGING SELF USER WITH ENTITY ID ${entityId} - EN`,
+          changePic: `SUCCESS MESSAGE OF CHANGING SELF PIC WITH ENTITY ID ${entityId} - EN`
         },
         offer:{
             createOffer: "SUCCESS MESSAGE OF CREATING OFFER SERVICE - EN",
@@ -26,7 +28,9 @@ module.exports = (entityId) => {
           register: "SUCCESS MESSAGE OF USER REGISTER SERVICE - DE"
         },
         user: {
-          getSelf: `SUCCESS MESSAGE OF GETTING SELF USER - DE WITH ENTITY ID ${entityId}` 
+          getSelf: `SUCCESS MESSAGE OF GETTING SELF USER - DE WITH ENTITY ID ${entityId}`,
+          changeSelf: `SUCCESS MESSAGE OF CHANGING SELF USER WITH ENTITY ID ${entityId} - DE`,
+          changePic: `SUCCESS MESSAGE OF CHANGING SELF PIC WITH ENTITY ID ${entityId} - DE` 
         },
         offer:{
             createOffer: "SUCCESS MESSAGE OF CREATING OFFER SERVICE - DE",

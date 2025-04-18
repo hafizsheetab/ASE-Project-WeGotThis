@@ -24,12 +24,12 @@ const establishBucket = async () => {
 
 const uploadFileToS3 = async (fileStream, key) => {
     const s3Client = connectS3()
-    const response = await s3Client.send(new PutObjectCommand({
+    await s3Client.send(new PutObjectCommand({
         Bucket: process.env.AWS_S3_BUCKET,
         Key: key,
         Body: fileStream
     }))
-    return response
+    return `http://${process.env.AWS_S3_BUCKET}.s3.localhost.localstack.cloud:4566/${key}`
 
 }
 

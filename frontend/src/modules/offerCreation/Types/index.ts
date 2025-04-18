@@ -48,4 +48,8 @@ export interface OfferResponseBody {
     startTime: number
     endTime: number
     imageUrl: string
+    requests: {
+        id: string
+        price: number
+    }[]
 }

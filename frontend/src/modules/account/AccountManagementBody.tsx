@@ -1,327 +1,463 @@
-import { Avatar, Box, Divider, FormHelperText, IconButton, InputAdornment, Stack, TextField, Typography } from '@mui/material'
+import {
+    Avatar,
+    Box,
+    Divider,
+    FormHelperText,
+    IconButton,
+    InputAdornment,
+    Stack,
+    TextField,
+    Typography,
+} from "@mui/material";
 import styles from "../home/components/Home.module.css";
-import ProfileName from '../profile/ProfileName';
-import test from '../../assets/test.png'
-import { deepOrange } from '@mui/material/colors';
-import { UserCategory } from '../profile/Types';
-import ActiveFileUploadButton from '../shared/components/ActiveFileUploadButton';
-import { useContext, useEffect, useState } from 'react';
-import TextInputField from '../shared/components/TextInputField';
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
-import PersonIcon from '@mui/icons-material/Person';
-import { Email, Person, Preview } from '@mui/icons-material';
-import CategorySelector from '../offerCreation/components/CategorySelector';
-import DialogSelect from '../offerCreation/components/CategorySelectorDialog';
-import CategoryList from '../shared/components/CategoryChipDisplay';
-import { OfferTemplateResponse } from '../offerCreation/Types';
-import { getOfferCreationTemplate } from '../offerCreation/services';
-import ContextStore from '../../utils/ContextStore';
-import LocationTextInputField from '../shared/components/LocationTextInputField';
-import KeyIcon from '@mui/icons-material/Key';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import ActiveButton from '../shared/components/ActiveClickButton';
+import ProfileName from "../profile/ProfileName";
+import test from "../../assets/test.png";
+import { deepOrange } from "@mui/material/colors";
+import { UserCategory } from "../profile/Types";
+import ActiveFileUploadButton from "../shared/components/ActiveFileUploadButton";
+import { useContext, useEffect, useState } from "react";
+import TextInputField from "../shared/components/TextInputField";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
+import PersonIcon from "@mui/icons-material/Person";
+import { Email, Person, Preview } from "@mui/icons-material";
+import CategorySelector from "../offerCreation/components/CategorySelector";
+import DialogSelect from "../offerCreation/components/CategorySelectorDialog";
+import CategoryList from "../shared/components/CategoryChipDisplay";
+import { OfferTemplateResponse } from "../offerCreation/Types";
+import { getOfferCreationTemplate } from "../offerCreation/services";
+import ContextStore from "../../utils/ContextStore";
+import LocationTextInputField from "../shared/components/LocationTextInputField";
+import KeyIcon from "@mui/icons-material/Key";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import ActiveButton from "../shared/components/ActiveClickButton";
+import { UserResponse } from "../shared/Types";
+import { changeSelf, getSelf, uploadProfilePicture } from "./services";
+import { ChangeSelfRequestBody } from "./Types";
+import { useNavigate } from "react-router-dom";
 
 interface ProfileInfoDisplayTypes {
-    firstName: string,
-    lastName: string,
-    email: string,
-    phone: string,
-    profileImg: string,
-    location : string
-    password: string,
-    registrationYear : string
-    providedService: number
-    seekedServices: number
-    categoryIds: number[]
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    profileImg: string;
+    location: string;
+    password: string;
+    registrationYear: string;
+    providedService: number;
+    seekedServices: number;
+    categoryIds: number[];
 }
 
-const userInfo : ProfileInfoDisplayTypes = {
+const userInfo: ProfileInfoDisplayTypes = {
     firstName: "Max",
     lastName: "Schmidt",
     email: "Max.schmidt@gmail.de",
     phone: "+4163217310",
     profileImg: test,
-    location : "8004 Zurich, Switzerland",
+    location: "8004 Zurich, Switzerland",
     password: "rlewrkw",
-    registrationYear : "2023",
+    registrationYear: "2023",
     providedService: 2, //get offers from user and filter to completed and type: provided
     seekedServices: 3,
-    categoryIds: [1]
-}
+    categoryIds: [1],
+};
 
 const AccountManagementBody = () => {
-    const store = useContext(ContextStore)
-    const [newUserInfo, setNewUserInfo] = useState<ProfileInfoDisplayTypes>({...userInfo})
+    const nav = useNavigate()
+    const store = useContext(ContextStore);
     const [passwords, setPasswords] = useState({
         newPassword: "",
-        newPasswordCorrect : true,
+        newPasswordCorrect: true,
         confirmPassword: "",
-        confirmPasswordCorrect : true,
+        confirmPasswordCorrect: true,
         showNewPassword: false,
         showConfirmPassword: false,
-    })
-    
-    const handleImageUpload = (file: File | null) => {
+    });
+
+    const [user, setUser] = useState<UserResponse>({
+        firstName: "",
+        lastName: "",
+        email: "",
+        expire: true,
+        id: "",
+        phoneNumber: "",
+        location: "",
+        categories: [],
+        imageUrl: "",
+    });
+    const [categoryIds, setCategoryIds] = useState<number[]>([]);
+    useEffect(() => {
+        const vcategoryIds = user.categories.map((ct) => ct.id);
+        setCategoryIds(vcategoryIds);
+    }, [user]);
+    const handleImageUpload = async (file: File | null) => {
         if (file) {
             const reader = new FileReader();
-
-            setNewUserInfo({
-                ...userInfo,
-                profileImg: reader.result as string
-            })
-
             reader.readAsDataURL(file);
+            const formData = new FormData();
+            formData.append("image", file, file.name);
+            const response = await uploadProfilePicture(formData, store);
+            console.log(response);
+            if ("status" in response) {
+                return;
+            }
+            setUser({ ...user, imageUrl: response.imageUrl });
         }
     };
 
     const [template, setTemplate] = useState<OfferTemplateResponse>({
-            priceModes: [],
-            offerCategories: [],
-            offerTypes: []
-        })
-        useEffect(() => {
-            (async () => {
-                const response  = await getOfferCreationTemplate(store)
-                if("status" in response){
-                    return
-                }
-                setTemplate(response)
-            })()
-        },[])
+        priceModes: [],
+        offerCategories: [],
+        offerTypes: [],
+    });
+    useEffect(() => {
+        (async () => {
+            const response = await getOfferCreationTemplate(store);
+            if ("status" in response) {
+                return;
+            }
+            setTemplate(response);
+            const userResponse = await getSelf(store);
+            if ("status" in userResponse) {
+                return;
+            }
+            setUser({ ...user, ...userResponse });
+        })();
+    }, []);
 
     const addCategory = (ids: number[]) => {
-        const categoryIds = structuredClone(newUserInfo.categoryIds)
-        categoryIds.push(...ids)
-        setNewUserInfo({...newUserInfo, categoryIds})
-    }
+        setCategoryIds([...categoryIds, ...ids]);
+    };
     const removeCategory = (id: number) => {
-        const categoryIds = structuredClone(newUserInfo.categoryIds)
-        setNewUserInfo({...newUserInfo, categoryIds: categoryIds.filter(vId => vId !== id)})
-    }
+        setCategoryIds(categoryIds.filter((vId) => vId !== id));
+    };
     const onChangeLocation = (value: string) => {
-        setNewUserInfo({...newUserInfo, location: value})
-    }
+        setUser({ ...user, location: value });
+    };
     const handleClickShowPassword = () =>
         setPasswords((prev) => ({
-          ...prev,
-          showNewPassword: !prev.showNewPassword,
+            ...prev,
+            showNewPassword: !prev.showNewPassword,
         }));
 
     const handleClickShowConfirmPassword = () =>
         setPasswords((prev) => ({
-          ...prev,
-          showConfirmPassword: !prev.showConfirmPassword,
+            ...prev,
+            showConfirmPassword: !prev.showConfirmPassword,
         }));
 
-    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const handleMouseDownPassword = (
+        event: React.MouseEvent<HTMLButtonElement>
+    ) => {
         event.preventDefault();
     };
 
-    const handleMouseUpPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const handleMouseUpPassword = (
+        event: React.MouseEvent<HTMLButtonElement>
+    ) => {
         event.preventDefault();
     };
-    const handleSubmit = async(event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
+        console.log("Submitting")
+        if (passwords.newPassword.length !== 0) {
+            const isLengthValid = passwords.newPassword.length >= 7;
+            const isMatch = passwords.newPassword === passwords.confirmPassword;
 
-        const isLengthValid = passwords.newPassword.length >= 7;
-        const isMatch = passwords.newPassword === passwords.confirmPassword;
-
-        if (!isLengthValid) {
-            setPasswords({
-                ...passwords,
-                newPasswordCorrect: false
-            });
-            return;
-        } else if (!isMatch){
-            setPasswords({
-                ...passwords,
-                confirmPasswordCorrect: false
-            });
+            if (!isLengthValid) {
+                setPasswords({
+                    ...passwords,
+                    newPasswordCorrect: false,
+                });
+                return;
+            } else if (!isMatch) {
+                setPasswords({
+                    ...passwords,
+                    confirmPasswordCorrect: false,
+                });
+                return;
+            }
+        }
+        const payload: ChangeSelfRequestBody = {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            phoneNumber: user.phoneNumber,
+            location: user.location,
+            expire: user.expire,
+            password: passwords.newPassword,
+            categoryIds,
+        };
+        const response = await changeSelf(payload, store);
+        if ("status" in response) {
             return;
         }
-    }
+        setUser(response);
+        store.setContext({ ...store.context, user: response });
+    };
 
-  return (
-    <form className={styles.homeContent}>
-        <Typography variant="h4">Account Information:</Typography>
+    return (
+        <form className={styles.homeContent}>
+            <Typography variant="h4">Account Information:</Typography>
 
-        <Stack direction='row' justifyContent='space-between' alignItems='center'>
-            <Stack direction="row"  alignItems='center' gap={2} sx={{flex:1}}>
-                <Avatar 
-                    sx={{ bgcolor: deepOrange,  width: 64, height: 64}}
-                    alt={newUserInfo.firstName}
-                    src={newUserInfo.profileImg}
+            <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+            >
+                <Stack
+                    direction="row"
+                    alignItems="center"
+                    gap={2}
+                    sx={{ flex: 1 }}
+                >
+                    <Avatar
+                        sx={{ bgcolor: deepOrange, width: 64, height: 64 }}
+                        alt={user.firstName}
+                        src={user.imageUrl}
                     />
 
-                <h2>{newUserInfo.firstName} {newUserInfo.lastName}</h2>
+                    <h2>
+                        {user.firstName} {user.lastName}
+                    </h2>
+                </Stack>
+                <Box sx={{ width: "20%" }}>
+                    <ActiveFileUploadButton
+                        buttonTxt="Upload Image"
+                        onFileUpload={handleImageUpload}
+                    />
+                </Box>
             </Stack>
-            <Box sx={{width: "20%"}}>
-                <ActiveFileUploadButton
-                    buttonTxt="Upload Image"
-                    onFileUpload={handleImageUpload}
-                />
-            </Box>
-        </Stack>
 
-        <Divider/>
+            <Divider />
 
-        <Typography variant='h6'>Personal Information</Typography>
+            <Typography variant="h6">Personal Information</Typography>
 
-        <Stack direction='row' justifyContent='space-between' gap={10}> 
-            <TextField label="First Name" style={{flex:1}}
-                slotProps={{
-                    input: {
-                        startAdornment: (
-                            <InputAdornment position="start">
-                            <PersonIcon />
-                            </InputAdornment>
-                        )
-                    }
-                
-                }}
-                value={newUserInfo.firstName} onChange={(e) => setNewUserInfo({...newUserInfo, firstName:e.target.value})} 
-                error={newUserInfo.firstName.trim() === ""} />
-
-            <TextField label="Last Name" style={{flex:1}}
-                slotProps={{
-                    input: {
-                        startAdornment: (
-                            <InputAdornment position="start">
-                            <PersonIcon />
-                            </InputAdornment>
-                        )
-                    }
-                
-                }}
-                value={newUserInfo.lastName} onChange={(e) => setNewUserInfo({...newUserInfo, lastName:e.target.value})} 
-                error={newUserInfo.lastName.trim() === ""} />
-        </Stack>
-
-        <Stack direction='row' justifyContent='space-between' gap={10}> 
-            <TextField label="Email Address" style={{flex:1}} type='email'
-                slotProps={{
-                    input: {
-                        startAdornment: (
-                            <InputAdornment position="start">
-                            <Email />
-                            </InputAdornment>
-                        )
-                    }
-                
-                }}
-                value={newUserInfo.email} onChange={(e) => setNewUserInfo({...newUserInfo, email:e.target.value})} 
-                error={newUserInfo.email.trim() === ""} />
-
-            <TextField label="Phone Number" style={{flex:1}} type='tel' 
-                placeholder="+41 12 123 12 12"
-                slotProps={{
-                    input: {
-                        inputProps: {
-                          pattern: "\\+\\d{1,3}(\\s\\d{1,4}){2,5}"
+            <Stack direction="row" justifyContent="space-between" gap={10}>
+                <TextField
+                    label="First Name"
+                    style={{ flex: 1 }}
+                    slotProps={{
+                        input: {
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <PersonIcon />
+                                </InputAdornment>
+                            ),
                         },
-                        startAdornment: (
-                            <InputAdornment position="start">
-                              <PhoneIphoneIcon />
-                            </InputAdornment>
-                          )
+                    }}
+                    value={user.firstName}
+                    onChange={(e) =>
+                        setUser({ ...user, firstName: e.target.value })
                     }
-                  
-                }}
-                value={newUserInfo.phone} onChange={(e) => setNewUserInfo({...newUserInfo, phone:e.target.value})} 
-                error={newUserInfo.phone.trim() === ""} />
-        </Stack>
-
-
-        <Stack direction='row' justifyContent='space-between' gap={10}> 
-            <Box sx={{flex: 1}}>
-                <LocationTextInputField
-                    inputTxt="Location"
-                    placeholder="Where does the task take place?"
-                    value={newUserInfo?.location}
-                    onSelect={onChangeLocation}
+                    error={user.firstName.trim() === ""}
                 />
-                {newUserInfo.location.trim() === "" && <FormHelperText error={newUserInfo.location.trim() === ""}>Enter a location</FormHelperText>}
-            </Box>
 
-            <Box sx={{width: 100, flex:1}}/>
-        </Stack>
-
-        <Divider/>
-        <CategorySelector initialValues={{template}} addCategory = {addCategory} removeCategory = {removeCategory} categoryIds={newUserInfo.categoryIds}/>
-        <Divider/>
-        <Typography variant='h6'>Password Management</Typography>
-
-        <Stack direction='row' justifyContent='space-between' gap={10}> 
-            <TextField label="New Password" style={{flex:1}}
-                type={passwords.showNewPassword ? 'text' : 'password'}
-                slotProps={{
-                    input: {
-                        startAdornment: (
-                            <InputAdornment position="start">
-                            <PersonIcon />
-                            </InputAdornment>
-                        ),
-                        endAdornment: (
-                            <InputAdornment position='end'>
-                                <IconButton
-                                    aria-label={
-                                        passwords.showNewPassword ? 'hide the password' : 'display the password'
-                                    }
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={handleMouseDownPassword}
-                                    onMouseUp={handleMouseUpPassword}
-                                    edge="end"
-                                    >
-                                    {passwords.showNewPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        )
+                <TextField
+                    label="Last Name"
+                    style={{ flex: 1 }}
+                    slotProps={{
+                        input: {
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <PersonIcon />
+                                </InputAdornment>
+                            ),
+                        },
+                    }}
+                    value={user.lastName}
+                    onChange={(e) =>
+                        setUser({ ...user, lastName: e.target.value })
                     }
-                
-                }}
-                value={passwords.newPassword} onChange={(e) => setPasswords({...passwords, newPassword: e.target.value, newPasswordCorrect: true})} 
-                error={!passwords.newPasswordCorrect}
-                helperText={!passwords.newPasswordCorrect? "Password must be at least 7 characters long." : ""} />
+                    error={user.lastName.trim() === ""}
+                />
+            </Stack>
 
-            <TextField label="Confirm New Password" style={{flex:1}}
-                type={passwords.showConfirmPassword ? 'text' : 'password'}
-                slotProps={{
-                    input: {
-                        startAdornment: (
-                            <InputAdornment position="start">
-                            <PersonIcon />
-                            </InputAdornment>
-                        ),
-                        endAdornment: (
-                            <InputAdornment position='end'>
-                                <IconButton
-                                    aria-label={
-                                        passwords.showConfirmPassword ? 'hide the password' : 'display the password'
-                                    }
-                                    onClick={handleClickShowConfirmPassword}
-                                    onMouseDown={handleMouseDownPassword}
-                                    onMouseUp={handleMouseUpPassword}
-                                    edge="end"
-                                    >
-                                    {passwords.showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        )
+            <Stack direction="row" justifyContent="space-between" gap={10}>
+                <TextField
+                    label="Email Address"
+                    style={{ flex: 1 }}
+                    type="email"
+                    slotProps={{
+                        input: {
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <Email />
+                                </InputAdornment>
+                            ),
+                        },
+                    }}
+                    value={user.email}
+                    onChange={(e) =>
+                        setUser({ ...user, email: e.target.value })
                     }
-                
-                }}
-                value={passwords.confirmPassword} onChange={(e) => setPasswords({...passwords, confirmPassword: e.target.value, confirmPasswordCorrect: true})} 
-                error={!passwords.confirmPasswordCorrect}
-                helperText={!passwords.confirmPasswordCorrect? "Password doesn't match." : ""} />
-        </Stack>
+                    error={user.email.trim() === ""}
+                />
 
-        <ActiveButton onClick={handleSubmit} buttonTxt='Save Changes' style={{width: "20%", margin: "1em auto" }}/>
+                <TextField
+                    label="Phone Number"
+                    style={{ flex: 1 }}
+                    type="tel"
+                    placeholder="+41 12 123 12 12"
+                    slotProps={{
+                        input: {
+                            inputProps: {
+                                pattern: "\\+\\d{1,3}(\\s\\d{1,4}){2,5}",
+                            },
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <PhoneIphoneIcon />
+                                </InputAdornment>
+                            ),
+                        },
+                    }}
+                    value={user.phoneNumber}
+                    onChange={(e) =>
+                        setUser({ ...user, phoneNumber: e.target.value })
+                    }
+                    error={user.phoneNumber.trim() === ""}
+                />
+            </Stack>
 
+            <Stack direction="row" justifyContent="space-between" gap={10}>
+                <Box sx={{ flex: 1 }}>
+                    <LocationTextInputField
+                        inputTxt="Location"
+                        placeholder="Where does the task take place?"
+                        value={user?.location}
+                        onSelect={onChangeLocation}
+                    />
+                    {user.location.trim() === "" && (
+                        <FormHelperText error={user.location.trim() === ""}>
+                            Enter a location
+                        </FormHelperText>
+                    )}
+                </Box>
 
-    </form>
-  )
-}
+                <Box sx={{ width: 100, flex: 1 }} />
+            </Stack>
 
-export default AccountManagementBody
+            <Divider />
+            <CategorySelector
+                initialValues={{ template }}
+                addCategory={addCategory}
+                removeCategory={removeCategory}
+                categoryIds={categoryIds}
+            />
+            <Divider />
+            <Typography variant="h6">Password Management</Typography>
+
+            <Stack direction="row" justifyContent="space-between" gap={10}>
+                <TextField
+                    label="New Password"
+                    style={{ flex: 1 }}
+                    type={passwords.showNewPassword ? "text" : "password"}
+                    slotProps={{
+                        input: {
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <PersonIcon />
+                                </InputAdornment>
+                            ),
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label={
+                                            passwords.showNewPassword
+                                                ? "hide the password"
+                                                : "display the password"
+                                        }
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        onMouseUp={handleMouseUpPassword}
+                                        edge="end"
+                                    >
+                                        {passwords.showNewPassword ? (
+                                            <VisibilityOff />
+                                        ) : (
+                                            <Visibility />
+                                        )}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        },
+                    }}
+                    value={passwords.newPassword}
+                    onChange={(e) =>
+                        setPasswords({
+                            ...passwords,
+                            newPassword: e.target.value,
+                            newPasswordCorrect: true,
+                        })
+                    }
+                    error={!passwords.newPasswordCorrect}
+                    helperText={
+                        !passwords.newPasswordCorrect
+                            ? "Password must be at least 7 characters long."
+                            : ""
+                    }
+                />
+
+                <TextField
+                    label="Confirm New Password"
+                    style={{ flex: 1 }}
+                    type={passwords.showConfirmPassword ? "text" : "password"}
+                    slotProps={{
+                        input: {
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <PersonIcon />
+                                </InputAdornment>
+                            ),
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label={
+                                            passwords.showConfirmPassword
+                                                ? "hide the password"
+                                                : "display the password"
+                                        }
+                                        onClick={handleClickShowConfirmPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        onMouseUp={handleMouseUpPassword}
+                                        edge="end"
+                                    >
+                                        {passwords.showConfirmPassword ? (
+                                            <VisibilityOff />
+                                        ) : (
+                                            <Visibility />
+                                        )}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        },
+                    }}
+                    value={passwords.confirmPassword}
+                    onChange={(e) =>
+                        setPasswords({
+                            ...passwords,
+                            confirmPassword: e.target.value,
+                            confirmPasswordCorrect: true,
+                        })
+                    }
+                    error={!passwords.confirmPasswordCorrect}
+                    helperText={
+                        !passwords.confirmPasswordCorrect
+                            ? "Password doesn't match."
+                            : ""
+                    }
+                />
+            </Stack>
+
+            <ActiveButton
+                onClick={handleSubmit}
+                buttonTxt="Save Changes"
+                style={{ width: "20%", margin: "1em auto" }}
+            />
+        </form>
+    );
+};
+
+export default AccountManagementBody;

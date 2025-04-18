@@ -9,21 +9,34 @@
     responses:
       "200":
         description: OK
-"/v1/user/{id}":
+"/v1/user/changePic":
+  put:
+    security:
+      - Locale: []
+      - ApiToken: []
+    tags:
+      - User
+    summary: Upload Profile Picture
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              image:
+                type: string
+                format: binary
+    responses:
+      "200":
+        description: List of offers retrieved successfully
+"/v1/user/changeSelf":
   put:
     security:
       - ApiToken: []
       - Locale: []
     tags:
       - User
-    parameters:
-      - name: id
-        in: path
-        required: true
-        description: User Id
-        schema:
-          type: string
-          example: "asdfjighoupadshoujsfbhjil"
     requestBody:
       required: true
       content:

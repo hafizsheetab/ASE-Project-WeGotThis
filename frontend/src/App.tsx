@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import AppRoutes from "./Routes/Routes";
-import { ContextData } from "./modules/shared/Types";
+import { ContextData, UserResponse } from "./modules/shared/Types";
 import ContextStore from "./utils/ContextStore";
 import { ToastContainer } from "react-toastify";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { ClipLoader } from 'react-spinners';
 import {Box} from "@mui/material";
+import { getSelf } from "./modules/account/services";
 
 const theme = createTheme({
     palette: {
@@ -59,9 +60,20 @@ function App() {
     expire: true,
     locale: "en",
     color: "#ffffff",
-    loading: false
+    loading: false,
+    user: {} as UserResponse
   })
-
+  useEffect(() => {
+    (async() => {
+      if(context.token){
+        const response = await getSelf({context, setContext})
+        if("status" in response){
+          return
+        }
+        setContext({...context, user: response})
+      }
+    })()
+  },[context.token])
   return (
     <ContextStore.Provider value={{context, setContext}}>
       <ClipLoader

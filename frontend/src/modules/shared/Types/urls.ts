@@ -10,4 +10,10 @@ export default {
     uploadOfferImage: `${baseUrl}/${preamble}/offer/upload/images/`,
     getAllOffers:`${baseUrl}/${preamble}/offer/getAll`,
     getOneOffer: `${baseUrl}/${preamble}/offer/get/`,
+    getSelf: `${baseUrl}/${preamble}/user/getSelf`,
+    changePic: `${baseUrl}/${preamble}/user/changePic`,
+    changeSelf: `${baseUrl}/${preamble}/user/changeSelf`,
+    myOffers: `${baseUrl}/${preamble}/offer/my/offers`,
+    deleteOffer: `${baseUrl}/${preamble}/offer/delete/`,
+    addRequestToOffer: `${baseUrl}/${preamble}/offer/add/requests/`
 }

@@ -11,7 +11,7 @@ type CategoryListProps = {
 }
 
 const CategoryList : React.FC<CategoryListProps> = ({className, deletableChip = false, removeCategory, categories, size="medium"}) => {
-
+    console.log(categories)
     return (
         <div className={className} style={{
             display: "flex",

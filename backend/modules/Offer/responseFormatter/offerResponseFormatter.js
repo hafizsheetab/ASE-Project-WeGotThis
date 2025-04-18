@@ -32,6 +32,7 @@ const _formatResponse = async (offer) => {
         availability: offer.availability,
         startTime: offer.startTime,
         endTime: offer.endTime,
-        imageUrl: offer.imageUrl
+        imageUrl: offer.imageUrl,
+        requests: offer.requests ? offer.requests : []
     }
 }

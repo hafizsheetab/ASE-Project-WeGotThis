@@ -19,7 +19,10 @@ module.exports = (entityId) => {
         },
         offer:{
             notFound: "OFFER NOT FOUND ERROR MESSAGE - EN",
-            notOwner: "USER IS NOT OWNER OF THE OFFER - EN"
+            notOwner: "USER IS NOT OWNER OF THE OFFER - EN",
+            owner: "USER IS OWNER OF THE OFFER - EN",
+            alreadyRequested: "USER ALREADY REQUESTED THE OFFER - EN",
+            notAvailable: "OFFER IS NOT AVAILABLE - EN"
         }
       },
       de: {
@@ -41,7 +44,10 @@ module.exports = (entityId) => {
         },
         offer:{
             notFound: "OFFER NOT FOUND ERROR MESSAGE - DE",
-            notOwner: "USER IS NOT OWNER OF THE OFFER - DE"
+            notOwner: "USER IS NOT OWNER OF THE OFFER - DE",
+            owner: "USER IS OWNER OF THE OFFER - DE",
+            alreadyRequested: "USER ALREADY REQUESTED THE OFFER - DE",
+            notAvailable: "OFFER IS NOT AVAILABLE - DE"
         }
       }
     }

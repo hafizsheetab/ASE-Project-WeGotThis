@@ -76,7 +76,7 @@ const BookingCard : React.FC<OfferCardProps>  = ({offer}) => {
             sx={{flexBasis: "30%"}}
             component="img"
             height="100"
-            image={testImg}
+            image={offer.imageUrl}
             alt="requested offer"
           />
 

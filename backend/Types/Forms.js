@@ -3,25 +3,47 @@ module.exports = {
         login: ["email", "password", "expire"],
         register: ["email", "password", "firstName", "lastName", "expire"],
         forgotPassword: ["email"],
-        resetPassword: [ "password", "expire"]
+        resetPassword: ["password", "expire"],
     },
-    user : {
-        changeSelf: ["firstName", "lastName", "expire"]
+    user: {
+        changeSelf: [
+            "firstName",
+            "lastName",
+            "expire",
+            "password",
+            "phoneNumber",
+            "location",
+            "categoryIds",
+        ],
     },
-    offer:{
+    offer: {
         createOffer: [
-            "title", "description", "location",
-            "priceModeId", "price",  "availability",
-            "typeId", "categoryIds", "startTime", "endTime"
+            "title",
+            "description",
+            "location",
+            "priceModeId",
+            "price",
+            "availability",
+            "typeId",
+            "categoryIds",
+            "startTime",
+            "endTime",
         ],
         editOffer: [
-            "title", "description", "location",
-            "priceModeId", "price",  "availability",
-            "typeId", "categoryIds", "startTime", "endTime"
+            "title",
+            "description",
+            "location",
+            "priceModeId",
+            "price",
+            "availability",
+            "typeId",
+            "categoryIds",
+            "startTime",
+            "endTime",
         ],
         getOffer: [],
         getOffers: [],
-        deleteOffer: ["offerId"]
-    }
-   
-}
+        deleteOffer: ["offerId"],
+        addRequests: ["price"],
+    },
+};

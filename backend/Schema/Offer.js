@@ -1,12 +1,18 @@
 
 const dynamoose = require("dynamoose");
 const { getIdsOfEnum } = require("../utils");
-const { PriceModeEnum } = require("../Types/OfferTypeEnums");
+const { PriceModeEnum, OfferTypeEnum } = require("../Types/OfferTypeEnums");
 
 const OfferSchema = new dynamoose.Schema({
         "id": String,
         "owner": String,
-        "requests": [String],
+        "requests": {
+            type: Array,
+            schema: {
+                id: String,
+                price: Number
+            }
+        },
         "title": String,
         "description": String,
         "imageUrl": String,
@@ -24,7 +30,7 @@ const OfferSchema = new dynamoose.Schema({
         },
         "typeId": {
             type: Number,
-            enum: getIdsOfEnum(PriceModeEnum)
+            enum: getIdsOfEnum(OfferTypeEnum)
         },
         "categoryIds": {
             type: Array,

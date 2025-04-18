@@ -14,6 +14,7 @@ type CategorySelectorProps = {
 };
 
 const CategorySelector: React.FC<CategorySelectorProps> = ({initialValues, addCategory, removeCategory, categoryIds}) => {
+    console.log(categoryIds)
     return (
         <section className={styles.categorySelector}>
             <div className={styles.categoryHeaderSection}>

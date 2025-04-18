@@ -1,4 +1,4 @@
 
 /**
  * @openapi
- * components: *   schemas: *     ChangeSelfRequest: *       type: object *       properties: *         firstName: *           type: string *           example: Hafiz *         lastName: *           type: string *           example: Sheetab *         expire: *           type: boolean *           example: true*/
+ * components: *   schemas: *     ChangeSelfRequest: *       type: object *       properties: *         firstName: *           type: string *           example: Hafiz *         lastName: *           type: string *           example: Sheetab *         expire: *           type: boolean *           example: true *         password: *           type: string *           example: asdfghjk *         phoneNumber: *           type: string *           example: +41772654787 *         location: *           type: string *           example: Zurich *         categoryIds:  *           type: array *           items: *             type: number *             example: 1*/

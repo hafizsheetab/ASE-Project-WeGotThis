@@ -1,3 +1,5 @@
+
+
 module.exports = {
     en: {
         auth: {
@@ -26,6 +28,10 @@ module.exports = {
                 firstName: "ERROR MESSAGE FOR NAME FORM ERROR - EN",
                 lastName: "ERROR MESSAGE FOR NAME FORM ERROR - EN",
                 expire: "ERROR MESSAGE FOR NAME FORM ERROR - EN",
+                password: "ERROR MESSAGE FOR PASSWORD FORM ERROR - EN",
+                phoneNumber: "ERROR MESSAGE FOR PHONE NUMBER FORM ERROR - EN",
+                location: "ERROR MESSAGE FOR LOCATION FORM ERROR - EN",
+                categorIds: "ERROR MESSAGE FOR CATEGORY IDS FORM ERROR - EN"
             },
         },
         offer: {
@@ -54,6 +60,9 @@ module.exports = {
                 categoryIds: "ERROR MESSAGE FOR CATEGORIES FORM ERROR - EN",
                 startTime: "ERROR MESSAGE FOR START TIME FORM ERROR - EN",
                 endTime: "ERROR MESSAGE FOR END TIME FORM ERROR - EN"
+            },
+            addRequests: {
+                price: "ERROR MESSAGE FOR PRICE FORM ERROR - EN",
             }
         }
     },
@@ -82,9 +91,13 @@ module.exports = {
         },
         user: {
             changeSelf: {
-                firstName: "ERROR MESSAGE FOR NAME FORM ERROR - EN",
-                lastName: "ERROR MESSAGE FOR NAME FORM ERROR - EN",
-                expire: "ERROR MESSAGE FOR NAME FORM ERROR - EN",
+                firstName: "ERROR MESSAGE FOR NAME FORM ERROR - DE",
+                lastName: "ERROR MESSAGE FOR NAME FORM ERROR - DE",
+                expire: "ERROR MESSAGE FOR NAME FORM ERROR - DE",
+                password: "ERROR MESSAGE FOR PASSWORD FORM ERROR - DE",
+                phoneNumber: "ERROR MESSAGE FOR PHONE NUMBER FORM ERROR - DE",
+                location: "ERROR MESSAGE FOR LOCATION FORM ERROR - DE",
+                categorIds: "ERROR MESSAGE FOR CATEGORY IDS FORM ERROR - DE"
             },
         },
         offer: {
@@ -110,6 +123,9 @@ module.exports = {
                 typeId: "ERROR MESSAGE FOR TYPE FORM ERROR - DE",
                 categoryIds: "ERROR MESSAGE FOR CATEGORIES FORM ERROR - DE",
                 estimatedTime: "ERROR MESSAGE FOR ESTIMATED TIME FORM ERROR - DE",
+            },
+            addRequests: {
+                price: "ERROR MESSAGE FOR PRICE FORM ERROR - DE",
             }
         },
     }

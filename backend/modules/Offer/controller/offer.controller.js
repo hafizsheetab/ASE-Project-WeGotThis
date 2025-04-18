@@ -19,6 +19,7 @@ const {
     OfferValidationSchema,
     EditOfferValidationSchema,
     OfferGetValidationSchema,
+    AddRequestToOfferValidationSchema,
 } = require("../validation");
 const {
     PriceModeEnum,
@@ -28,6 +29,7 @@ const {
 const offerResponseFormatter = require("../responseFormatter/offerResponseFormatter");
 const { uploadFileToS3 } = require("../../../config/s3");
 const createOffer = async (formData, userId, locale) => {
+    console.log(formData)
     console.log(locale);
     const id = uuidv4();
     const service = "createOffer";
@@ -100,6 +102,8 @@ const editOffer = async (offerId, formData, userId, locale) => {
     offer = await offerResponseFormatter(offer);
     const redisKey = `offer:${offerId}`;
     await setJson(redisKey, offer, { EX: 3600 });
+    const redisKeyAll = "offers:all";
+    await deleteKey(redisKeyAll);
     return offer;
 };
 
@@ -179,6 +183,83 @@ const deleteOffer = async (offerId, userId, locale) => {
     return { status: true };
 };
 
+const getMyOffers = async(userId) => {
+    let offers = await Offer.scan({ owner: { eq: userId } }).exec();
+    offers = await offerResponseFormatter(offers);
+    return offers; 
+    
+
+}
+
+const addRequests = async (formData,offerId, userId, locale) => {
+    
+    let objectToPush = {}
+    const service = "addRequests";
+    let offer = await Offer.get(offerId);
+    if (!offer) {
+        throw {
+            apiErrorCode: "offer.notFound",
+            entityName: EntityNames.offer,
+            service,
+        };
+    }
+    if(offer.owner === userId){
+        throw {
+            apiErrorCode: "offer.owner",
+            entityName: EntityNames.offer,
+            service,
+        };
+    }
+    if (offer.requests && offer.requests.includes(userId)) {
+        throw {
+            apiErrorCode: "offer.alreadyRequested",
+            entityName: EntityNames.offer,
+            service,
+        };
+    }
+    if (offer.availability === false) {
+        throw {
+            apiErrorCode: "offer.notAvailable",
+            entityName: EntityNames.offer,
+            service,
+        };
+    }
+    if(offer.priceModeId === PriceModeEnum.NEGOTIATION.id){
+        checkForUnsupportedParameters(
+            Forms.offer.addRequests,
+            formData,
+            EntityNames.offer,
+            service
+        );
+        console.log(formData)
+        formDataSchemaValidationErrorHandler(
+            AddRequestToOfferValidationSchema,
+            formData,
+            formErrorMessages[locale].offer.addRequests,
+            EntityNames.offer,
+            service
+        );
+        objectToPush = { id: userId, price: formData.price }
+        
+    }
+    else {
+        objectToPush = {id: userId, price: offer.price}
+
+    }
+    if(!offer.requests){
+        offer.requests = []
+    }
+    offer.requests.push(objectToPush)
+    await offer.save();
+    offer = await offerResponseFormatter(offer);
+    const redisKey = `offer:${offerId}`;
+    const redisKeyAll = "offers:all";
+    await deleteKey(redisKeyAll);
+    await deleteKey(redisKey);
+    await setJson(`offer:${offerId}`, offer, { EX: 3600 });
+    return offer;
+};
+
 const offerTemplate = (locale) => {
     PriceModeEnum;
     OfferTypeEnum;
@@ -215,8 +296,7 @@ const uploadOfferImages = async (
         };
     }
     const key = getS3Key(fileType, offer.id, serviceName, file.originalname);
-    const vfile = await uploadFileToS3(file.buffer, key);
-    offer.imageUrl = `http://${process.env.AWS_S3_BUCKET}.s3.localhost.localstack.cloud:4566/${key}`;
+    offer.imageUrl = await uploadFileToS3(file.buffer, key);
     await offer.save();
     offer = await offerResponseFormatter(offer);
     await setJson(`offer:${offerId}`, offer, { EX: 3600 });
@@ -230,4 +310,6 @@ module.exports = {
     deleteOffer,
     offerTemplate,
     uploadOfferImages,
+    getMyOffers,
+    addRequests
 };

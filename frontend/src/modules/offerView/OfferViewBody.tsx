@@ -30,6 +30,8 @@ import dayjs from "dayjs";
 import ActiveButton from "../shared/components/ActiveClickButton";
 import CategoryList from "../shared/components/CategoryChipDisplay";
 import TaskDescriptionSection from "../offerCreation/components/TaskDescriptionSection";
+import { AddRequestToOfferRequestBody } from "./Types";
+import { addRequestToOffer } from "./services";
 
 const OfferViewBody: React.FC = () => {
     const {offerId} = useParams();
@@ -39,7 +41,27 @@ const OfferViewBody: React.FC = () => {
     const [negotiable, setNegotiable] = useState(false);
     const [newPrice, setNewPrice] = useState("");
 
-
+    const [sendRequest, setSendRequest] = useState({
+        disabled: false,
+        text: "Send Request"
+    })
+    const [owner, setOwner] = useState(false)
+    useEffect(() => {
+        if(offer){
+            if(offer.requests.find(r => r.id === store.context.user.id)){
+                setSendRequest({
+                    disabled: true,
+                    text: "Request already sent"
+                })
+            }else{
+                setSendRequest({
+                    disabled: false,
+                    text: "Send Request"
+                })
+            }
+            setOwner(offer.owner.id === store.context.user.id)
+        }
+    },[offer])
     const store = useContext(ContextStore)
 
     const formatDuration = (startTime: number, endTime: number) => {
@@ -74,13 +96,17 @@ const OfferViewBody: React.FC = () => {
         console.log("Chat clicked clicked"); //todo
     };
 
-    const handleSendRequest = () => {
-        console.log("Send Request with data:", {
-            newPrice,
-            negotiable,
-        });
+    const handleSendRequest = async() => {
+        const payload = {} as AddRequestToOfferRequestBody
+        payload.price = newPrice ? Number(newPrice) : offer.price
+        const response = await addRequestToOffer(offer.id, payload, store)
+        console.log(response)
+        if("status" in response){
+            return
+        }
+        setOffer(response)
+        
     };
-
     return (
         <Box sx={{ width : "90%", padding: "2em 5em 3em" }}>
 
@@ -116,7 +142,7 @@ const OfferViewBody: React.FC = () => {
                                     underline="hover"
                                     sx={{cursor: "pointer"}}
                                 >
-                                    {offer.owner.firstName + " " + offer.owner.lastName}
+                                    { owner ? "You" : offer.owner.firstName + " " + offer.owner.lastName}
                                 </Link>
                             </Stack>
                         </Stack>
@@ -172,13 +198,14 @@ const OfferViewBody: React.FC = () => {
                             disabled={!negotiable}
                             label="New Price"
                             size="small"
+                            type="number"
                             value={newPrice}
                             onChange={(e) => setNewPrice(e.target.value)}
                             placeholder="Enter a new price"
                         />
                     </Box>
 
-                    <ActiveButton buttonTxt="Send Request" onClick={handleSendRequest} style={{width: "40%", margin:"2.5em auto"}}/>
+                    {!owner&& <ActiveButton disabled={sendRequest.disabled} buttonTxt={sendRequest.text} onClick={handleSendRequest} style={{width: "40%", margin:"2.5em auto"}}/>}
                 </Stack>
             </Stack>
 

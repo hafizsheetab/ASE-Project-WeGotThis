@@ -1,4 +1,5 @@
 import React from "react"
+import { OfferCategory } from "../../offerCreation/Types"
 
 export interface ResponseBody<T>{
     status: true
@@ -33,6 +34,7 @@ export interface ContextData {
     locale: "en" | "de"
     loading: boolean
     color: string
+    user: UserResponse
 }
 
 export interface UserResponse {
@@ -41,4 +43,8 @@ export interface UserResponse {
     email: string
     expire: boolean
     id: string
+    phoneNumber: string
+    location: string
+    categories: Array<OfferCategory>
+    imageUrl: string
 }
