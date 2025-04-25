@@ -4,11 +4,12 @@ import {Facebook, LinkedIn, Twitter, Instagram} from "@mui/icons-material";
 
 const Footer: React.FC = () => {
     return (
-        <Box
+        <Box  sx={{display: "flex", flexDirection: "column", position:"relative", height:"100%"}}>
+            <Box
             component="footer"
             sx={{
-                position: "static",
-                bottom: 0,
+                position:"absolute",
+                top: 0,
                 width: "100%",
                 color: "black",
                 backgroundColor: "#fff",
@@ -47,6 +48,8 @@ const Footer: React.FC = () => {
                 </Box>
             </Box>
         </Box>
+        </Box>
+        
     );
 };
 

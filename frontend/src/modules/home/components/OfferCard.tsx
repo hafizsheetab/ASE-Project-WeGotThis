@@ -6,8 +6,6 @@ import {
     Typography,
     Box,
     Stack,
-    Chip,
-    Divider,
 } from "@mui/material";
 import ActiveButton from "../../shared/components/ActiveClickButton";
 import {useNavigate} from "react-router-dom";
