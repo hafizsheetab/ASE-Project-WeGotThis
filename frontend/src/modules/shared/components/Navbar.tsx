@@ -65,26 +65,15 @@ const Navbar: React.FC = () => {
           open={isMobileMenuOpen}
           onClose={handleMobileMenuClose}
         >
-          <MenuItem>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <p>Messages</p>
-          </MenuItem>
-          <MenuItem>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <p>Notifications</p>
-          </MenuItem>
+          <MenuItem onClick={() => navigate("/offer/create")}>
+            Create Offer
+        </MenuItem>
+          <MenuItem onClick={() => navigate(`/offer`)}>My Offers</MenuItem>
+        <MenuItem onClick={() => navigate(`/booking`)}>My Bookings</MenuItem>
+        <MenuItem onClick={() => navigate(`/account`)}>My Account</MenuItem>
+        <MenuItem onClick={() => navigate(`/profile`)}>My User Profile</MenuItem>
+        <MenuItem onClick={handleCloseMenu}>Logout</MenuItem>
+        
         </Menu>
       );
 
@@ -192,7 +181,7 @@ const Navbar: React.FC = () => {
                         > Favorites
                     </Button> */}
 
-                    <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                    {/* <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                         <Badge badgeContent={4} color="error">
                             <MailIcon />
                         </Badge>
@@ -207,7 +196,7 @@ const Navbar: React.FC = () => {
                         <Badge badgeContent={17} color="error">
                             <NotificationsIcon />
                         </Badge>
-                    </IconButton>
+                    </IconButton> */}
 
                     <Button
                         onClick={(e) => handleOpenMenu(e, "account")}

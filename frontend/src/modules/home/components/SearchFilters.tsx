@@ -1,10 +1,7 @@
-import {Autocomplete, Box, Grid2, IconButton, Paper, Stack, TextField} from "@mui/material";
-import DropdownField from "../../shared/components/DropdownField";
-import styles from "./Home.module.css";
+import {Box, Grid2} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import { useState } from "react";
 import Searchbar from "./Searchbar";
-import DefaultDropdownField from "../../shared/components/DefaultDropdownField";
 import CheckmarkDropdown from "../../shared/components/CheckmarkDropdown";
 
 const SearchInput = styled("input")(() => ({
@@ -27,7 +24,7 @@ const SearchFilters = () => {
       };
 
     return (
-        <Box className={styles.searchFiltersWrapper}>
+        <Box>
             <Searchbar onNewSearch={handleSearch}/>
 
             <Grid2 sx={{marginTop: "2em"}} container>
