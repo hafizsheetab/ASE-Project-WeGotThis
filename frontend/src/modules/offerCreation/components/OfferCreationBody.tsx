@@ -74,7 +74,7 @@ const OfferCreationBody = () => {
         <Box sx={
             {
                 width : "90%",
-                padding: "2em 5em 3em"
+                padding: {xs: "2em 2em 3em", smd: "2em 5em 3em"}
             }}> 
             <Stack direction={{ xs: "column", md: "row" }} spacing={2} sx={{
                     justifyContent: "space-between",
