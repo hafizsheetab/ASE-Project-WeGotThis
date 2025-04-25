@@ -4,7 +4,7 @@ import TextInputField from "../../shared/components/TextInputField";
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import { RegisterFormBody, TokenResponse } from "../Types";
 import ActiveButton from "../../shared/components/ActiveClickButton";
-import { Checkbox, FormControlLabel, IconButton, InputAdornment, Link, Typography } from "@mui/material";
+import { Checkbox, FormControlLabel, IconButton, InputAdornment, Link, Stack, Typography } from "@mui/material";
 import { checkForError } from "../../shared/services";
 import { useNavigate } from "react-router-dom";
 import ContextStore from "../../../utils/ContextStore";
@@ -54,7 +54,7 @@ const RegisterTextInputs = () => {
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
 
-        <div style={{display: 'flex', gap: '1em'}}>
+        <Stack direction={{xs: 'column', smd:'row'}} gap={{xs: 0, smd:2}} >
             <TextInputField 
             placeholder='Enter your first name' 
             labelTxt="First Name:"
@@ -71,7 +71,7 @@ const RegisterTextInputs = () => {
             value={registerForm.lastName}
             onChange={(e) => setRegisterForm({...registerForm, lastName: e.target.value})}
             />
-        </div>
+        </Stack>
 
         <TextInputField 
             placeholder="Enter your email" 

@@ -24,3 +24,10 @@
     width: 90vw;
   }
 }
+
+@media (max-width: 700px){
+  .authenticationContainer {
+    width: 90vw;
+    margin: 2rem auto;
+  }
+}

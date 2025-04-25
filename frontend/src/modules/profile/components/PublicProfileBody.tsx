@@ -1,8 +1,8 @@
 import { Box, Divider, Stack, Tabs, Tab } from '@mui/material'
-import styles from "../account/components/AccountManagement.module.css";
+import styles from "../../account/components/AccountManagement.module.css";
 import { useState } from 'react';
 import ProfileInfoDisplay from './ProfileInfoDisplay';
-import test from '../../assets/test.png'
+import test from '../../../assets/test.png'
 import ReviewsList from './ReviewsList';
 import { ProfileInfoDisplayTypes, Reviews, UserCategory } from '../Types';
 import OfferDisplay from './OfferDisplay';

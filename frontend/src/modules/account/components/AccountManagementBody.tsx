@@ -10,7 +10,7 @@ import {
     Typography,
 } from "@mui/material";
 import styles from "./AccountManagement.module.css";
-import test from "../../assets/test.png";
+import test from "../../../assets/test.png";
 import { deepOrange } from "@mui/material/colors";
 import ActiveFileUploadButton from "../../shared/components/ActiveFileUploadButton";
 import { useContext, useEffect, useState } from "react";
