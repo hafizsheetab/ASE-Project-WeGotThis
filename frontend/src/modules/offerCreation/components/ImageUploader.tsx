@@ -30,12 +30,13 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({initialImage, setFile}) =>
     };
 
     return (
-        <Stack spacing={2} style={{flex: 1}}>
+        <Stack spacing={2} style={{flex: 1, width: "100%"}}>
             <Box
                 sx={{
                     height: 240,
                     backgroundImage: `url(${image || previewImg})`,
-                    backgroundSize: "cover",
+                    backgroundSize: image ? 'contain' : 'cover',
+                    backgroundRepeat: 'no-repeat',
                     backgroundPosition: "center",
                     borderRadius: 2,
                     border: "1px solid #e0e0e0",

@@ -1,7 +1,7 @@
 import styles from "./OfferCreation.module.css"
 import { useEffect, useMemo, useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
-import { FormHelperText, InputAdornment, TextField } from "@mui/material";
+import { FormHelperText, InputAdornment, Stack, TextField, Typography } from "@mui/material";
 import { DateTimePicker, DateTimeValidationError, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
@@ -75,30 +75,33 @@ const DateTimeRange: React.FC<DateTimeRangeProps> = ({
 
     return (
         <>
-            <div className={styles.timeSelectionWrapper}>
+            <Stack direction={{xs: 'column', md:'row'}} gap={2} alignItems='start'>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DateTimePicker
-                        label="Start Date"
-                        defaultValue={today.startOf('minute').subtract(today.minute() % 5, 'minute')}
-                        disablePast
-                        views={['year', 'month', 'day', 'hours', 'minutes']}
-                        onChange={(newValue) => setStartDate(newValue? newValue : today)}
-                    />
-                    <p>-</p>
-                    <DateTimePicker
-                        label="End Date"
-                        defaultValue={today.startOf('minute').subtract(today.minute() % 5, 'minute')}
-                        disablePast
-                        minDate={startDate}
-                        views={['year', 'month', 'day', 'hours', 'minutes']}
-                        onChange={(newValue) => setEndDate(newValue)}
-                        onError={(error) => setError(error)}
-                    />
+                    <Stack direction={{xs:'column', smd: 'row'}} gap={2}>
+                        <DateTimePicker
+                            label="Start Date"
+                            defaultValue={today.startOf('minute').subtract(today.minute() % 5, 'minute')}
+                            disablePast
+                            views={['year', 'month', 'day', 'hours', 'minutes']}
+                            onChange={(newValue) => setStartDate(newValue? newValue : today)}
+                        />
+
+                        <Typography sx={{textAlign: 'center', margin: 'auto', display: {xs:'none', smd: 'block'}}}>-</Typography>
+                        <DateTimePicker
+                            label="End Date"
+                            defaultValue={today.startOf('minute').subtract(today.minute() % 5, 'minute')}
+                            disablePast
+                            minDate={startDate}
+                            views={['year', 'month', 'day', 'hours', 'minutes']}
+                            onChange={(newValue) => setEndDate(newValue)}
+                            onError={(error) => setError(error)}
+                        />
+                    </Stack>
                     <TextField
                         label="Duration"
                         value={String(duration)}
                         variant="outlined"
-                        className={styles.durationInput}
+                        style={{width: "100px"}}
                         slotProps={{
                             input: {
                                 endAdornment: <InputAdornment position="end">{durationUnit}</InputAdornment>,
@@ -107,7 +110,7 @@ const DateTimeRange: React.FC<DateTimeRangeProps> = ({
                         }}
                     />
                 </LocalizationProvider>
-            </div>
+            </Stack>
             <FormHelperText style={{marginBottom: "1.5em"}} error>{errorMessage}</FormHelperText>
         </>
         
