@@ -11,10 +11,6 @@ const StyledButton = styled(Button)(({ theme }) => ({
   [theme.breakpoints.down('smd')]: {
     width: '100%',
   },
-
-  [theme.breakpoints.up('smd')]: {
-    width: '30%', 
-  },
 }));
 
 
