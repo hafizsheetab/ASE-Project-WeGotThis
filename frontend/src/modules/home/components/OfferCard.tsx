@@ -44,7 +44,7 @@ const OfferCard: React.FC<OfferCardProps> = ({
             }}
         >
            
-            <Stack direction="row" spacing={3}>
+            <Stack direction="row" spacing={3} sx={{width: "100%"}}>
                 <Stack spacing={2} style={{flex: 0.8}}>
                     <CardMedia
                         component="img"
