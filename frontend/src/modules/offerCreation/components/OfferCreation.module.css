@@ -59,22 +59,7 @@
 
 .priceSection div{
 margin-top: 0; 
-}
-
-
-.timeSelectionWrapper{
-    display: flex;
-    gap: 2em;
-    align-items: center;
-}
-
-
-.durationInput {
-    width:100px;
-    margin: 0;
-    padding-top: 8px !important;
-}
-  
+} 
 
 .categorySelector {
     width: 100%;

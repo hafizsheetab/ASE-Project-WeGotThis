@@ -1,6 +1,6 @@
 import { Avatar, Card, Rating, Stack, Typography } from '@mui/material'
 import { deepOrange } from '@mui/material/colors'
-import { Reviews } from './Types'
+import { Reviews } from '../Types'
 
 type Props = {
     review: Reviews,

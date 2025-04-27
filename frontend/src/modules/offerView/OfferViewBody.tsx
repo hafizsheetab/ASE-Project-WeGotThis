@@ -110,19 +110,22 @@ const OfferViewBody: React.FC = () => {
     return (
         <Box sx={{ width : "90%", padding: "2em 5em 3em" }}>
 
-            <Stack direction="row" spacing={2} sx={{
+            <Stack direction={{xs: 'column', md: 'row'}} spacing={2} sx={{
                     justifyContent: "space-between",
                     alignItems: "center",
                     my: 1,
                     gap: "5em"
                 }}useFlexGap >
 
-                <Stack spacing={2} style={{flex: 1, alignSelf:"start", marginTop:"1em"}}>
+                <Stack spacing={2} 
+                    sx={{width: "100%"}}
+                    style={{flex: 1, alignSelf:"start", marginTop:"1em"}}>
                     <Box
                         sx={{
                             height: 240,
                             backgroundImage: `url('${offer.imageUrl}')`,
-                            backgroundSize: "cover",
+                            backgroundSize: "contain",
+                            backgroundRepeat: "no-repeat",
                             backgroundPosition: "center",
                             borderRadius: 2,
                             border: "1px solid #e0e0e0",
@@ -133,7 +136,7 @@ const OfferViewBody: React.FC = () => {
                         }}
                     />
 
-                    <Stack style={{marginTop: "1em"}} direction="row" justifyContent="space-between" alignItems="center">
+                    <Stack style={{marginTop: "1em"}} gap={2} direction="row" justifyContent="space-between" alignItems="center">
                         <Stack direction="row" spacing={1}>
                             <Avatar sx={{bgcolor:theme.palette.primary.main}}>U</Avatar>
                             <Stack>
@@ -166,9 +169,6 @@ const OfferViewBody: React.FC = () => {
                         </Typography>
                         <Typography variant="body1">
                             <strong>Estimated Duration:</strong> {formatDuration(offer.startTime, offer.endTime)}
-                        </Typography>
-                        <Typography variant="body1">
-                            <strong>Price:</strong> {offer.price} CHF
                         </Typography>
                     </Box>
                     <CategoryList categories={offer.categories} />

@@ -37,7 +37,7 @@ const CheckmarkDropdown : React.FC<CheckmarkDropdownProps> = ({itemArray, label}
 
   return (
     <div>
-      <FormControl  sx={{ m: 1, maxWidth: {sm: "120px", md: "200px"}, minWidth: {sm: "120px", md: "200px"}}}>
+      <FormControl  sx={{ m: 1, maxWidth: {xs: "175px", md: "200px"}, minWidth: {xs: "175px", md:"200px"}}}>
         <InputLabel id={`select-label-${label}`} sx={{color: "#000"}}>{label}</InputLabel>
         <Select
           labelId={`select-label-${label}`}

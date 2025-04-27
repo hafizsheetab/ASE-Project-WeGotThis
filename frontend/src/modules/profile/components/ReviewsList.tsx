@@ -1,6 +1,6 @@
 import { Box, Checkbox, IconButton, Menu, MenuItem, MenuList, Pagination, Rating, Stack, Typography } from "@mui/material"
 import { useState } from "react";
-import { Reviews } from "./Types";
+import { Reviews } from "../Types";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import ReviewCards from "./ReviewCards";
 

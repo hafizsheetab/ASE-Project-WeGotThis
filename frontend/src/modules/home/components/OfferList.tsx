@@ -31,7 +31,7 @@ const OfferList = () => {
   }
 
   return (
-      <Box sx={{maxWidth: "1200px", mx: "auto"}}>
+      <Box sx={{maxWidth: "1200px"}}>
         <PaginationControlled onPaginationClick={handlePaginationChange} numberOfItems={offers.length} maxItemsOnOnePage={25}/>
         <Grid2 container spacing={3}>
           {offers.map((offer, idx) => (
