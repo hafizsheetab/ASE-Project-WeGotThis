@@ -5,57 +5,26 @@ import { ContextData, UserResponse } from "./modules/shared/Types";
 import ContextStore from "./utils/ContextStore";
 import { ToastContainer } from "react-toastify";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { ClipLoader } from 'react-spinners';
-import {Box} from "@mui/material";
+import { Box, LinearProgress } from "@mui/material"; // 🛠 Import LinearProgress
 import { getSelf } from "./modules/account/services";
 
 const theme = createTheme({
-    palette: {
-        primary: {
-            main: "#6B63EB",
-            contrastText: "#fff"
-        },
-        secondary: {
-            main: "#f97316",
-            light: "#fa921a",
-            contrastText: "#fff"
-        },
-        success: {
-            main: "#CFF7D3",
-            contrastText: "#02542D"
-        },
-        text: {
-            primary: "#1f2937",
-            secondary: "#6b7280"
-        },
-        background: {
-            default: "#ffffff",
-            paper: "#f9fafb",
-        },
-        error: {
-            main: "#B00020"
-        }
-    },
-    typography: {
-        fontFamily: "'Inter', sans-serif",
-        button: {
-            textTransform: "none",
-            fontWeight: 600
-        }
-    },
-    shape: {
-        borderRadius: 8
-    },
-    breakpoints: {
-      values: {
-        xs: 0,
-        sm: 600,
-        smd: 700, 
-        md: 900,
-        lg: 1200,
-        xl: 1536,
-      }
-    }
+  palette: {
+    primary: { main: "#6B63EB", contrastText: "#fff" },
+    secondary: { main: "#f97316", light: "#fa921a", contrastText: "#fff" },
+    success: { main: "#CFF7D3", contrastText: "#02542D" },
+    text: { primary: "#1f2937", secondary: "#6b7280" },
+    background: { default: "#ffffff", paper: "#f9fafb" },
+    error: { main: "#B00020" }
+  },
+  typography: {
+    fontFamily: "'Inter', sans-serif",
+    button: { textTransform: "none", fontWeight: 600 }
+  },
+  shape: { borderRadius: 8 },
+  breakpoints: {
+    values: { xs: 0, sm: 600, smd: 700, md: 900, lg: 1200, xl: 1536 }
+  }
 });
 
 declare module '@mui/material/styles' {
@@ -69,13 +38,8 @@ declare module '@mui/material/styles' {
   }
 }
 
-const override= {
-  display: "block",
-  margin: "0 auto",
-  borderColor: "red",
-};
 function App() {
-  const [update, setUpdate] = useState(0)
+  const [update, setUpdate] = useState(0);
   const [context, setContext] = useState<ContextData>({
     token: "",
     expire: true,
@@ -85,40 +49,40 @@ function App() {
     user: {} as UserResponse,
     update,
     setUpdate
-  })
+  });
+
   useEffect(() => {
-    (async() => {
-      if(context.token){
-        const response = await getSelf({context, setContext})
-        if("status" in response){
-          return
+    (async () => {
+      if (context.token) {
+        const response = await getSelf({ context, setContext });
+        if ("status" in response) {
+          return;
         }
-        setContext({...context, user: response})
+        setContext({ ...context, user: response });
       }
-    })()
-  },[context.token])
+    })();
+  }, [context.token]);
+
   return (
-    <ContextStore.Provider value={{context, setContext}}>
-      <ClipLoader
-        color={context.color}
-        loading={context.loading}
-        cssOverride={override}
-        size={150}
-        aria-label="Loading Spinner"
-        data-testid="loader"
-      />
+    <ContextStore.Provider value={{ context, setContext }}>
+      {context.loading && (
+        <Box sx={{ position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 2000 }}>
+          <LinearProgress color="secondary" />
+        </Box>
+      )}
+
       <ThemeProvider theme={theme}>
-          <Box
-              sx={{
-                  height:"100%",
-                  width: "100vw",
-                  mx: "auto",
-                  px: 0,
-              }}
-          >
-        <AppRoutes />
-          </Box>
-    <ToastContainer />
+        <Box
+          sx={{
+            height: "100%",
+            width: "100vw",
+            mx: "auto",
+            px: 0,
+          }}
+        >
+          <AppRoutes />
+        </Box>
+        <ToastContainer />
       </ThemeProvider>
     </ContextStore.Provider>
   );

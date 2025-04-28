@@ -5,12 +5,13 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import ActiveButton from "../../shared/components/ActiveClickButton";
-import { IconButton, InputAdornment } from "@mui/material";
+import { Alert, AlertTitle, FormHelperText, IconButton, InputAdornment, Snackbar } from "@mui/material";
 import { checkForError } from "../../shared/services";
 import ContextStore from "../../../utils/ContextStore";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { LoginFormBody, TokenResponse } from "../Types";
 import { login } from "../services";
+import AlertToast from "../../shared/components/AlertToast";
 
 const LoginTextInputs = () => {
     const navigate = useNavigate(); // Initialize navigate function
@@ -20,12 +21,18 @@ const LoginTextInputs = () => {
         password: "",
         isPasswordVisible: false
     });
+    const [loginError, setLoginError] = useState<string | null>(null);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+
 
     const handleLogin = async(e: React.FormEvent) => {
         e.preventDefault();
         console.log("Logging in with", loginForm);
+        setLoginError(null);
         let response = await login({email: loginForm.email, password: loginForm.password, expire: true}, store)
         if(checkForError(response)){
+            setLoginError("Incorrect email or password. Please try again."); 
+            setOpenSnackbar(true); 
             return
         }
         response = response as TokenResponse
@@ -116,6 +123,9 @@ const LoginTextInputs = () => {
             style={{ width: "100%", padding: ".75em 0", marginTop: "2em" }}
         />
 
+        <AlertToast text={loginError} open={openSnackbar} severity='error' handleClose={() => {
+                setOpenSnackbar(false)
+            }}/>
 
       </form>
   )

@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react";
-import { TextField } from "@mui/material";
+import { Box, FormHelperText, Stack, TextField } from "@mui/material";
 
 type DescriptionFieldProps = {
   placeholder?: string;
@@ -18,9 +18,9 @@ const DescriptionField: React.FC<DescriptionFieldProps> = ({
                                                                value: initialValue = "",
                                                                onChange, hasError, readonly
                                                            }) => {
-    const [text, setText] = useState(initialValue);
+  const [text, setText] = useState(initialValue);
   const [wordCount, setWordCount] = useState(0);
-  const [error, setError] = useState(false);
+  const [errorMessage, setError] = useState(false);
 
     useEffect(() => {
         setText(initialValue);
@@ -30,17 +30,18 @@ const DescriptionField: React.FC<DescriptionFieldProps> = ({
       const newText = event.target.value;
       const words = newText.trim().split(/\s+/).filter(Boolean);
 
-    if (maxWords >= 0 && words.length <= maxWords) {
-        setText(newText);
+      setError(false)
+      setText(newText);
       setWordCount(words.length);
-      setError(false);
-        if (onChange) onChange(newText);
-    } else if (maxWords >= 0) {
-      setError(true);
-    }
+      if (onChange) onChange(newText);
+
+      if(words.length > maxWords){
+        setError(true)
+      } 
   };
 
   return (
+    <Box>
       <TextField
           id="outlined-multiline-static"
           label={label}
@@ -51,21 +52,31 @@ const DescriptionField: React.FC<DescriptionFieldProps> = ({
           placeholder={placeholder}
           value={text}
           onChange={handleTextChange}
-          error={hasError || error}
+          error={hasError || errorMessage}
           slotProps={{
             input: {
               readOnly: readonly,
             },
           }}
-          FormHelperTextProps={{sx: {textAlign: "right", marginRight: 0}}}
-          helperText={
-              maxWords >= 0
-                  ? error
-                      ? `Word limit reached (${maxWords} max)`
-                      : `${wordCount} / ${maxWords} words`
-                  : " "
-          }
+          
       />
+      <Stack direction='row' justifyContent='space-between' sx={{margin: 1}}>
+      {errorMessage ? (
+          <FormHelperText sx={{ textAlign: "left", margin: 0 }}>
+            {`Word limit reached (${maxWords} max)`}
+          </FormHelperText>
+        ) : hasError ? (
+          <FormHelperText sx={{ textAlign: "left", margin: 0 }}>
+            {"Description is too short"}
+          </FormHelperText>
+        ) : null}
+
+
+        <FormHelperText sx={{flexGrow: 1,  textAlign: "right", margin: 0 }}>
+          {`${wordCount} / ${maxWords} words`}
+        </FormHelperText>
+      </Stack>  
+    </Box>
   );
 };
 

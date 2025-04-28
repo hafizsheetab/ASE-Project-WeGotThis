@@ -102,7 +102,7 @@ const OfferCreationBody = () => {
                         ...prevError,
                         titleError: formData.title.length <= 7,
                         locationError: formData.location == "",
-                        descriptionError: formData.description.length <= 0,
+                        descriptionError: formData.description.length <= 10,
                     }));
 
                     if(!image){
