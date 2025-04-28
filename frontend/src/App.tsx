@@ -83,20 +83,7 @@ function App() {
     color: "#ffffff",
     loading: false,
     user: {} as UserResponse,
-    update,
-    setUpdate
   })
-  useEffect(() => {
-    (async() => {
-      if(context.token){
-        const response = await getSelf({context, setContext})
-        if("status" in response){
-          return
-        }
-        setContext({...context, user: response})
-      }
-    })()
-  },[context.token])
   return (
     <ContextStore.Provider value={{context, setContext}}>
       <ClipLoader

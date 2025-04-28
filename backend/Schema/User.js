@@ -23,7 +23,17 @@ const UserSchema = new dynamoose.Schema(
             type: Array,
             schema: [Number],
         },
-        imageUrl: String
+        imageUrl: String,
+        ratings: {
+            type: Array,
+            schema: [
+                {
+                    userId: String,
+                    rating: Number,
+                    text: String
+                },
+            ],
+        }
     },
     {
         timestamps: true,
