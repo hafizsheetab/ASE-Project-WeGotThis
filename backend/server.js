@@ -3,7 +3,7 @@ const executionType = process.argv[2]
 require("dotenv").config({path: executionType === "docker" ? ".env.docker" : ".env"});
 const express = require("express");
 const app = express();
-app.use(express.json({ extende: false }));
+app.use(express.json({ extended: false }));
 const connectDB = require("./config/db");
 const { connectToRedis } = require("./config/redisClient");
 const { enrollRoutes } = require("./modules");
@@ -25,3 +25,4 @@ app.listen(PORT, async () => {
 
 //Only for production
 //cluster_server(app, PORT)
+module.exports = app; // for testing
