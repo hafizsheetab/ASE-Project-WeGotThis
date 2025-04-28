@@ -31,6 +31,8 @@ type BookingCardProps = {
     statusType: string;
     requestId: string;
     offerId: string;
+    userEmail: string;
+    owner: boolean;
     loadArray: () => void
 };
 
@@ -46,6 +48,8 @@ const BookingCard: React.FC<BookingCardProps> = ({
     statusType,
     requestId,
     offerId,
+    userEmail,
+    owner,
     loadArray
 }) => {
     const store = useContext(ContextStore);
@@ -106,9 +110,8 @@ const BookingCard: React.FC<BookingCardProps> = ({
                         "aria-labelledby": "basic-button",
                     }}
                 >
-                    <MenuItem onClick={handleClose}>Chat</MenuItem>
-                    <MenuItem onClick={handleClose}>View Offer</MenuItem>
-                    <MenuItem onClick={handleClose}>Withdraw</MenuItem>
+                    <MenuItem onClick={() => window.location.href = `mailto:${userEmail}`}>Chat</MenuItem>
+                    <MenuItem onClick={() => navigate(`/offer/${offerId}`)}>View Offer</MenuItem>
                 </Menu>
             </CardActions>
         );
