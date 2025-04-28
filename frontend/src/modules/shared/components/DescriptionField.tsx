@@ -72,9 +72,9 @@ const DescriptionField: React.FC<DescriptionFieldProps> = ({
         ) : null}
 
 
-        <FormHelperText sx={{flexGrow: 1,  textAlign: "right", margin: 0 }}>
+        {!readonly && <FormHelperText sx={{flexGrow: 1,  textAlign: "right", margin: 0 }}>
           {`${wordCount} / ${maxWords} words`}
-        </FormHelperText>
+        </FormHelperText>}
       </Stack>  
     </Box>
   );
