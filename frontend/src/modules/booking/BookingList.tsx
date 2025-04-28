@@ -60,6 +60,8 @@ const BookingList : React.FC<BookingListProps> = ({bookingsArr, statusType, serv
           newPrice={Number(booking.price)}
           requestId={booking.user.id}
           offerId={booking.offer.id}
+          userEmail={booking.offer.owner.email}
+          owner={serviceType == "my"? true : false}
           loadArray={loadArray}
         />
       ))

@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {
     Box,
     Typography,
@@ -21,8 +21,6 @@ import {
     useTheme,
     Switch,
 } from "@mui/material";
-import ImageUploader from "../offerCreation/components/ImageUploader";
-import OfferForm from "../offerCreation/components/OfferForm";
 import { OfferResponseBody } from "../offerCreation/Types";
 import { getOneOffer } from "../home/services";
 import ContextStore from "../../utils/ContextStore";
@@ -31,9 +29,11 @@ import ActiveButton from "../shared/components/ActiveClickButton";
 import CategoryList from "../shared/components/CategoryChipDisplay";
 import TaskDescriptionSection from "../offerCreation/components/TaskDescriptionSection";
 import { AddRequestToOfferRequestBody } from "./Types";
-import { addRequestToOffer } from "./services";
+import { addRequestToOffer, getSelf } from "./services";
+import { UserResponse } from "../shared/Types";
 
 const OfferViewBody: React.FC = () => {
+    const nav = useNavigate()
     const {offerId} = useParams();
     const theme = useTheme();
     const [offer, setOffer] = useState<OfferResponseBody | null>(null);
@@ -45,6 +45,19 @@ const OfferViewBody: React.FC = () => {
         disabled: false,
         text: "Send Request"
     })
+
+    const [user, setUser] = useState<UserResponse>({
+            firstName: "",
+            lastName: "",
+            email: "",
+            expire: true,
+            id: "",
+            phoneNumber: "",
+            location: "",
+            categories: [],
+            imageUrl: "",
+        });
+
     const [owner, setOwner] = useState(false)
     useEffect(() => {
         if(offer){
@@ -85,6 +98,12 @@ const OfferViewBody: React.FC = () => {
                 }
                 setOffer(response)
             }
+
+            const userResponse = await getSelf(store);
+            if ("status" in userResponse) {
+                return;
+            }
+            setUser({ ...user, ...userResponse });
         })()
     }, [offerId]);
 
@@ -93,7 +112,7 @@ const OfferViewBody: React.FC = () => {
     }
 
     const handleChat = () => {
-        console.log("Chat clicked clicked"); //todo
+        window.location.href = `mailto:${user.email}`;
     };
 
     const handleSendRequest = async() => {
@@ -105,7 +124,7 @@ const OfferViewBody: React.FC = () => {
             return
         }
         setOffer(response)
-        
+        nav("/home")
     };
     return (
         <Box sx={{ width : "90%", padding: "2em 5em 3em" }}>
