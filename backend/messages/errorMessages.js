@@ -22,7 +22,11 @@ module.exports = (entityId) => {
             notOwner: "USER IS NOT OWNER OF THE OFFER - EN",
             owner: "USER IS OWNER OF THE OFFER - EN",
             alreadyRequested: "USER ALREADY REQUESTED THE OFFER - EN",
-            notAvailable: "OFFER IS NOT AVAILABLE - EN"
+            notAvailable: "OFFER IS NOT AVAILABLE - EN",
+            noRequests: "USER HAS NO REQUESTS - EN",
+            requestNotFound: "REQUEST NOT FOUND - EN",
+            requestAlreadyProcessed: "REQUEST ALREADY PROCESSED - EN"
+
         }
       },
       de: {
@@ -47,7 +51,10 @@ module.exports = (entityId) => {
             notOwner: "USER IS NOT OWNER OF THE OFFER - DE",
             owner: "USER IS OWNER OF THE OFFER - DE",
             alreadyRequested: "USER ALREADY REQUESTED THE OFFER - DE",
-            notAvailable: "OFFER IS NOT AVAILABLE - DE"
+            notAvailable: "OFFER IS NOT AVAILABLE - DE",
+            noRequests: "USER HAS NO REQUESTS - DE",
+            requestNotFound: "REQUEST NOT FOUND - DE",
+            requestAlreadyProcessed: "REQUEST ALREADY PROCESSED - DE"
         }
       }
     }

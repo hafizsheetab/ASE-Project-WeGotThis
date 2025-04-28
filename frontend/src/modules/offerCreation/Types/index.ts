@@ -15,6 +15,11 @@ export interface OfferCategory {
     id: number
 }
 
+export interface OfferStatus {
+    displayValue: string
+    id: number
+}
+
 export interface OfferTemplateResponse {
     priceModes: Array<PriceMode>
     offerTypes: Array<OfferType>

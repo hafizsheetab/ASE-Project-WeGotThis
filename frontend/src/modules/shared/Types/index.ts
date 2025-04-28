@@ -35,6 +35,8 @@ export interface ContextData {
     loading: boolean
     color: string
     user: UserResponse
+    update: number
+    setUpdate: React.Dispatch<React.SetStateAction<number>>
 }
 
 export interface UserResponse {

@@ -101,4 +101,47 @@ const OfferCategoryEnum = {
     },
 };
 
-module.exports = { PriceModeEnum, OfferTypeEnum, OfferCategoryEnum };
+const OfferStatusEnum = {
+    REQUESTED: {
+        displayValue: "requested",
+        id: 1,
+    },
+    REJECTED: {
+        displayValue: "rejected",
+        id: 2,
+    },
+    ACCEPTED: {
+        displayValue: "accepted",
+        id: 3,
+    },
+    COMPLETED: {
+        displayValue: "completed",
+        id: 4,
+    },
+    getAsArray: () => {
+        const ara = [];
+        ara.push(
+            OfferStatusEnum.REQUESTED,
+            OfferStatusEnum.REJECTED,
+            OfferStatusEnum.ACCEPTED,
+            OfferStatusEnum.COMPLETED
+        );
+        return ara;
+    },
+    getFromId: (id) => { 
+        switch (id) {
+            case 1:
+                return OfferStatusEnum.REQUESTED;
+            case 2:
+                return OfferStatusEnum.REJECTED;
+            case 3:
+                return OfferStatusEnum.ACCEPTED;
+            case 4:
+                return OfferStatusEnum.COMPLETED;
+            default:
+                return null;
+        }
+    }
+}
+
+module.exports = { PriceModeEnum, OfferTypeEnum, OfferCategoryEnum, OfferStatusEnum };

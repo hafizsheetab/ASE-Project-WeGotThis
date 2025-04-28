@@ -75,14 +75,16 @@ const override= {
   borderColor: "red",
 };
 function App() {
-
+  const [update, setUpdate] = useState(0)
   const [context, setContext] = useState<ContextData>({
     token: "",
     expire: true,
     locale: "en",
     color: "#ffffff",
     loading: false,
-    user: {} as UserResponse
+    user: {} as UserResponse,
+    update,
+    setUpdate
   })
   useEffect(() => {
     (async() => {
