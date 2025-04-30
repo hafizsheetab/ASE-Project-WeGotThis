@@ -11,8 +11,8 @@ type PaginationControlledProps = {
 
 const PaginationControlled : React.FC<PaginationControlledProps> = ({numberOfItems, maxItemsOnOnePage, onPaginationClick}) => {
   const [page, setPage] = React.useState(1);
-  const rangeStart = (page - 1) * maxItemsOnOnePage + 1;
   const rangeEnd = Math.min((page * maxItemsOnOnePage), numberOfItems);
+  const rangeStart = (page - 1) * maxItemsOnOnePage + 1;
   const limitPages = Math.ceil(numberOfItems / maxItemsOnOnePage);
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -27,7 +27,7 @@ const PaginationControlled : React.FC<PaginationControlledProps> = ({numberOfIte
         alignItems: "flex-cent",
         my: 2
       }}>
-      <Typography variant='subtitle2' color='textSecondary'>{rangeStart} to {rangeEnd} out of {numberOfItems} results</Typography>
+      <Typography variant='subtitle2' color='textSecondary'>{Math.min(rangeStart, rangeEnd)} to {rangeEnd} out of {numberOfItems} results</Typography>
       <Pagination count={limitPages} page={page} onChange={handleChange} shape="rounded" color="primary" />
     </Stack>
   );
