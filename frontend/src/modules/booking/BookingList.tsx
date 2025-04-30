@@ -20,7 +20,7 @@ const BookingList : React.FC<BookingListProps> = ({bookingsArr, loadArray}) => {
           statusType={booking.status.displayValue}
           key={`${booking.offer.id}` }
           title={booking.offer.title}
-          requestedOn={booking.offer.startTime.toLocaleString()}
+          requestedOn={new Date(booking.offer.startTime).toLocaleDateString()}
           type={booking.offer.type.displayValue}
           availability={booking.offer.availability ? "Available" : "Unavailable"}
           location={booking.offer.location}
@@ -30,6 +30,7 @@ const BookingList : React.FC<BookingListProps> = ({bookingsArr, loadArray}) => {
           requestId={booking.user.id}
           offerId={booking.offer.id}
           userEmail={booking.offer.owner.email}
+          hasReview={false}   /// TODO: CHECK IF booking.offer.hasReview & (booking.offer.id == context.user.id)
           loadArray={loadArray}
         />
       ))

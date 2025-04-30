@@ -35,6 +35,7 @@ type BookingCardProps = {
     requestId: string;
     offerId: string;
     userEmail: string;
+    hasReview : boolean;
     loadArray: () => void
 };
 
@@ -51,6 +52,7 @@ const BookingCard: React.FC<BookingCardProps> = ({
     requestId,
     offerId,
     userEmail,
+    hasReview,
     loadArray
 }) => {
     const store = useContext(ContextStore);
@@ -80,6 +82,7 @@ const BookingCard: React.FC<BookingCardProps> = ({
           >
             <MenuItem onClick={() => window.location.href = `mailto:${userEmail}`}>Chat</MenuItem>
             <MenuItem onClick={() => navigate(`/offer/${offerId}`)}>View Offer</MenuItem>
+            <MenuItem onClick={() => navigate(`/profile`)}>View User</MenuItem>
           </Menu>
         </>
       );
@@ -211,7 +214,9 @@ const BookingCard: React.FC<BookingCardProps> = ({
     };
 
     const cardActionFinished = () => (
-        <Typography color="success.dark" sx={{ py: 1, px: 2 }}>Completed</Typography>
+        hasReview? (
+            <Typography color="success.dark" sx={{ py: 1, px: 2 }}>Completed</Typography>
+        ) : cardActionRating()
     );
 
     const selectCardAction = () => {
@@ -222,10 +227,8 @@ const BookingCard: React.FC<BookingCardProps> = ({
                 return cardActionRejected();
             case "accepted":
                 return cardActionAccepted();
-            case "review":
-                return cardActionRating();
             case "completed":
-                return cardActionRating();
+                return cardActionFinished();
             case "offer":
                 return cardActionOffer();
             default:
