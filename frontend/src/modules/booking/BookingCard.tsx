@@ -19,6 +19,9 @@ import { Stack } from "@mui/material";
 import { useMatch, useNavigate } from "react-router-dom";
 import ContextStore from "../../utils/ContextStore";
 import { acceptBookingRequest, completeBookingRequest, rejectBookingRequest } from "./services";
+import ReviewDialog from "./ReviewDialog";
+
+
 type BookingCardProps = {
     title: string;
     requestedOn: string;
@@ -32,7 +35,7 @@ type BookingCardProps = {
     requestId: string;
     offerId: string;
     userEmail: string;
-    owner: boolean;
+    hasReview : boolean;
     loadArray: () => void
 };
 
@@ -49,11 +52,12 @@ const BookingCard: React.FC<BookingCardProps> = ({
     requestId,
     offerId,
     userEmail,
-    owner,
+    hasReview,
     loadArray
 }) => {
     const store = useContext(ContextStore);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
     const open = Boolean(anchorEl);
     const navigate = useNavigate();
 
@@ -64,13 +68,32 @@ const BookingCard: React.FC<BookingCardProps> = ({
     const handleClose = () => {
         setAnchorEl(null);
     };
-    console.log(type)
+    
+    const CardMenu = () => (
+        <>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+          >
+            <MenuItem onClick={() => window.location.href = `mailto:${userEmail}`}>Chat</MenuItem>
+            <MenuItem onClick={() => navigate(`/offer/${offerId}`)}>View Offer</MenuItem>
+            <MenuItem onClick={() => navigate(`/profile`)}>View User</MenuItem>
+          </Menu>
+        </>
+      );
+
+      
     const cardActionRequested = () => {
         return (
             <CardActions
                 sx={{ display: "flex", justifyContent: "space-between" }}
             >
-                {requestId !== store.context.user.id && (
+                {requestId !== store.context.user.id ? (
                     <>
                         <Button
                             size="small"
@@ -91,7 +114,17 @@ const BookingCard: React.FC<BookingCardProps> = ({
                             Reject
                         </Button>
                     </>
-                )}
+                    ) : (
+                        <Button size="small" color="primary"
+                        onClick={async () => {
+                            await rejectBookingRequest(store, offerId, requestId) //// TODO: WITHDRAW -> REPLACE  
+                            loadArray()
+                        }}
+                        >
+                            Withdraw
+                        </Button>
+                    )
+                }
                 <IconButton
                     aria-label="settings"
                     onClick={handleClick}
@@ -101,18 +134,7 @@ const BookingCard: React.FC<BookingCardProps> = ({
                 >
                     <MoreVertIcon />
                 </IconButton>
-                <Menu
-                    id="basic-menu"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{
-                        "aria-labelledby": "basic-button",
-                    }}
-                >
-                    <MenuItem onClick={() => window.location.href = `mailto:${userEmail}`}>Chat</MenuItem>
-                    <MenuItem onClick={() => navigate(`/offer/${offerId}`)}>View Offer</MenuItem>
-                </Menu>
+                <CardMenu/>
             </CardActions>
         );
     };
@@ -130,12 +152,12 @@ const BookingCard: React.FC<BookingCardProps> = ({
             <CardActions
                 sx={{ display: "flex", justifyContent: "space-between" }}
             >
-                {requestId !== store.context.user.id && <Button size="small" color="primary" onClick={async () => {
-                  await completeBookingRequest(store, offerId, requestId)
+                <Button size="small" color="primary" onClick={async () => {
+                  await completeBookingRequest(store, offerId, requestId) //// -> CHANGE IT NEEDS TO HAVE CONFIRM SERVICE AND CONFIRM PAYMENT FROM BOTH SIDES (OWNER & REQUEST USER)
                   loadArray()
                 }}>
                     {type == "seeking" ? "Confirm Service" : "Confirm Payment"}
-                </Button>}
+                </Button>
                 <IconButton
                     aria-label="settings"
                     onClick={handleClick}
@@ -145,18 +167,7 @@ const BookingCard: React.FC<BookingCardProps> = ({
                 >
                     <MoreVertIcon />
                 </IconButton>
-                <Menu
-                    id="basic-menu"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{
-                        "aria-labelledby": "basic-button",
-                    }}
-                >
-                    <MenuItem onClick={handleClose}>Chat</MenuItem>
-                    <MenuItem onClick={handleClose}>View Offer</MenuItem>
-                </Menu>
+                <CardMenu/>
             </CardActions>
         );
     };
@@ -166,7 +177,7 @@ const BookingCard: React.FC<BookingCardProps> = ({
             <CardActions
                 sx={{ display: "flex", justifyContent: "space-between" }}
             >
-                <Button size="small" color="primary">
+                <Button size="small" color="primary" onClick={() => setIsDialogOpen(true)}>
                     Give Review
                 </Button>
                 <IconButton
@@ -178,18 +189,7 @@ const BookingCard: React.FC<BookingCardProps> = ({
                 >
                     <MoreVertIcon />
                 </IconButton>
-                <Menu
-                    id="basic-menu"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{
-                        "aria-labelledby": "basic-button",
-                    }}
-                >
-                    <MenuItem onClick={handleClose}>Chat</MenuItem>
-                    <MenuItem onClick={handleClose}>View Offer</MenuItem>
-                </Menu>
+                <CardMenu/>
             </CardActions>
         );
     };
@@ -208,32 +208,16 @@ const BookingCard: React.FC<BookingCardProps> = ({
                 >
                     <MoreVertIcon />
                 </IconButton>
-                <Menu
-                    id="basic-menu"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{
-                        "aria-labelledby": "basic-button",
-                    }}
-                >
-                    <MenuItem onClick={() => navigate(`/offer/edit`)}>
-                        Edit Offer
-                    </MenuItem>
-                    <MenuItem onClick={handleClose}>View Offer</MenuItem>
-                    <MenuItem onClick={handleClose}>Delete Offer</MenuItem>
-                </Menu>
+                <CardMenu/>
             </CardActions>
         );
     };
 
-    const cardActionFinished = () => {
-        return (
-            <Typography color="success.dark" sx={{ py: 1, px: 2 }}>
-                Completed
-            </Typography>
-        );
-    };
+    const cardActionFinished = () => (
+        hasReview? (
+            <Typography color="success.dark" sx={{ py: 1, px: 2 }}>Completed</Typography>
+        ) : cardActionRating()
+    );
 
     const selectCardAction = () => {
         switch (statusType) {
@@ -243,8 +227,6 @@ const BookingCard: React.FC<BookingCardProps> = ({
                 return cardActionRejected();
             case "accepted":
                 return cardActionAccepted();
-            case "review":
-                return cardActionRating();
             case "completed":
                 return cardActionFinished();
             case "offer":
@@ -330,6 +312,8 @@ const BookingCard: React.FC<BookingCardProps> = ({
                     </Stack>
                 </CardContent>
             </CardActionArea>
+
+            <ReviewDialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)} />
         </Card>
     );
 };
