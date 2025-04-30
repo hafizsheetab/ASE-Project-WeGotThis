@@ -1,45 +1,67 @@
-import BookingStatusTab from "./BookingStatusTab";
 import PaginationControlled from '../shared/components/PaginationControls';
-import RadioSeekerType from "./SeekerTypeRadioSelection";
 import BookingList from "./BookingList";
 import styles from "./Booking.module.css";
-import { Box, Divider, Paper, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Divider, Paper, Stack, Tab, Tabs } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { BookingRequestResponseBody } from "./Types";
 import ContextStore from "../../utils/ContextStore";
 import { getAllBookingRequest } from "./services";
 
 const BookingListDisplayBody = () => {
-  const numberOfItems = 102;
   const maxNumOfItemsOnPage = 25;
   const store = useContext(ContextStore)
+
   const loadBookingArray = async () => {
     const _bookingArray = await getAllBookingRequest(store)
     console.log(_bookingArray)
+
     if("status" in _bookingArray){
       return
     }
     setBookingArray(_bookingArray)
+
+    let _filtered = _bookingArray.filter((booking) =>
+      {
+        return booking.user.id === store.context.user.id && booking.status.displayValue === 'requested'
+      })
+
+    setFilteredArray(_filtered)
   }
-    useEffect(() => {
-      loadBookingArray()
-    },[store.context.update])
-    const [bookingArray, setBookingArray] = useState<Array<BookingRequestResponseBody>>([])
-    const [tabSetting, setTabSetting] = useState({
-      serviceType : "my",
-      statusType : 'requested'
-    });
-  
-    function a11yProps(index: number) {
-      return {
-        id: `vertical-tab-${index}`,
-        'aria-controls': `vertical-tabpanel-${index}`,
-      };
-    }
-  
+
+  useEffect(() => {
+    loadBookingArray()
+  },[store.context.update])  
+
+  const [bookingArray, setBookingArray] = useState<Array<BookingRequestResponseBody>>([])
+  const [filteredArray, setFilteredArray] = useState<Array<BookingRequestResponseBody>>([])
+  const [tabSetting, setTabSetting] = useState({
+    serviceType : "my",
+    statusType : 'requested'
+  });
+
+  useEffect(() => {
+    filterBookings();
+  }, [tabSetting.statusType, tabSetting.serviceType]);
+
+  function a11yProps(index: number) {
+    return {
+      id: `vertical-tab-${index}`,
+      'aria-controls': `vertical-tabpanel-${index}`,
+    };
+  }
 
   const handlePaginationChange = (page : number) => {
     console.log(`Page has changed to ${page}`)
+  }
+
+  const filterBookings = () => {
+    let filtered = bookingArray.filter(
+      (booking) =>
+      {
+        return tabSetting.serviceType === "my" ? booking.user.id === store.context.user.id && booking.status.displayValue === tabSetting.statusType : booking.user.id !== store.context.user.id && booking.status.displayValue === tabSetting.statusType  
+      }
+    )
+    setFilteredArray(filtered)
   }
 
   return (
@@ -81,29 +103,12 @@ const BookingListDisplayBody = () => {
               </Tabs>
 
               <Box sx={{ flex: 1, overflowY: "auto", maxHeight: "calc(100vh - 10em)", px: 6, py: 4}}>  
-                <PaginationControlled numberOfItems={numberOfItems} maxItemsOnOnePage={maxNumOfItemsOnPage} onPaginationClick={handlePaginationChange}/>
-                <BookingList bookingsArr={bookingArray} statusType={tabSetting.statusType} serviceType={tabSetting.serviceType} loadArray={loadBookingArray}/>
+                <PaginationControlled numberOfItems={filteredArray.length} maxItemsOnOnePage={maxNumOfItemsOnPage} onPaginationClick={handlePaginationChange}/>
+                <BookingList bookingsArr={filteredArray} statusType={tabSetting.statusType} serviceType={tabSetting.serviceType} loadArray={loadBookingArray}/>
               </Box>
         </Stack>
           </Box>
       </Paper>
-{/* 
-      <div style={{margin: "3em 0 0", display:"flex", justifyContent:"space-between", alignItems:"center", flexDirection:"row"}}>
-          <RadioSeekerType onChangeTrigger={handleServiceTypeChange} />
-          <Typography variant='subtitle2' color='textSecondary'>{1} to {2} out of {numberOfItems} results</Typography>
-        </div>
-
-      <div style={{margin: "3em 0 0", display:"flex", justifyContent:"space-between", alignItems:"center", flexDirection:"row"}}>
-        <RadioSeekerType onChangeTrigger={handleServiceTypeChange} />
-        <Typography variant='subtitle2' color='textSecondary'>{1} to {2} out of {numberOfItems} results</Typography>
-      </div>
-
-      <Paper sx={{ flexGrow: 1, display: 'flex'}}>
-        <BookingStatusTab onTabChange={handleTabChange}/>
-        <BookingList bookingsArr={bookingArr}/>
-      </Paper>
-
-      <BookingList bookingsArr={bookingArr}/> */}
       
     </Stack>
 

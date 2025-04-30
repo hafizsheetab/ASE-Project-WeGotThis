@@ -23,6 +23,10 @@ const OfferSchema = new dynamoose.Schema(
                             enum: getIdsOfEnum(OfferStatusEnum),
                             default: OfferStatusEnum.REQUESTED.id,
                         },
+                        review: {
+                            type: Boolean,
+                            default: false,
+                        }
                     },
                 },
             ],

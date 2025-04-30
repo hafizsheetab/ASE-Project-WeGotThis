@@ -3,8 +3,8 @@ import { ContextData, ContextStoreData, ErrorBody, UserResponse } from "../../sh
 import urls from "../../shared/Types/urls";
 import { ChangeSelfRequestBody } from "../Types";
 
-export const getSelf = async (store: ContextStoreData<ContextData>): Promise<UserResponse | ErrorBody> => {
-    const response = await apiRequest<null, UserResponse>(urls.getSelf, null, store.context.token, store.context.locale, "get", store)
+export const getSelf = async (store: ContextStoreData<ContextData>, token: string): Promise<UserResponse | ErrorBody> => {
+    const response = await apiRequest<null, UserResponse>(urls.getSelf, null, token, store.context.locale, "get", store)
     return response
 }
 
