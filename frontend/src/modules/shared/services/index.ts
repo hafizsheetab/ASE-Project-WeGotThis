@@ -58,11 +58,11 @@ export const apiRequest = async <ReqBody, ResBody>(
                 });
                 break;
             default:
-                processAlert({ status: false } as ErrorBody);
+                //processAlert({ status: false } as ErrorBody);
                 return { status: false } as ErrorBody;
         }
         setLoading(false);
-        processAlert(response.data);
+        //processAlert(response.data);
         if (response.data.status) {
             return response.data.resource;
         } else {
@@ -71,10 +71,10 @@ export const apiRequest = async <ReqBody, ResBody>(
     } catch (err) {
         setLoading(false);
         if (axios.isAxiosError(err)) {
-            processAlert(err.response?.data);
+            //processAlert(err.response?.data);
             return err.response?.data;
         }
-        processAlert({ status: false } as ErrorBody);
+        //processAlert({ status: false } as ErrorBody);
         return { status: false } as ErrorBody;
     }
 };

@@ -90,7 +90,6 @@ const OfferForm: React.FC<OfferFormProps> = ({initialValues, formData, setFormDa
                 <TextField
                     placeholder='0'
                     label="Service cost"
-                    required
                     slotProps={{
                         input: {
                             startAdornment: <InputAdornment position="start">CHF</InputAdornment>,

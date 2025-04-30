@@ -5,13 +5,15 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import ActiveButton from "../../shared/components/ActiveClickButton";
-import { IconButton, InputAdornment } from "@mui/material";
+import { Alert, AlertTitle, FormHelperText, IconButton, InputAdornment, Snackbar } from "@mui/material";
 import { checkForError } from "../../shared/services";
 import ContextStore from "../../../utils/ContextStore";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { LoginFormBody, TokenResponse } from "../Types";
 import { login } from "../services";
+import AlertToast from "../../shared/components/AlertToast";
 import { getSelf } from "../../account/services";
+
 
 const LoginTextInputs = () => {
     const navigate = useNavigate(); // Initialize navigate function
@@ -21,20 +23,20 @@ const LoginTextInputs = () => {
         password: "",
         isPasswordVisible: false,
     });
+    const [loginError, setLoginError] = useState<string | null>(null);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         console.log("Logging in with", loginForm);
-        let response = await login(
-            {
-                email: loginForm.email,
-                password: loginForm.password,
-                expire: true,
-            },
-            store
-        );
-        if (checkForError(response)) {
-            return;
+
+        setLoginError(null);
+        let response = await login({email: loginForm.email, password: loginForm.password, expire: true}, store)
+        if(checkForError(response)){
+            setLoginError("Incorrect email or password. Please try again."); 
+            setOpenSnackbar(true); 
+            return
         }
         response = response as TokenResponse;
         const userResponse = await getSelf(store, response.access_token);
@@ -96,6 +98,10 @@ const LoginTextInputs = () => {
                 }
             />
 
+
+        <AlertToast text={loginError} open={openSnackbar} severity='error' handleClose={() => {
+                setOpenSnackbar(false)
+            }}/>
             <TextInputField
                 placeholder="Enter your password"
                 labelTxt="Password"
@@ -133,7 +139,6 @@ const LoginTextInputs = () => {
                 }
                 errorMessage="Password doesn't match."
             />
-
             <ActiveButton
                 type="submit"
                 buttonTxt="Login"
