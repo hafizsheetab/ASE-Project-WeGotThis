@@ -1,3 +1,5 @@
+import { acceptBookingRequest } from "../../booking/services"
+
 const baseUrl = "http://localhost:8000"
 const preamble = "api/v1"
 export default {
@@ -15,5 +17,10 @@ export default {
     changeSelf: `${baseUrl}/${preamble}/user/changeSelf`,
     myOffers: `${baseUrl}/${preamble}/offer/my/offers`,
     deleteOffer: `${baseUrl}/${preamble}/offer/delete/`,
-    addRequestToOffer: `${baseUrl}/${preamble}/offer/add/requests/`
+    addRequestToOffer: `${baseUrl}/${preamble}/offer/add/requests/`,
+    getAllBookingRequests: `${baseUrl}/${preamble}/offer/getAll/requests`,
+    acceptBookingRequest: `${baseUrl}/${preamble}/offer/accept/`,
+    rejectBookingRequest: `${baseUrl}/${preamble}/offer/reject/`,
+    completeBookingRequest: `${baseUrl}/${preamble}/offer/complete/`,
+
 }

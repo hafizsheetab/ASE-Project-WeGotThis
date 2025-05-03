@@ -8,7 +8,7 @@ const PostErrorProcessing = require("../../../middleware/Response/PostErrorProce
 const PostSuccessProcessing = require("../../../middleware/Response/PostSuccessProcessing")
 const EntityNames = require('../../../Types/EntityNames')
 const { UploadValidMimeTypes, UploadedFileTypes } = require('../../../Types/UploadFileTypes')
-const { createOffer, editOffer, getOffer, getOffers, updateOffer, deleteOffer, offerTemplate, uploadOfferImages, getMyOffers, addRequests } = require("../controller/offer.controller")
+const { createOffer, editOffer, getOffer, getOffers, updateOffer, deleteOffer, offerTemplate, uploadOfferImages, getMyOffers, addRequests, getMyRequestsToOffers, getRequestsOnMyOffers, acceptOfferRequest, rejectOfferRequest, completeOfferRequest } = require("../controller/offer.controller")
 //todo: add preprocessing later
 const entityName = EntityNames.offer
 router.post("/create", PreProcessing(entityName) ,async (req, res) => {
@@ -206,8 +206,136 @@ router.put("/add/requests/:offerId", PreProcessing(entityName), async (req, res)
     }
 });
 
+router.get("/getMyRequestsToOffer", PreProcessing(entityName), async(req, res) => {
+    try{
+        const requests = await getMyRequestsToOffers(req.userId)
+        const popupMessage = successMessages()[req.locale].offer.getOffers
+        const response = PostSuccessProcessing(popupMessage, requests)
+        res.status(response.statusCode).json(response)
+    }
+    catch(err){
+        console.log(err);
+        const statusCode = 401;
+        const error = PostErrorProcessing(
+            statusCode,
+            err.formErrors,
+            err.entityName,
+            err.service,
+            err.apiErrorCode,
+            req.locale
+        );
+        res.status(statusCode).json(error);
+    }
+})
 
+router.get("/getRequestsOnMyOffers", PreProcessing(entityName), async(req, res) => {
+    try{
+        const requests = await getRequestsOnMyOffers(req.userId)
+        const popupMessage = successMessages()[req.locale].offer.getOffers
+        const response = PostSuccessProcessing(popupMessage, requests)
+        res.status(response.statusCode).json(response)
+    }
+    catch(err){
+        console.log(err);
+        const statusCode = 401;
+        const error = PostErrorProcessing(
+            statusCode,
+            err.formErrors,
+            err.entityName,
+            err.service,
+            err.apiErrorCode,
+            req.locale
+        );
+        res.status(statusCode).json(error);
+    }
+})
 
+router.get("/getAll/requests", PreProcessing(entityName), async(req, res) => {
+    try{
+        const requests1 = await getRequestsOnMyOffers(req.userId)
+        const resquests2 = await getMyRequestsToOffers(req.userId)
+        const requests = requests1.concat(resquests2)
+        const popupMessage = successMessages()[req.locale].offer.getOffers
+        const response = PostSuccessProcessing(popupMessage, requests)
+        res.status(response.statusCode).json(response)
+    }
+    catch(err){
+        console.log(err);
+        const statusCode = 401;
+        const error = PostErrorProcessing(
+            statusCode,
+            err.formErrors,
+            err.entityName,
+            err.service,
+            err.apiErrorCode,
+            req.locale
+        );
+        res.status(statusCode).json(error);
+    }
+})
+router.put("/complete/:offerId/:requestId", PreProcessing(entityName), async(req, res) => {
+    try{
+        const offer = await completeOfferRequest(req.params.offerId, req.userId, req.params.requestId)
+        const popupMessage = successMessages()[req.locale].offer.editOffer
+        const response = PostSuccessProcessing(popupMessage, offer)
+        res.status(response.statusCode).json(response)
+    }
+    catch(err){
+        console.log(err);
+        const statusCode = 401;
+        const error = PostErrorProcessing(
+            statusCode,
+            err.formErrors,
+            err.entityName,
+            err.service,
+            err.apiErrorCode,
+            req.locale
+        );
+        res.status(statusCode).json(error);
+    }
+})
+router.put("/accept/:offerId/:requestId", PreProcessing(entityName), async(req, res) => {
+    try{
+        const offer = await acceptOfferRequest(req.params.offerId, req.userId, req.params.requestId)
+        const popupMessage = successMessages()[req.locale].offer.editOffer
+        const response = PostSuccessProcessing(popupMessage, offer)
+        res.status(response.statusCode).json(response)
+    }
+    catch(err){
+        console.log(err);
+        const statusCode = 401;
+        const error = PostErrorProcessing(
+            statusCode,
+            err.formErrors,
+            err.entityName,
+            err.service,
+            err.apiErrorCode,
+            req.locale
+        );
+        res.status(statusCode).json(error);
+    }
+})
+router.put("/reject/:offerId/:requestId", PreProcessing(entityName), async(req, res) => {
+    try{
+        const offer = await rejectOfferRequest(req.params.offerId, req.userId, req.params.requestId)
+        const popupMessage = successMessages()[req.locale].offer.editOffer
+        const response = PostSuccessProcessing(popupMessage, offer)
+        res.status(response.statusCode).json(response)
+    }
+    catch(err){
+        console.log(err);
+        const statusCode = 401;
+        const error = PostErrorProcessing(
+            statusCode,
+            err.formErrors,
+            err.entityName,
+            err.service,
+            err.apiErrorCode,
+            req.locale
+        );
+        res.status(statusCode).json(error);
+    }
+})
 module.exports = router
 
 

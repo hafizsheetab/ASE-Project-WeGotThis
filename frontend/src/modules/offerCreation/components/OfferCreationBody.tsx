@@ -74,9 +74,9 @@ const OfferCreationBody = () => {
         <Box sx={
             {
                 width : "90%",
-                padding: "2em 5em 3em"
+                padding: {xs: "2em 2em 3em", smd: "2em 5em 3em"}
             }}> 
-            <Stack direction="row" spacing={2} sx={{
+            <Stack direction={{ xs: "column", md: "row" }} spacing={2} sx={{
                     justifyContent: "space-between",
                     alignItems: "center",
                     my: 1,
@@ -95,7 +95,7 @@ const OfferCreationBody = () => {
             <TaskDescriptionSection maxWordsCount={150} value={formData.description} setValue={setDescription} hasError={formError.descriptionError}/>
 
             <Box sx={{display: "flex", justifyContent: "center", mb: 4}}>
-                <ActiveButton style={{width: "20%"}} buttonTxt="Create Offer" type='submit' onClick={async() => {
+                <ActiveButton style={{marginTop: "1em"}} buttonTxt="Create Offer" type='submit' onClick={async() => {
 
 
                     setFormError(prevError => ({

@@ -9,32 +9,26 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import styles from "../home/components/Home.module.css";
-import ProfileName from "../profile/ProfileName";
-import test from "../../assets/test.png";
+import styles from "./AccountManagement.module.css";
+import test from "../../../assets/test.png";
 import { deepOrange } from "@mui/material/colors";
-import { UserCategory } from "../profile/Types";
-import ActiveFileUploadButton from "../shared/components/ActiveFileUploadButton";
+import ActiveFileUploadButton from "../../shared/components/ActiveFileUploadButton";
 import { useContext, useEffect, useState } from "react";
-import TextInputField from "../shared/components/TextInputField";
-import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
 import PersonIcon from "@mui/icons-material/Person";
 import { Email, Person, Preview } from "@mui/icons-material";
-import CategorySelector from "../offerCreation/components/CategorySelector";
-import DialogSelect from "../offerCreation/components/CategorySelectorDialog";
-import CategoryList from "../shared/components/CategoryChipDisplay";
-import { OfferTemplateResponse } from "../offerCreation/Types";
-import { getOfferCreationTemplate } from "../offerCreation/services";
-import ContextStore from "../../utils/ContextStore";
-import LocationTextInputField from "../shared/components/LocationTextInputField";
+import CategorySelector from "../../offerCreation/components/CategorySelector";
+import { OfferTemplateResponse } from "../../offerCreation/Types";
+import { getOfferCreationTemplate } from "../../offerCreation/services";
+import ContextStore from "../../../utils/ContextStore";
+import LocationTextInputField from "../../shared/components/LocationTextInputField";
 import KeyIcon from "@mui/icons-material/Key";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import ActiveButton from "../shared/components/ActiveClickButton";
-import { UserResponse } from "../shared/Types";
-import { changeSelf, getSelf, uploadProfilePicture } from "./services";
-import { ChangeSelfRequestBody } from "./Types";
+import ActiveButton from "../../shared/components/ActiveClickButton";
+import { UserResponse } from "../../shared/Types";
+import { changeSelf, getSelf, uploadProfilePicture } from "../services";
+import { ChangeSelfRequestBody } from "../Types";
 import { useNavigate } from "react-router-dom";
 
 interface ProfileInfoDisplayTypes {
@@ -203,9 +197,10 @@ const AccountManagementBody = () => {
             <Typography variant="h4">Account Information:</Typography>
 
             <Stack
-                direction="row"
+                direction={{xs: 'column', sm: 'row'}}
                 justifyContent="space-between"
-                alignItems="center"
+                alignItems={{xs: 'start', sm:'center'}}
+                gap={2}
             >
                 <Stack
                     direction="row"
@@ -223,7 +218,7 @@ const AccountManagementBody = () => {
                         {user.firstName} {user.lastName}
                     </h2>
                 </Stack>
-                <Box sx={{ width: "20%" }}>
+                <Box sx={{ width: {xs: "50%", sm: "36%", lg: "20%"} }}>
                     <ActiveFileUploadButton
                         buttonTxt="Upload Image"
                         onFileUpload={handleImageUpload}
@@ -235,7 +230,7 @@ const AccountManagementBody = () => {
 
             <Typography variant="h6">Personal Information</Typography>
 
-            <Stack direction="row" justifyContent="space-between" gap={10}>
+            <Stack direction="row" justifyContent="space-between" gap={{xs: 2, smd: 10}}>
                 <TextField
                     label="First Name"
                     style={{ flex: 1 }}
@@ -275,7 +270,7 @@ const AccountManagementBody = () => {
                 />
             </Stack>
 
-            <Stack direction="row" justifyContent="space-between" gap={10}>
+            <Stack direction={{xs: 'column', sm: 'row'}} justifyContent="space-between" gap={{xs: 2, smd: 10}}>
                 <TextField
                     label="Email Address"
                     style={{ flex: 1 }}
@@ -321,7 +316,7 @@ const AccountManagementBody = () => {
                 />
             </Stack>
 
-            <Stack direction="row" justifyContent="space-between" gap={10}>
+            <Stack direction="row" justifyContent="space-between" gap={{xs: 2, smd: 10}}>
                 <Box sx={{ flex: 1 }}>
                     <LocationTextInputField
                         inputTxt="Location"
@@ -336,7 +331,7 @@ const AccountManagementBody = () => {
                     )}
                 </Box>
 
-                <Box sx={{ width: 100, flex: 1 }} />
+                <Box sx={{ width: 100, flex: 1, display: {xs: 'none', md:'block'}}} />
             </Stack>
 
             <Divider />
@@ -349,7 +344,7 @@ const AccountManagementBody = () => {
             <Divider />
             <Typography variant="h6">Password Management</Typography>
 
-            <Stack direction="row" justifyContent="space-between" gap={10}>
+            <Stack direction={{xs: 'column', sm: 'row'}} justifyContent="space-between" gap={{xs: 2, smd: 10}}>
                 <TextField
                     label="New Password"
                     style={{ flex: 1 }}
@@ -454,7 +449,7 @@ const AccountManagementBody = () => {
             <ActiveButton
                 onClick={handleSubmit}
                 buttonTxt="Save Changes"
-                style={{ width: "20%", margin: "1em auto" }}
+                style={{margin: "1em auto" }}
             />
         </form>
     );

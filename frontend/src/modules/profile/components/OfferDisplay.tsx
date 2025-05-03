@@ -1,6 +1,5 @@
 import { Stack } from '@mui/material'
-import SearchFilters from '../home/components/SearchFilters'
-import OfferList from '../home/components/OfferList'
+import OfferList from '../../home/components/OfferList'
 
 const OfferDisplay = () => {
   return (

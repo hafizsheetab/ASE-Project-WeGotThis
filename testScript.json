@@ -1,0 +1,77 @@
+[
+    {
+        "email": "sheetab@technohaven.com",
+        "password": "123456",
+        "firstName": "Hafiz1",
+        "lastName": "Sheetab1",
+        "expire": true
+      },
+      {
+        "email": "sheetab2@technohaven.com",
+        "password": "123456",
+        "firstName": "Hafiz2",
+        "lastName": "Sheetab2",
+        "expire": true
+      },
+      {
+        "email": "sheetab3@technohaven.com",
+        "password": "123456",
+        "firstName": "Hafiz3",
+        "lastName": "Sheetab3",
+        "expire": true
+      },
+      {
+        "title": "Dog Walking Service 1",
+        "description": "I can walk your dog for 30 minutes.",
+        "location": "New York, NY",
+        "priceModeId": 1,
+        "price": 20,
+        "availability": true,
+        "typeId": 1,
+        "categoryIds": [
+          1
+        ],
+        "startTime": 1743210637,
+        "endTime": 1743214237
+      },
+      {
+        "title": "Dog Walking Service 2",
+        "description": "I can walk your dog for 30 minutes.",
+        "location": "New York, NY",
+        "priceModeId": 1,
+        "price": 20,
+        "availability": true,
+        "typeId": 1,
+        "categoryIds": [
+          1
+        ],
+        "startTime": 1743210637,
+        "endTime": 1743214237
+      },
+      {
+        "title": "Dog Walking Service 3",
+        "description": "I can walk your dog for 30 minutes.",
+        "location": "New York, NY",
+        "priceModeId": 1,
+        "price": 20,
+        "availability": true,
+        "typeId": 1,
+        "categoryIds": [
+          1
+        ],
+        "startTime": 1743210637,
+        "endTime": 1743214237
+      },
+      {
+        "token1": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmaWVyIjoiODdlYzgxZWItMzk3Yy00OTE5LWE5M2MtYjczZTEwMzVlYzEyIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTc0NTc4MDQ0Nn0.7-xjmRtYblGlEttfISrEvgsef3SxumKgufHyMD41qMM",
+        "token2": "",
+        "token3": "",
+        "userId1": "87ec81eb-397c-4919-a93c-b73e1035ec12",
+        "userId2": "8ec0591b-3a29-413d-80c9-f22c72d80648",
+        "userId3": "9ca8eb73-034a-4ecc-b4a6-5d4abdfd7855",
+        "offerId1": "0b594cbb-c54d-445d-b8c2-175b7273b7cf",
+        "offerId2": "cec04eef-d182-4fe9-a336-f0deb90c38b9",
+        "offerId3": "20c1d624-086b-4124-87e9-cfe0dddf837b",
+        "request-sequence": "1->2, 2->3, 3->1"
+      }
+]

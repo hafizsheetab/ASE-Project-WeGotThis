@@ -13,7 +13,7 @@ type ProfileNameProps = {
 
 const ProfileSubInfo : React.FC<ProfileNameProps> = ({location, registrationYear, providedService, seekedServices}) => {
   return (
-    <Stack direction="row" justifyContent='center' alignItems='center' gap={5}>
+    <Stack direction="row" justifyContent='center' alignItems='center' flexWrap='wrap' gap={5}>
         <Stack>
             <Typography variant="body2" style={{verticalAlign: 'middle',display: 'inline-flex'}}>
                 <NearMeOutlinedIcon fontSize="small" sx={{marginRight: ".2em"}}/>

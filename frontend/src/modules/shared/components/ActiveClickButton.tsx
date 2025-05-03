@@ -17,7 +17,6 @@ type ActiveButtonProps = {
 
 const ActiveButton: React.FC<ActiveButtonProps> = ({ 
   buttonTxt, 
-
   className = "", 
   variant = "contained", 
   color = "secondary", 
@@ -30,7 +29,7 @@ const ActiveButton: React.FC<ActiveButtonProps> = ({
   size = "medium"
 }) => {
   return (
-    <StyledButton 
+    <StyledButton
       className={`${className}`} 
       style={style}
       size={size}

@@ -143,7 +143,7 @@
       "200":
         description: List of offers retrieved successfully
 "/v1/offer/add/requests/{offerId}":
-  post:
+  put:
     security:
       - Locale: []
       - ApiToken: []
@@ -160,4 +160,109 @@
     responses:
       "200":
         description: Request added to offer successfully
+"/v1/offer/getMyRequestsToOffer":
+  get:
+    security:
+      - Locale: []
+      - ApiToken: []
+    tags:
+      - Offer
+    summary: Get My Requests to Offers
+    responses:
+      "200":
+        description: Offers retrieved successfully
+"/v1/offer/getRequestsOnMyOffers":
+  get:
+    security:
+      - Locale: []
+      - ApiToken: []
+    tags:
+      - Offer
+    summary: Get Requests on My Offers
+    responses:
+      "200":
+        description: Offers retrieved successfully
+"/v1/offer/getAll/requests":
+  get:
+    security:
+      - Locale: []
+      - ApiToken: []
+    tags:
+      - Offer
+    summary: Get Requests on My Offers
+    responses:
+      "200":
+        description: Offers retrieved successfully
+"/v1/offer/complete/{offerId}/{requestId}":
+  put:
+    security:
+      - Locale: []
+      - ApiToken: []
+    tags:
+      - Offer
+    summary: Complete offer request
+    parameters:
+      - in: path
+        name: offerId
+        required: true
+        description: ID of the offer 
+        schema:
+          type: string
+      - in: path
+        name: requestId
+        required: true
+        description: ID of the request
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Offers retrieved successfully
+"/v1/offer/accept/{offerId}/{requestId}":
+  put:
+    security:
+      - Locale: []
+      - ApiToken: []
+    tags:
+      - Offer
+    summary: Complete offer request
+    parameters:
+      - in: path
+        name: offerId
+        required: true
+        description: ID of the offer 
+        schema:
+          type: string
+      - in: path
+        name: requestId
+        required: true
+        description: ID of the request
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Offers retrieved successfully
+"/v1/offer/reject/{offerId}/{requestId}":
+  put:
+    security:
+      - Locale: []
+      - ApiToken: []
+    tags:
+      - Offer
+    summary: Complete offer request
+    parameters:
+      - in: path
+        name: offerId
+        required: true
+        description: ID of the offer 
+        schema:
+          type: string
+      - in: path
+        name: requestId
+        required: true
+        description: ID of the request
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Offers retrieved successfully
 

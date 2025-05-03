@@ -6,8 +6,6 @@ import {
     Typography,
     Box,
     Stack,
-    Chip,
-    Divider,
 } from "@mui/material";
 import ActiveButton from "../../shared/components/ActiveClickButton";
 import {useNavigate} from "react-router-dom";
@@ -44,8 +42,8 @@ const OfferCard: React.FC<OfferCardProps> = ({
             }}
         >
            
-            <Stack direction="row" spacing={3}>
-                <Stack spacing={2} style={{flex: 0.8}}>
+            <Stack direction="row" spacing={{xs: 0, sm: 3}} sx={{width: "100%"}}>
+                <Stack spacing={2} style={{flex: 0.8}} sx={{display: {xs: 'none', sm:'block'}}}>
                     <CardMedia
                         component="img"
                         src={offer.imageUrl}
@@ -106,6 +104,16 @@ const OfferCard: React.FC<OfferCardProps> = ({
                         >
                         <Typography variant="body2">{offer.description}</Typography>
                     </Box>
+
+                   <Box sx={{display: {xs: 'block', sm: 'none'}, marginTop: '1.5em'}}>
+                    <ActiveButton
+                            size="small"
+                            variant="outlined"
+                            buttonTxt="View Offer"
+                            color="secondary"
+                            onClick={handleViewOffer}
+                        />
+                   </Box>
 
                 </CardContent>
             </Stack>

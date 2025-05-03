@@ -33,7 +33,7 @@ const OfferListDisplayBody = () => {
     console.log(`Page has changed to ${page}`)
   }
 
-  return (
+  return (  
     <Stack className={styles.bookingContent} spacing={3}>
         <Typography variant="h4">My Offers as a:</Typography>
         <Stack divider={<Divider orientation="horizontal" flexItem />} sx={{width: "100%", py: 2}}>

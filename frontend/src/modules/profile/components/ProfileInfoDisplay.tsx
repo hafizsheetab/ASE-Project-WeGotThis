@@ -1,8 +1,8 @@
 import { Rating, Stack, Typography } from '@mui/material'
 import ProfileName from './ProfileName'
 import ProfileSubInfo from './ProfileSubInfo'
-import CategoryList from '../shared/components/CategoryChipDisplay'
-import { ProfileInfoDisplayTypes } from './Types'
+import CategoryList from '../../shared/components/CategoryChipDisplay'
+import { ProfileInfoDisplayTypes } from '../Types'
 
 type ProfileInfoDisplayProps = {
   info : ProfileInfoDisplayTypes
@@ -13,7 +13,9 @@ const ProfileInfoDisplay: React.FC<ProfileInfoDisplayProps> = ({info}) => {
     <Stack gap={1}>
         <ProfileName name={info.name} profileImg={info.profileImg}/>
 
-        <Stack direction="row" justifyContent='space-between' alignItems='flex-start'>
+        <Stack direction={{xs: 'column', smd: 'row'}} 
+          gap={2}
+          justifyContent='space-between' alignItems='flex-start'>
             <Stack gap={1}>
               <Stack direction='row' gap={2} alignItems='center'>
                 <Typography variant='body1'>Rating: </Typography>

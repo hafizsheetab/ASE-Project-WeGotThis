@@ -55,7 +55,7 @@ const OfferForm: React.FC<OfferFormProps> = ({initialValues, formData, setFormDa
     console.log(formData)
 
   return (
-    <form style={{flex: 1.5}} >
+    <form style={{flex: 1.5, width: "100%"}} >
       <section>
         <h1>I'm offering:</h1>
           <RadioSelection

@@ -1,5 +1,5 @@
 import { Box} from "@mui/material";
-import PublicProfileBody from "../../modules/profile/PublicProfileBody.tsx";
+import PublicProfileBody from "../../modules/profile/components/PublicProfileBody.tsx";
 
 const ProfileManagement = () => {
     return (
