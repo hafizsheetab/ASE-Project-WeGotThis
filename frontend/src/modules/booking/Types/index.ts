@@ -6,5 +6,10 @@ export interface BookingRequestResponseBody {
     status: OfferStatus
     price: Number
     offer: OfferResponseBody
+    offerOwnerReview: Boolean
+    requestOwnerReview: Boolean
+    requestOwnerComplete: Boolean
+    offerOwnerComplete: Boolean
+    time: Date
 }
 

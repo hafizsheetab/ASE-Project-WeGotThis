@@ -47,4 +47,15 @@ export interface UserResponse {
     location: string
     categories: Array<OfferCategory>
     imageUrl: string
+    rating: number
+    time: Date
+    servicesSeeked: number
+    servicesOffered: number
+}
+
+export interface ReviewResponse {
+    rating: number
+    text: string
+    user: UserResponse
+    time: Date
 }

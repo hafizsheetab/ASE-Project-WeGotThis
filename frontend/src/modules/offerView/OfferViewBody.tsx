@@ -40,7 +40,7 @@ const OfferViewBody: React.FC = () => {
 
     const [negotiable, setNegotiable] = useState(false);
     const [newPrice, setNewPrice] = useState("");
-
+    const navigate = useNavigate()
     const [sendRequest, setSendRequest] = useState({
         disabled: false,
         text: "Send Request"
@@ -56,6 +56,10 @@ const OfferViewBody: React.FC = () => {
             location: "",
             categories: [],
             imageUrl: "",
+            rating: -1,
+            time: new Date(),
+            servicesOffered: 0,
+            servicesSeeked: 0
         });
 
     const [owner, setOwner] = useState(false)
@@ -160,12 +164,19 @@ const OfferViewBody: React.FC = () => {
                             <Avatar sx={{bgcolor:theme.palette.primary.main}}>U</Avatar>
                             <Stack>
                                 <Typography variant="body2" color={theme.palette.text.secondary}>Creator:</Typography>
-                                <Link href="#"
+                                <div
+                                onClick={() => {
+                                    if(!owner){
+                                        navigate(`/profile/${offer.owner.id}`);
+                                    }
+                                }}>
+                                <Link 
                                     underline="hover"
                                     sx={{cursor: "pointer"}}
                                 >
                                     { owner ? "You" : offer.owner.firstName + " " + offer.owner.lastName}
                                 </Link>
+                                </div>
                             </Stack>
                         </Stack>
                         <ActiveButton buttonTxt="Chat" variant="outlined" onClick={handleChat}/>

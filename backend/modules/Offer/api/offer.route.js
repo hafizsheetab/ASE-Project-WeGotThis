@@ -8,9 +8,9 @@ const PostErrorProcessing = require("../../../middleware/Response/PostErrorProce
 const PostSuccessProcessing = require("../../../middleware/Response/PostSuccessProcessing")
 const EntityNames = require('../../../Types/EntityNames')
 const { UploadValidMimeTypes, UploadedFileTypes } = require('../../../Types/UploadFileTypes')
-const { createOffer, editOffer, getOffer, getOffers, updateOffer, deleteOffer, offerTemplate, uploadOfferImages, getMyOffers, addRequests, getMyRequestsToOffers, getRequestsOnMyOffers, acceptOfferRequest, rejectOfferRequest, completeOfferRequest } = require("../controller/offer.controller")
+const { createOffer, editOffer, getOffer, getOffers, updateOffer, deleteOffer, offerTemplate, uploadOfferImages, getMyOffers, addRequests, getMyRequestsToOffers, getRequestsOnMyOffers, acceptOfferRequest, rejectOfferRequest, completeOfferRequest, giveReview } = require("../controller/offer.controller")
 //todo: add preprocessing later
-const entityName = EntityNames.offer
+const entityName = EntityNames.offer;
 router.post("/create", PreProcessing(entityName) ,async (req, res) => {
     try{
         const offer = await createOffer(req.body, req.user.id,req.locale)
@@ -336,6 +336,29 @@ router.put("/reject/:offerId/:requestId", PreProcessing(entityName), async(req, 
         res.status(statusCode).json(error);
     }
 })
+
+router.put("/giveReview/:offerId/:requestId", PreProcessing(entityName), async(req, res) => {
+    try{
+        const offer = await giveReview(req.params.offerId, req.userId, req.params.requestId, req.body, req.locale)
+        const popupMessage = successMessages()[req.locale].offer.editOffer
+        const response = PostSuccessProcessing(popupMessage, offer)
+        res.status(response.statusCode).json(response)
+    }
+    catch(err){
+        console.log(err);
+        const statusCode = 401;
+        const error = PostErrorProcessing(
+            statusCode,
+            err.formErrors,
+            err.entityName,
+            err.service,
+            err.apiErrorCode,
+            req.locale
+        );
+        res.status(statusCode).json(error);
+    }
+})
+
 module.exports = router
 
 

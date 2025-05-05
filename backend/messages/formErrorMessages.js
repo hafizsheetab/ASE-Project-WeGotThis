@@ -63,6 +63,10 @@ module.exports = {
             },
             addRequests: {
                 price: "ERROR MESSAGE FOR PRICE FORM ERROR - EN",
+            },
+            giveReview: {
+                rating: "ERROR MESSAGE FOR RATING FORM ERROR - EN",
+                text: "ERROR MESSAGE FOR TEXT FORM ERROR - EN"
             }
         }
     },
@@ -126,6 +130,10 @@ module.exports = {
             },
             addRequests: {
                 price: "ERROR MESSAGE FOR PRICE FORM ERROR - DE",
+            },
+            giveReview: {
+                rating: "ERROR MESSAGE FOR RATING FORM ERROR - DE",
+                text: "ERROR MESSAGE FOR TEXT FORM ERROR - DE"
             }
         },
     }

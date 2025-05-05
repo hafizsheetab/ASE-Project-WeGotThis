@@ -28,11 +28,23 @@ const UserSchema = new dynamoose.Schema(
             type: Array,
             schema: [
                 {
-                    userId: String,
-                    rating: Number,
-                    text: String
+                    type: Object,
+                    schema: {
+                        userId: String,
+                        rating: Number,
+                        text: String,
+                        time: Date
+                    },
                 },
             ],
+        },
+        servicesOffered: {
+            type: Number,
+            default: 0
+        },
+        servicesSeeked: {
+            type: Number,
+            default: 0
         }
     },
     {

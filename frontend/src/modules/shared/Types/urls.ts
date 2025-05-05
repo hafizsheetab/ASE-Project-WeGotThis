@@ -22,5 +22,7 @@ export default {
     acceptBookingRequest: `${baseUrl}/${preamble}/offer/accept/`,
     rejectBookingRequest: `${baseUrl}/${preamble}/offer/reject/`,
     completeBookingRequest: `${baseUrl}/${preamble}/offer/complete/`,
-
+    getReviews: `${baseUrl}/${preamble}/user/getReviews/`,
+    giveReview: `${baseUrl}/${preamble}/offer/giveReview/`,
+    getUser: `${baseUrl}/${preamble}/user/getUser/`,
 }

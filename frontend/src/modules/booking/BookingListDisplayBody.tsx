@@ -20,17 +20,11 @@ const BookingListDisplayBody = () => {
     }
     setBookingArray(_bookingArray)
 
-    let _filtered = _bookingArray.filter((booking) =>
-      {
-        return booking.user.id === store.context.user.id && booking.status.displayValue === 'requested'
-      })
-
-    setFilteredArray(_filtered)
+    
   }
-
   useEffect(() => {
     loadBookingArray()
-  },[store.context.update])  
+  }, [])
 
   const [bookingArray, setBookingArray] = useState<Array<BookingRequestResponseBody>>([])
   const [filteredArray, setFilteredArray] = useState<Array<BookingRequestResponseBody>>([])
@@ -41,7 +35,7 @@ const BookingListDisplayBody = () => {
 
   useEffect(() => {
     filterBookings();
-  }, [tabSetting.statusType, tabSetting.serviceType]);
+  }, [tabSetting.statusType, tabSetting.serviceType, bookingArray]);
 
   function a11yProps(index: number) {
     return {

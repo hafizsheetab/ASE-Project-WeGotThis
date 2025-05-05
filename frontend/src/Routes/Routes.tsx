@@ -34,6 +34,7 @@ const AppRoutes = () => {
                         <Route path="/offer" element={<MyOfferListDisplay/>}/>
                         <Route path="/booking" element={<MyBookingListDisplay/>}/>
                         <Route path="*" element={<Navigate to="/home" replace={true}/>}/>
+                        <Route path="/profile/:id" element={<ProfileManagement/>}/>
                         <Route path="/profile" element={<ProfileManagement/>}/>
                         <Route path="/account" element={<AccountManagement/>}/>
                     </Route>

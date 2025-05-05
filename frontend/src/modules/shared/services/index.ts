@@ -2,6 +2,16 @@ import axios from "axios";
 import { ContextData, ContextStoreData, ErrorBody, ResponseBody } from "../Types";
 import { Bounce, toast } from "react-toastify";
 
+import moment from "moment";
+
+export const getDateTimeString = (date: Date) => {
+    if(date){
+        return moment(date).format("MMMM Do YYYY, h:mm:ss a");
+    }else{
+        return ""
+    }
+}
+
 export const apiRequest = async <ReqBody, ResBody>(
     url: string,
     requestBody: ReqBody | null,

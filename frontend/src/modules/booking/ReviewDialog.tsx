@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Rating, Stack, styled, Typography } from "@mui/material";
 import DescriptionField from '../shared/components/DescriptionField';
 import ActiveButton from '../shared/components/ActiveClickButton';
+import { giveReview } from '../offerList/services';
+import ContextStore from '../../utils/ContextStore';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -16,12 +18,20 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 type ReviewDialogProps = {
     open: boolean;
     onClose: () => void;
+    offerId: string;
+    requestId: string;
   };
 
-const ReviewDialog: React.FC<ReviewDialogProps> = ({ open, onClose }) => {
-    const [value, setValue] = useState<number | null>(null);
-
-    const handleComplete = () => {
+const ReviewDialog: React.FC<ReviewDialogProps> = ({ open, onClose, offerId, requestId }) => {
+    const [rating, setRating] = useState<number | null>(null);
+    const [text, setText] = useState<string>('');
+    const store = useContext(ContextStore)
+    const handleComplete = async() => {
+        const response = await giveReview(store, {rating: rating ? rating : 0, text}, offerId, requestId)
+        if("status" in response){
+            return
+        }
+        console.log(response)
         onClose();
     };
 
@@ -63,9 +73,9 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({ open, onClose }) => {
                 </Typography>
                 <Rating
                 name="user-review-rating"
-                value={value}
+                value={rating}
                 onChange={(event, newValue) => {
-                    setValue(newValue);
+                    setRating(newValue);
                 }}
                 size="large"
                 />
@@ -75,7 +85,7 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({ open, onClose }) => {
                 <Typography gutterBottom variant="subtitle1">
                 Leave a review
                 </Typography>
-                <DescriptionField readonly={false} maxWords={150} placeholder='Optional'/>
+                <DescriptionField value={text} onChange={(e) => setText(e)} readonly={false} maxWords={150} placeholder='Optional'/>
             </Box>
             </Stack>
         </DialogContent>

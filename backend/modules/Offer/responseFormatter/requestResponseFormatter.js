@@ -20,6 +20,11 @@ module.exports = async(request) => {
       return {
         user,
         status,
-        price: request.price
+        price: request.price,
+        offerOwnerReview: request.offerOwnerReview,
+        requestOwnerReview: request.requestOwnerReview,
+        requestOwnerComplete: request.requestOwnerComplete,
+        offerOwnerComplete: request.offerOwnerComplete,
+        time: request.time
       }
    }

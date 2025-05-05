@@ -23,9 +23,24 @@ const OfferSchema = new dynamoose.Schema(
                             enum: getIdsOfEnum(OfferStatusEnum),
                             default: OfferStatusEnum.REQUESTED.id,
                         },
-                        review: {
+                        offerOwnerReview: {
                             type: Boolean,
                             default: false,
+                        },
+                        requestOwnerReview: {
+                            type: Boolean,
+                            default: false,
+                        },
+                        requestOwnerComplete: {
+                            type: Boolean,
+                            default: false
+                        },
+                        offerOwnerComplete: {
+                            type: Boolean,
+                            default: false
+                        },
+                        time: {
+                            type: Date
                         }
                     },
                 },

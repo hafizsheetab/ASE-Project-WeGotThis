@@ -3,9 +3,11 @@ import { useState } from "react";
 import { Reviews } from "../Types";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import ReviewCards from "./ReviewCards";
+import { ReviewResponse } from "../../shared/Types";
+import { getDateTimeString } from "../../shared/services";
 
 type ReviewsListProps = {
-  array : Array<Reviews>
+  array : Array<ReviewResponse>
   profileImg: string
 }
 
@@ -121,7 +123,7 @@ const ReviewsList: React.FC<ReviewsListProps> = ({array, profileImg}) => {
         <Stack gap={4}>
           {filter.allSelected ? (
             array.map((item) => (
-              <ReviewCards key={`${item.date}-${item.user}`} review={item} profileImg={profileImg} />
+              <ReviewCards key={`${getDateTimeString(item.time)}-${item.user.firstName} ${item.user.lastName}`} review={item} profileImg={item.user.imageUrl} />
             ))
           ) : (
             (() => {
@@ -131,7 +133,7 @@ const ReviewsList: React.FC<ReviewsListProps> = ({array, profileImg}) => {
 
               return filteredArray.length > 0 ? (
                 filteredArray.map((item) => (
-                  <ReviewCards key={`${item.date}-${item.user}`} review={item} profileImg={profileImg} />
+                  <ReviewCards key={`${getDateTimeString(item.time)}-${item.user.firstName} ${item.user.lastName}`} review={item} profileImg={item.user.imageUrl} />
                 ))
               ) : (
                 <Typography

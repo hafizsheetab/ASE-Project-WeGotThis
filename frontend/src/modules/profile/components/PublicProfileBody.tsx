@@ -1,20 +1,51 @@
 import { Box, Divider, Stack, Tabs, Tab } from '@mui/material'
 import styles from "../../account/components/AccountManagement.module.css";
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ProfileInfoDisplay from './ProfileInfoDisplay';
 import test from '../../../assets/test.png'
 import ReviewsList from './ReviewsList';
 import { ProfileInfoDisplayTypes, Reviews, UserCategory } from '../Types';
 import OfferDisplay from './OfferDisplay';
+import { useParams } from 'react-router-dom';
+import { ReviewResponse, UserResponse } from '../../shared/Types';
+import ContextStore from '../../../utils/ContextStore';
+import { getReviews, getUser } from '../services';
 
 const PublicProfileBody = () => {
     const [tabSetting, setTabSetting] = useState({
         tabType : "reviews",
     });
-
+    const [user, setUser] = useState<UserResponse>({} as UserResponse)
+    const [reviews, setReviews] = useState<ReviewResponse[]>([])
+    const {id} = useParams()
+    const store = useContext(ContextStore)
+    useEffect(() => {
+      (async() => {
+        if(!id){
+          setUser(store.context.user)
+          const reviewsResponse = await getReviews(store, store.context.user.id)
+          if("status" in reviewsResponse){
+            return
+          }
+          setReviews(reviewsResponse)
+        }
+        else {
+          const userResponse = await getUser(store, id)
+          if("status" in userResponse){
+            return
+          }
+          setUser(userResponse)
+          const reviewsResponse = await getReviews(store, id)
+          if("status" in reviewsResponse){
+            return
+          }
+          setReviews(reviewsResponse)
+        }
+      })()
+    },[id])
   return (
     <Box className={styles.homeContent}>
-        <ProfileInfoDisplay info={userInfo}/>
+        <ProfileInfoDisplay user={user}/>
 
         <Stack divider={<Divider orientation="horizontal" flexItem />} sx={{width: "100%", py: 2}}>
             <Tabs
@@ -30,7 +61,7 @@ const PublicProfileBody = () => {
             </Tabs>
 
             {tabSetting.tabType.match("reviews") ? 
-                <ReviewsList array={reviews} profileImg={userInfo.profileImg}/> : 
+                <ReviewsList array={reviews} profileImg={user.imageUrl}/> : 
                 <OfferDisplay/>
             }
         </Stack>

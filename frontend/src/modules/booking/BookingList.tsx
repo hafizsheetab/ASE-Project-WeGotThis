@@ -32,6 +32,7 @@ const BookingList : React.FC<BookingListProps> = ({bookingsArr, loadArray}) => {
           userEmail={booking.offer.owner.email}
           hasReview={false}   /// TODO: CHECK IF booking.offer.hasReview & (booking.offer.id == context.user.id)
           loadArray={loadArray}
+          request={booking}
         />
       ))
   ) : (
