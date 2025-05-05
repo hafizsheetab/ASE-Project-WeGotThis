@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import AppRoutes from "./Routes/Routes";
 import { ContextData, UserResponse } from "./modules/shared/Types";
 import ContextStore from "./utils/ContextStore";
 import { ToastContainer } from "react-toastify";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Box, LinearProgress } from "@mui/material"; // 🛠 Import LinearProgress
-import { getSelf } from "./modules/account/services";
+import { Box, LinearProgress } from "@mui/material"; 
 
 const theme = createTheme({
   palette: {

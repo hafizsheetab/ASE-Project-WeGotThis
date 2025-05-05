@@ -11,6 +11,8 @@ type SearchbarProps = {
 const Searchbar: React.FC<SearchbarProps> = ({onNewSearch, searchArray}) => {
     const theme = useTheme();
     const [value, setValue] = useState<string | null>("");
+    const [inputValue, setInputValue] = useState<string>("");
+
 
   return (
     <Paper elevation={2}>
@@ -28,9 +30,14 @@ const Searchbar: React.FC<SearchbarProps> = ({onNewSearch, searchArray}) => {
             id="searchbar-input"
             freeSolo
             value={value}
+            inputValue={inputValue}
+            onInputChange={(event, newInputVal) => {
+              setInputValue(newInputVal)
+            }}
             onChange={(event: any, newValue : string | null) => {
                 setValue(newValue);
-                onNewSearch && onNewSearch(newValue)
+                setInputValue(newValue || "");
+                onNewSearch?.(newValue);
             }}
             options={searchArray.map((option) => option.title)}
             renderInput={(params) => 
@@ -53,7 +60,7 @@ const Searchbar: React.FC<SearchbarProps> = ({onNewSearch, searchArray}) => {
             }
             />  
         
-        <Button variant="contained" color="secondary" onClick={() => onNewSearch? onNewSearch(value) : {}}
+        <Button variant="contained" color="secondary" onClick={() => onNewSearch?.(inputValue)}
             sx={{flex:.25, borderRadius:"0 8px 8px 0"}}>
             <SearchIcon/>
         </Button>

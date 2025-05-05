@@ -54,15 +54,23 @@ const PriceRangeSelect: React.FC<PriceRangeSelectProps> = ({ value, onChange, la
         <Select
           labelId={`select-label-${label}`}
           id={`price-range-${label}`}
-          value={`CHF${localValue[0]} - CHF${localValue[1]}`}
+          value={localValue? `${localValue[0]} - ${localValue[1]} CHF` : ""}
           input={<OutlinedInput label={label} />}
           onOpen={handleOpen}
           open={false}
           renderValue={() =>
-            value ? `CHF${value[0]} - CHF${value[1]}` : 'Select price range'
+            value ? `${value[0]} - ${value[1]} CHF` : 'Select price range'
           }
           MenuProps={MenuProps}
         >
+          {localValue && (
+          <MenuItem
+            value={`${localValue[0]} - ${localValue[1]} CHF`}
+            sx={{ display: 'none' }}
+          >
+            {`${localValue[0]} - ${localValue[1]} CHF`}
+          </MenuItem>
+        )}
           <MenuItem disabled>Price Range</MenuItem>
         </Select>
       </FormControl>

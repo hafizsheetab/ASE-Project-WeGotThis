@@ -42,7 +42,7 @@ const DateTimeRangeSelect: React.FC<DateTimeRangeSelectProps> = ({ value, onChan
           labelId={`select-label-${label}`}
           id={`date-range-select-${label}`}
           input={<OutlinedInput label={label} />}
-          value={localValue[0] && localValue[1] ? `${localValue[0]?.format('DD/MM/YYYY')} - ${localValue[1]?.format('DD/MM/YYYY')}` : ''}
+          value={localValue ? `${localValue[0]?.format('DD/MM/YYYY')} - ${localValue[1]?.format('DD/MM/YYYY')}` : ''}
           onOpen={handleOpen}
           open={false}
           renderValue={() =>
@@ -51,6 +51,14 @@ const DateTimeRangeSelect: React.FC<DateTimeRangeSelectProps> = ({ value, onChan
               : 'Select date range'
           }
         >
+          {localValue && (
+          <MenuItem
+              value={`${localValue[0].format('DD/MM/YYYY')} - ${localValue[1].format('DD/MM/YYYY')}`}
+              sx={{ display: 'none' }}
+            >
+              {`${localValue[0].format('DD/MM/YYYY')} - ${localValue[1].format('DD/MM/YYYY')}`}
+          </MenuItem>
+          )}
           <MenuItem disabled>Select Date Range</MenuItem>
         </Select>
       </FormControl>

@@ -86,7 +86,7 @@ const OfferCard: React.FC<OfferCardProps> = ({
                         <Typography variant="body2" style={{verticalAlign: 'middle',display: 'inline-flex'}}>
                             <LocalOfferOutlinedIcon fontSize="small" sx={{marginRight: ".2em"}}/>
                             {offer.price} CHF&nbsp;
-                            <Typography 
+                            <Typography  component="span"
                                 variant="body2" color="textSecondary"> {offer.priceMode.id == 2? "(Negotiable)" : "(Fixed)"}</Typography>
                         </Typography>
                     </Box>
