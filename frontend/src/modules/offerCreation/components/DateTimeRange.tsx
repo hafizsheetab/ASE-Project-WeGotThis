@@ -1,4 +1,3 @@
-import styles from "./OfferCreation.module.css"
 import { useEffect, useMemo, useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import { FormHelperText, InputAdornment, Stack, TextField, Typography } from "@mui/material";
