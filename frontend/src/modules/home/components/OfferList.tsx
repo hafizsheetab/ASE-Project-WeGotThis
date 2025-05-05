@@ -2,29 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import {Box, Grid2} from "@mui/material";
 import OfferCard from "./OfferCard";
 import { OfferResponseBody } from "../../offerCreation/Types";
-import { getAllOffers } from "../services";
-import ContextStore from "../../../utils/ContextStore";
 import PaginationControlled from "../../shared/components/PaginationControls";
 
+type OfferListProps = {
+  offers : Array<OfferResponseBody>
+}
 
-const OfferList = () => {
-  const [offers, setOffers] = useState<Array<OfferResponseBody>>([])
-  
-  const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
-    console.log("Go to page:", page);
-  };
-  const store = useContext(ContextStore)
-
-  useEffect(() => {
-    (async () => {
-      const vOffers = await getAllOffers(store)
-      if("status" in vOffers){
-        return
-      }
-      console.log(vOffers)
-      setOffers(vOffers)
-    })()  
-  },[])
+const OfferList : React.FC<OfferListProps> = ({offers}) => {
 
   const handlePaginationChange = (page : number) => {
     console.log(`Page has changed to ${page}`)

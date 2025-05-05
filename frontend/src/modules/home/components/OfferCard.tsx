@@ -11,7 +11,6 @@ import ActiveButton from "../../shared/components/ActiveClickButton";
 import {useNavigate} from "react-router-dom";
 import { OfferResponseBody } from "../../offerCreation/Types";
 import dayjs from "dayjs";
-import CategoryList from "../../shared/components/CategoryChipDisplay";
 import {formatDuration} from "../../shared/components/HelperMethods";
 import TodayIcon from '@mui/icons-material/Today';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
@@ -36,9 +35,9 @@ const OfferCard: React.FC<OfferCardProps> = ({
             sx={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "flex-start",
-                padding: "2em 2em 1em",
-                gap: 2
+                alignItems: "strech",
+                padding: "2em 1em",
+                gap: 1
             }}
         >
            
@@ -65,7 +64,7 @@ const OfferCard: React.FC<OfferCardProps> = ({
                 </Stack>
 
                 <CardContent sx={{flex: 1.5, p: 0, "&:last-child": {paddingBottom: 0}}}>
-                    <Typography variant="h6" fontWeight={700}>
+                    <Typography variant="h6" fontWeight={700} lineHeight={1.25}>
                         {offer.title}
                     </Typography>
 
@@ -87,7 +86,7 @@ const OfferCard: React.FC<OfferCardProps> = ({
                         <Typography variant="body2" style={{verticalAlign: 'middle',display: 'inline-flex'}}>
                             <LocalOfferOutlinedIcon fontSize="small" sx={{marginRight: ".2em"}}/>
                             {offer.price} CHF&nbsp;
-                            <Typography 
+                            <Typography  component="span"
                                 variant="body2" color="textSecondary"> {offer.priceMode.id == 2? "(Negotiable)" : "(Fixed)"}</Typography>
                         </Typography>
                     </Box>
@@ -117,10 +116,6 @@ const OfferCard: React.FC<OfferCardProps> = ({
 
                 </CardContent>
             </Stack>
-
-            <Box sx={{ height: "2em", display: "flex", alignItems: "center" }}>
-                <CategoryList size="small" categories={offer.categories} />
-            </Box>
 
         </Card>
     );
