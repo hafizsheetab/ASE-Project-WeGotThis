@@ -22,8 +22,8 @@ const PersonalOfferList : React.FC<PersonalOfferListProps> = ({serviceType, offe
               offer.type.displayValue.match(serviceType)
           )
           .map((offer) => (
-            <Grid2 size={{xs: 12, sm: 12, md: 6}} container>
-                <OfferCardShort key={offer.id}
+            <Grid2 size={{xs: 12, sm: 12, md: 6}} container key={"grid-"+offer.id}>
+                <OfferCardShort key={"offer-" + offer.id}
                     offer={offer}
                 />
             </Grid2>

@@ -52,6 +52,11 @@ const BookingListDisplayBody = () => {
     let filtered = bookingArray.filter(
       (booking) =>
       {
+        console.log(booking)
+        console.log(booking.offerOwnerReview)
+        console.log(booking.requestOwnerReview)
+        console.log(booking.offerOwnerComplete)
+        console.log(booking.requestOwnerComplete)
         return tabSetting.serviceType === "my" ? booking.user.id === store.context.user.id && booking.status.displayValue === tabSetting.statusType : booking.user.id !== store.context.user.id && booking.status.displayValue === tabSetting.statusType  
       }
     )

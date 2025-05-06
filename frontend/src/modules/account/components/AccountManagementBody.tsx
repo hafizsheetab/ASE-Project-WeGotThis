@@ -30,6 +30,8 @@ import { UserResponse } from "../../shared/Types";
 import { changeSelf, getSelf, uploadProfilePicture } from "../services";
 import { ChangeSelfRequestBody } from "../Types";
 import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
+import AlertToast from "../../shared/components/AlertToast";
 
 interface ProfileInfoDisplayTypes {
     firstName: string;
@@ -81,12 +83,19 @@ const AccountManagementBody = () => {
         location: "",
         categories: [],
         imageUrl: "",
+        rating: 0,
+        time: new Date(),
+        servicesSeeked: 0,
+        servicesOffered: 0
     });
+
     const [categoryIds, setCategoryIds] = useState<number[]>([]);
+
     useEffect(() => {
         const vcategoryIds = user.categories.map((ct) => ct.id);
         setCategoryIds(vcategoryIds);
     }, [user]);
+
     const handleImageUpload = async (file: File | null) => {
         if (file) {
             const reader = new FileReader();
@@ -107,6 +116,7 @@ const AccountManagementBody = () => {
         offerCategories: [],
         offerTypes: [],
     });
+    
     useEffect(() => {
         (async () => {
             const response = await getOfferCreationTemplate(store);
@@ -114,13 +124,19 @@ const AccountManagementBody = () => {
                 return;
             }
             setTemplate(response);
-            const userResponse = await getSelf(store);
+            const userResponse = await getSelf(store, store.context.token);
+            console.log(userResponse)
             if ("status" in userResponse) {
                 return;
             }
             setUser({ ...user, ...userResponse });
         })();
     }, []);
+
+    const [openAlert, setOpenAlert] = useState({
+        open: false,
+        message: ""
+    });
 
     const addCategory = (ids: number[]) => {
         setCategoryIds([...categoryIds, ...ids]);
@@ -175,6 +191,7 @@ const AccountManagementBody = () => {
                 return;
             }
         }
+
         const payload: ChangeSelfRequestBody = {
             firstName: user.firstName,
             lastName: user.lastName,
@@ -182,14 +199,18 @@ const AccountManagementBody = () => {
             location: user.location,
             expire: user.expire,
             password: passwords.newPassword,
-            categoryIds,
+            categoryIds: categoryIds,
         };
+        
         const response = await changeSelf(payload, store);
+        
         if ("status" in response) {
             return;
         }
+
         setUser(response);
         store.setContext({ ...store.context, user: response });
+        setOpenAlert({open: true, message: "Your account has been updated successfully"})
     };
 
     return (
@@ -451,6 +472,10 @@ const AccountManagementBody = () => {
                 buttonTxt="Save Changes"
                 style={{margin: "1em auto" }}
             />
+
+            <AlertToast text={openAlert.message} open={openAlert.open} severity='error' handleClose={() => {
+                setOpenAlert({...openAlert, open:false});
+            }}/>
         </form>
     );
 };

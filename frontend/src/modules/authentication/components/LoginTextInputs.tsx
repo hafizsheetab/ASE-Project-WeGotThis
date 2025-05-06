@@ -40,6 +40,7 @@ const LoginTextInputs = () => {
         }
         response = response as TokenResponse;
         const userResponse = await getSelf(store, response.access_token);
+        
         if ("status" in userResponse) {
             return;
         }
