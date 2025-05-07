@@ -5,7 +5,6 @@ import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardActions from '@mui/material/CardActions';
 import CardHeader from '@mui/material/CardHeader';
-import testImg from '../../assets/test.png';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Menu from '@mui/material/Menu';
@@ -16,9 +15,8 @@ import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import NearMeOutlinedIcon from '@mui/icons-material/NearMeOutlined';
 import { Stack } from '@mui/material';
 import {useNavigate} from "react-router-dom";
-import { OfferResponseBody } from '../offerCreation/Types';
-import dayjs from 'dayjs';
-import { formatDuration } from '../shared/components/HelperMethods';
+import { OfferResponseBody } from '../../offerCreation/Types';
+import { calculateDuration, getReadableDateTimeString } from '../../shared/services';
 
 type OfferCardProps = {
     offer: OfferResponseBody
@@ -56,7 +54,6 @@ const BookingCard : React.FC<OfferCardProps>  = ({offer}) => {
               'aria-labelledby': 'basic-button',
               }}
           >
-              <MenuItem onClick={() => navigate(`/offer/edit/${offer.id}`)}>Edit Offer</MenuItem>
               <MenuItem onClick={() => navigate(`/offer/${offer.id}`)}>View Offer</MenuItem>
               <MenuItem onClick={handleClose}>Delete Offer</MenuItem>
           </Menu>
@@ -65,7 +62,7 @@ const BookingCard : React.FC<OfferCardProps>  = ({offer}) => {
 
   return (
     <Card sx={{alignSelf:"stretch", justifySelf:"stretch", flex:1}}>
-    <CardHeader
+      <CardHeader
         action={cardActionOffer()}
         title={offer.title}
         subheader={`Created on: ${offer.startTime}`}
@@ -86,7 +83,7 @@ const BookingCard : React.FC<OfferCardProps>  = ({offer}) => {
             </Typography>
           <Typography variant="body2" style={{verticalAlign: 'middle',display: 'inline-flex', marginTop: ".4em"}}>
                 <TodayIcon fontSize="small" sx={{marginRight: ".2em"}}/>
-                {dayjs(offer.startTime).format("ddd, MMM D, h:mm A")}; ~ {formatDuration(offer.startTime, offer.endTime)}
+                {getReadableDateTimeString(offer.startTime)}; ~ {calculateDuration(offer.startTime, offer.endTime)}
             </Typography>
             <br/>
             <Typography variant="body2" style={{verticalAlign: 'middle',display: 'inline-flex'}}>

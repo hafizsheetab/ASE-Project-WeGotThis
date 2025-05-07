@@ -1,7 +1,7 @@
 import React from 'react'
 import OfferCardShort from './OfferCardShort';
 import { Grid2, Typography } from '@mui/material';
-import { OfferResponseBody } from '../offerCreation/Types';
+import { OfferResponseBody } from '../../offerCreation/Types';
 
 type PersonalOfferListProps = {
   offers: Array<OfferResponseBody>,

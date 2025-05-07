@@ -1,37 +1,38 @@
-import PaginationControlled from '../shared/components/PaginationControls';
-import styles from "../booking/Booking.module.css";
+import PaginationControlled from './../../shared/components/PaginationControls';
+import styles from "../../booking/Booking.module.css";
 import { Box, Divider, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import OfferList from './OfferList';
-import { OfferResponseBody } from '../offerCreation/Types';
-import ContextStore from '../../utils/ContextStore';
-import { getAllOffers } from '../home/services';
-import { getMyOffers } from './services';
+import { OfferResponseBody } from '../../offerCreation/Types';
+import ContextStore from '../../../utils/ContextStore';
+import { getMyOffers } from '../services';
+import AlertToast from '../../shared/components/AlertToast';
+import { OpenAlert } from '../../shared/Types';
 
 const OfferListDisplayBody = () => {
-  const maxNumOfItemsOnPage = 25;
   const [offers, setOffers] = useState<Array<OfferResponseBody>>([])
-
+  const [openAlert, setOpenAlert] = useState<OpenAlert>({
+          open: false,
+          message: "",
+          severity: "error"
+  });
   const store = useContext(ContextStore)
 
   useEffect(() => {
     (async () => {
       const vOffers = await getMyOffers(store)
       if("status" in vOffers){
+        setOpenAlert({...openAlert, open: true, message: vOffers.popupMessage})
         return
       }
-      console.log(vOffers)
+      
       setOffers(vOffers)
     })()  
   },[])
 
-    const [tabSetting, setTabSetting] = useState({
-        serviceType : "seeking",
-    });
-
-  const handlePaginationChange = (page : number) => {
-    console.log(`Page has changed to ${page}`)
-  }
+  const [tabSetting, setTabSetting] = useState({
+      serviceType : "seeking",
+  });
 
   return (  
     <Stack className={styles.bookingContent} spacing={3}>
@@ -50,10 +51,14 @@ const OfferListDisplayBody = () => {
               </Tabs>
 
               <Box sx={{ flex: 1, py: 4}}>  
-                <PaginationControlled numberOfItems={offers.filter((offer) => offer.type.displayValue.match(tabSetting.serviceType)).length} maxItemsOnOnePage={maxNumOfItemsOnPage} onPaginationClick={handlePaginationChange}/>
+                <PaginationControlled numberOfItems={offers.filter((offer) => offer.type.displayValue.match(tabSetting.serviceType)).length} maxItemsOnOnePage={25}/>
                 <OfferList serviceType={tabSetting.serviceType} offers={offers}/>
               </Box>
         </Stack>
+
+        <AlertToast text={openAlert.message} open={openAlert.open} severity={openAlert.severity} handleClose={() => {
+                setOpenAlert({...openAlert, open:false});
+            }}/>
     </Stack>
 
   )

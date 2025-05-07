@@ -9,7 +9,7 @@ import { FilterState } from '../Types';
 type PaginationControlledProps = {
   numberOfItems : number;
   maxItemsOnOnePage : number;
-  onPaginationClick : (page : number) => void;
+  onPaginationClick? : (page : number) => void;
   handleSelectAll?: (newFilter : FilterState) => void;
   handleFilterChange?: (newFilter: FilterState) => void;
   header? : string;
@@ -30,7 +30,7 @@ const PaginationControlled : React.FC<PaginationControlledProps> = ({numberOfIte
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
-    onPaginationClick(value)
+    onPaginationClick?.(value)
   };
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import OfferListDisplayBody from "../../modules/offerList/OfferListDisplayBody";
+import OfferListDisplayBody from "../../modules/offerList/components/OfferListDisplayBody";
 
 export const MyOfferListDisplay: React.FC = () => {
   return (

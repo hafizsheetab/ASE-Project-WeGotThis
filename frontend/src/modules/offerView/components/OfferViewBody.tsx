@@ -16,7 +16,6 @@ import {
 import { OfferResponseBody } from "../../offerCreation/Types";
 import { getOneOffer } from "../../home/services";
 import ContextStore from "../../../utils/ContextStore";
-import dayjs from "dayjs";
 import ActiveButton from "../../shared/components/ActiveClickButton";
 import CategoryList from "../../shared/components/CategoryChipDisplay";
 import TaskDescriptionSection from "../../offerCreation/components/TaskDescriptionSection";
@@ -24,7 +23,7 @@ import { AddRequestToOfferRequestBody } from "../Types";
 import { addRequestToOffer, getSelf } from "../services";
 import { OpenAlert, UserResponse } from "../../shared/Types";
 import AlertToast from "../../shared/components/AlertToast";
-import { calculateDuration, getReadableString } from "../../shared/services";
+import { calculateDuration, getReadableDateTimeString } from "../../shared/services";
 
 const OfferViewBody: React.FC = () => {
     const nav = useNavigate()
@@ -196,7 +195,7 @@ const OfferViewBody: React.FC = () => {
                             <strong>Location:</strong> {offer.location}
                         </Typography>
                         <Typography variant="body1">
-                            <strong>Date :</strong> {getReadableString(offer.startTime)} - {getReadableString(offer.endTime)}
+                            <strong>Date :</strong> {getReadableDateTimeString(offer.startTime)} - {getReadableDateTimeString(offer.endTime)}
                         </Typography>
                         <Typography variant="body1">
                             <strong>Estimated Duration:</strong> {calculateDuration(offer.startTime, offer.endTime)}

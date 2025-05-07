@@ -25,3 +25,5 @@
 1. Allow Registration with 2 character name & surname
 2. Forgot Password 5xx error -> cannot reset
 3. Change Error Message to more understandable ones
+4. Delete Offer API
+5. Create At for Offers?

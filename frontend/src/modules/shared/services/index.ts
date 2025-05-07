@@ -11,7 +11,7 @@ export const getDateTimeString = (date: Date) => {
     }
 }
 
-export const getReadableString = (timestamp: number) => {
+export const getReadableDateTimeString = (timestamp: number) => {
     if(timestamp){
         const date = new Date(timestamp * 1000);
         return date.toLocaleString('en-US', {
