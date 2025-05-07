@@ -16,13 +16,11 @@ const ReviewsList: React.FC<ReviewsListProps> = ({array}) => {
     allSelected: true
   })
 
-  const handlePaginationChange = (page : number) => {
-    console.log(`Page has changed to ${page}`)
-  }
-
   return (
     <Stack gap={4} sx={{mt:5}}>   
-      <PaginationControlled  header="Latest Reviews" maxItemsOnOnePage={25} numberOfItems={23} onPaginationClick={handlePaginationChange} handleFilterChange={(newVal) => setFilter(newVal)} handleSelectAll={(newVal) => setFilter(newVal)}/>
+      <PaginationControlled  header="Latest Reviews" maxItemsOnOnePage={25} numberOfItems={array.filter((item) =>
+                filter.values.includes(Math.round(item.rating))
+              ).length} handleFilterChange={(newVal) => setFilter(newVal)} handleSelectAll={(newVal) => setFilter(newVal)}/>
         
         <Stack gap={4}>
           {filter.allSelected && array.length > 0 ? (

@@ -1,10 +1,12 @@
 import React, { useContext, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Rating, Stack, styled, Typography } from "@mui/material";
-import DescriptionField from '../shared/components/DescriptionField';
-import ActiveButton from '../shared/components/ActiveClickButton';
-import { giveReview } from '../offerList/services';
-import ContextStore from '../../utils/ContextStore';
+import { Box, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Rating, Stack, styled, Typography } from "@mui/material";
+import DescriptionField from '../../shared/components/DescriptionField';
+import ActiveButton from '../../shared/components/ActiveClickButton';
+import { giveReview } from '../../offerList/services';
+import ContextStore from '../../../utils/ContextStore';
+import AlertToast from '../../shared/components/AlertToast';
+import { OpenAlert } from '../../shared/Types';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -26,12 +28,21 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({ open, onClose, offerId, req
     const [rating, setRating] = useState<number | null>(null);
     const [text, setText] = useState<string>('');
     const store = useContext(ContextStore)
+
+    const [openAlert, setOpenAlert] = useState<OpenAlert>({
+            open: false,
+            message: "",
+            severity: "error"
+    });
+
     const handleComplete = async() => {
         const response = await giveReview(store, {rating: rating ? rating : 0, text}, offerId, requestId)
+        
         if("status" in response){
+            setOpenAlert({...openAlert, open: true, message: response.popupMessage})
             return
         }
-        console.log(response)
+
         onClose();
     };
 
@@ -93,6 +104,10 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({ open, onClose, offerId, req
         <DialogActions>
             <ActiveButton onClick={handleComplete} buttonTxt='Submit Review'/>
         </DialogActions>
+
+        <AlertToast text={openAlert.message} open={openAlert.open} severity={openAlert.severity} handleClose={() => {
+                        setOpenAlert({...openAlert, open:false});
+        }}/>
 
     </BootstrapDialog>
     );

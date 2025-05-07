@@ -1,7 +1,7 @@
 import React from 'react'
 import BookingCard from './BookingCard';
 import { Divider, Stack, Typography } from '@mui/material';
-import { BookingRequestResponseBody } from './Types';
+import { BookingRequestResponseBody } from '../Types';
 
 type BookingListProps = {
     bookingsArr : Array<BookingRequestResponseBody>,

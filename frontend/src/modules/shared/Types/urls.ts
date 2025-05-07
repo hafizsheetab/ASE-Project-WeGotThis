@@ -23,4 +23,5 @@ export default {
     getReviews: `${baseUrl}/${preamble}/user/getReviews/`,
     giveReview: `${baseUrl}/${preamble}/offer/giveReview/`,
     getUser: `${baseUrl}/${preamble}/user/getUser/`,
+    withdrawOffer: `${baseUrl}/${preamble}/offer/withdraw/request`
 }

@@ -1,5 +1,5 @@
 "use client";
-import BookingListDisplayBody from "../../modules/booking/BookingListDisplayBody";
+import BookingListDisplayBody from "../../modules/booking/components/BookingListDisplayBody";
 
 export const MyBookingListDisplay = () => {
   return (

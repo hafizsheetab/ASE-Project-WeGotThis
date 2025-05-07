@@ -1,5 +1,5 @@
 import PaginationControlled from './../../shared/components/PaginationControls';
-import styles from "../../booking/Booking.module.css";
+import styles from "../../booking/components/Booking.module.css";
 import { Box, Divider, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import OfferList from './OfferList';
@@ -44,7 +44,6 @@ const OfferListDisplayBody = () => {
                 variant="fullWidth"
                 value={tabSetting.serviceType}
                 onChange={(e, val) => setTabSetting({...tabSetting, serviceType: val})}
-                aria-label="Vertical tabs example"
               >
                 <Tab sx={{fontSize: "1em"}} value={'seeking'} label="Service Seeker"/>
                 <Tab sx={{fontSize: "1em"}} value={'offering'} label="Service Provider"/>

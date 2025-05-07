@@ -6,8 +6,7 @@ import Button from "@mui/material/Button";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardActions from "@mui/material/CardActions";
 import CardHeader from "@mui/material/CardHeader";
-import testImg from "../../assets/test.png";
-import IconButton, { IconButtonProps } from "@mui/material/IconButton";
+import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -16,35 +15,18 @@ import TodayIcon from "@mui/icons-material/Today";
 import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
 import NearMeOutlinedIcon from "@mui/icons-material/NearMeOutlined";
 import { Stack } from "@mui/material";
-import { useMatch, useNavigate } from "react-router-dom";
-import ContextStore from "../../utils/ContextStore";
+import { useNavigate } from "react-router-dom";
+import ContextStore from "../../../utils/ContextStore";
 import {
     acceptBookingRequest,
     completeBookingRequest,
     rejectBookingRequest,
-} from "./services";
+} from "../services";
 import ReviewDialog from "./ReviewDialog";
-import { BookingRequestResponseBody } from "./Types";
-import { getSelf } from "../account/services";
-import { getDateTimeString } from "../shared/services";
+import { BookingCardProps } from "../Types";
+import { getSelf } from "../../account/services";
+import { getDateTimeString } from "../../shared/services";
 
-type BookingCardProps = {
-    title: string;
-    requestedOn: string;
-    type: string;
-    availability: string;
-    location: string;
-    originalPrice: number;
-    priceMode: number;
-    newPrice?: number;
-    statusType: string;
-    requestId: string;
-    offerId: string;
-    userEmail: string;
-    hasReview: boolean;
-    loadArray: () => void;
-    request: BookingRequestResponseBody;
-};
 
 const BookingCard: React.FC<BookingCardProps> = ({
     title,

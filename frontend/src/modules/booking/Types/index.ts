@@ -13,3 +13,20 @@ export interface BookingRequestResponseBody {
     time: Date
 }
 
+export type BookingCardProps = {
+    title: string;
+    requestedOn: string;
+    type: string;
+    availability: string;
+    location: string;
+    originalPrice: number;
+    priceMode: number;
+    newPrice?: number;
+    statusType: string;
+    requestId: string;
+    offerId: string;
+    userEmail: string;
+    hasReview: boolean;
+    loadArray: () => void;
+    request: BookingRequestResponseBody;
+};

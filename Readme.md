@@ -21,12 +21,13 @@
 - Store City Code in Location (Location is hard to sort without any proper standard formats, such as city code)
 - Withdraw API Function? -> BookingCard.tsx
 
-## Backend
+## Backend / Integration
 1. Allow Registration with 2 character name & surname
 2. Forgot Password 5xx error -> cannot reset
 3. Change Error Message to more understandable ones
 4. Delete Offer API
 5. Create At for Offers?
+6. Get User by ID? e.g. offer -> view user -> undefined name & error msg
 
 ## Frontend
 1. Create At in OfferListCard -> After Backend done
