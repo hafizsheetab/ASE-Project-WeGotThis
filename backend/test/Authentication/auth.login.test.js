@@ -1,144 +1,128 @@
-const request = require('supertest');  
-const app = require('../../server');
-const expect = require('chai').expect;
+// backend/test/auth/login.test.js
+const request = require('supertest');
+const { expect } = require('chai');
+const { SERVER, COMMON_HEADERS } = require('../helpers');
 
-describe('Auth - Login API',()=>{
-  /*
-   * Test Coverage:
-   * - Successful login with valid credentials (200 OK)
-   * - Missing required fields (401 Bad Request)
-   * - Invalid email format (401 Bad Request)
-   * - Non-existent user login attempt (401 Unauthorized)
-   * - Incorrect password login attempt (401 Unauthorized)
+describe('Auth – Login API End-to-End Tests', function() {
+  this.timeout(15000);
+
+  /**
+   * Auth.Lgn.01 – Successful login
+   * POST /api/v1/auth/login with valid credentials should return 200 and a token payload
    */
-  let testEmail;
-  const testPassword = "testPassword123";
+  it('Auth.Lgn.01 – POST /api/v1/auth/login – succeeds with valid credentials', async () => {
+    const payload = {
+      email:    'sheetab@technohaven.com',
+      password: '123456',
+      expire:   true
+    };
 
-  // before hook: register a user first
-  before((done) => {
-    console.log("[DEBUG] Starting registration process...");
-    testEmail = `testuser_${Date.now()}@testmail.com`; // Unique email for each test
-    request(app)
-      .post('/api/v1/auth/register')
-      .set('x-locale', 'en')
-      .send({
-        email: testEmail,
-        password: testPassword,
-        firstName: "Test",
-        lastName: "User",
-        expire: true
-      })
-      .end((err, res) => {
-        console.log('[DEBUG] Finished register request', err, res && res.status);
-        if (err) return done(err);
-        if (!res || res.status !== 200) {
-        return done(new Error('Registration failed'));
-        }
-        done();
-      });
+    const res = await request(SERVER)
+      .post('/api/v1/auth/login')
+      .set(COMMON_HEADERS)
+      .send(payload);
+
+    expect(res.status).to.equal(200);
+    expect(res.body).to.have.property('resource').that.is.an('object');
+
+    const token = res.body.resource;
+    expect(token).to.have.all.keys(
+      'access_token',
+      'token_type',
+      'expires_in',
+      'identifier'
+    );
   });
 
-    describe('POST /v1/auth/login - Success',()=>{
-        it('should login a user and return 200',(done)=>{
-            request(app)
-                .post('/api/v1/auth/login')
-                .set('x-locale', 'en')
-                .send({
-                    email: testEmail,
-                    password: testPassword,
-                    expire: true
-                })
-                .expect(200)
-                // .end((err,res)=>{
-                //     console.log("response",res.body)
-                //     expect(res.body).to.have.property('resource');
-                //     done();
-                // })
-                .then(res => { // supertest支持Promise形式
-                  console.log('[DEBUG] login response:', res.body);
-                  expect(res.body).to.have.property('resource');
-                  done();
-              })
-              .catch(err => {
-                  console.error('[ERROR] login request failed:', err);
-                  done(err);
-              });
-        })
-    })
-    describe('POST /v1/auth/login - Failure Cases',()=>{
-      it ('should return 401 if email is missing', (done) => {
-        request(app)
-          .post('/api/v1/auth/login')
-          .set('x-locale', 'en')
-          .send({
-            password: testPassword,
-            expire: true
-          })
-          .expect(401)  
-          .end((err, res) => {
-            expect(res.body).to.have.property('error');
-            done();
-          });
-      })
-      it ('should return 401 if password is missing', (done) => {
-        request(app)
-          .post('/api/v1/auth/login')
-          .set('x-locale', 'en')
-          .send({
-            email: testEmail,
-            expire: true
-          })
-          .expect(401)
-          .end((err, res) => {
-            expect(res.body).to.have.property('error');
-            done();
-          });
-      })
-      it('should return 401 if email is invalid', (done) => {
-        request(app)
-          .post('/api/v1/auth/login')
-          .set('x-locale', 'en')
-          .send({
-            email: "invalidemail",
-            password: testPassword,
-            expire: true
-          })
-          .expect(401)
-          .end((err, res) => {
-            expect(res.body).to.have.property('error');
-            done();
-          }
-          );
-      })
-      it('should return 401 if user is not found', (done) => {
-        request(app)
-          .post('/api/v1/auth/login')
-          .set('x-locale', 'en')
-          .send({
-            email: "nonexistentuser@domain.com",
-            password: "123456",
-            expire: true
-          })
-          .expect(401)
-          .end((err, res) => {
-            expect(res.body).to.have.property('error');
-            done();
-          });
-      })
-      it('should return 401 if password is incorrect', (done) => {
-        request(app)
-          .post('/api/v1/auth/login')
-          .set('x-locale', 'en')
-          .send({
-            email: testEmail,
-            password: "wrongpassword",
-            expire: true
-          })
-          .expect(401)
-          .end((err, res) => {
-            expect(res.body).to.have.property('error');
-            done();
-          });
+  /**
+   * Auth.Lgn.02 – Missing email
+   * POST /api/v1/auth/login without email should return 401 Unauthorized
+   */
+  it('Auth.Lgn.02 – POST /api/v1/auth/login – fails when email is missing', async () => {
+    const res = await request(SERVER)
+      .post('/api/v1/auth/login')
+      .set(COMMON_HEADERS)
+      .send({
+        password: '123456',
+        expire:   true
       });
-    })
-})
+
+    expect(res.status).to.equal(401);
+  });
+
+  /**
+   * Auth.Lgn.03 – Missing password
+   * POST /api/v1/auth/login without password should return 401 Unauthorized
+   */
+  it('Auth.Lgn.03 – POST /api/v1/auth/login – fails when password is missing', async () => {
+    const res = await request(SERVER)
+      .post('/api/v1/auth/login')
+      .set(COMMON_HEADERS)
+      .send({
+        email:  'sheetab@technohaven.com',
+        expire: true
+      });
+
+    expect(res.status).to.equal(401);
+  });
+
+  /**
+   * Auth.Lgn.04 – Invalid credentials
+   * POST /api/v1/auth/login with wrong password should return 401 Unauthorized
+   */
+  it('Auth.Lgn.04 – POST /api/v1/auth/login – fails on wrong password', async () => {
+    const res = await request(SERVER)
+      .post('/api/v1/auth/login')
+      .set(COMMON_HEADERS)
+      .send({
+        email:    'sheetab@technohaven.com',
+        password: 'wrongpass',
+        expire:   true
+      });
+
+    expect(res.status).to.equal(401);
+  });
+
+  /**
+   * Auth.Lgn.05 – expire=false should still work
+   * POST /api/v1/auth/login with expire=false should return 200 and a token
+   */
+  it('Auth.Lgn.05 – POST /api/v1/auth/login – succeeds with expire=false', async () => {
+    const res = await request(SERVER)
+      .post('/api/v1/auth/login')
+      .set(COMMON_HEADERS)
+      .send({
+        email:    'sheetab@technohaven.com',
+        password: '123456',
+        expire:   false
+      });
+
+    expect(res.status).to.equal(200);
+    expect(res.body).to.have.property('resource').that.is.an('object');
+  });
+
+  /**
+   * Auth.Lgn.06 – Response structure & security
+   * The token object must include only the expected keys and no sensitive data
+   */
+  it('Auth.Lgn.06 – POST /api/v1/auth/login – response structure check', async () => {
+    const res = await request(SERVER)
+      .post('/api/v1/auth/login')
+      .set(COMMON_HEADERS)
+      .send({
+        email:    'sheetab@technohaven.com',
+        password: '123456',
+        expire:   true
+      })
+      .expect(200);
+
+    const token = res.body.resource;
+    expect(Object.keys(token)).to.have.members([
+      'access_token',
+      'token_type',
+      'expires_in',
+      'identifier'
+    ]);
+    expect(token).to.not.have.property('password');
+  });
+});
