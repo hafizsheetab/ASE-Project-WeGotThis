@@ -1,6 +1,6 @@
 "use client";
 import { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom"; 
 import styles from "./Authentication.module.css";
 import ContextStore from "../../../utils/ContextStore";
 import AuthenticationHeader from "./AuthenticationHeader";
@@ -8,11 +8,10 @@ import LoginTextInputs from "./LoginTextInputs";
 import { Link, Typography } from "@mui/material";
 
 function LoginBody() {
-    const navigate = useNavigate(); // Initialize navigate function
+    const navigate = useNavigate();
     const store = useContext(ContextStore);
 
     const handleCreateAccount = () => {
-        // Redirect to /register when the user clicks to create an account
         navigate("/register");
     };
 

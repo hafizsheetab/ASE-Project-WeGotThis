@@ -88,12 +88,14 @@ export const apiRequest = async <ReqBody, ResBody>(
         return { status: false } as ErrorBody;
     }
 };
+
 export const checkForError = <T extends Object>(response: T | ErrorBody) => {
     if ("status" in response && !response.status) {
         return true;
     }
     return false;
 };
+
 export const showAlert = (
     text: string,
     type: "info" | "success" | "warning" | "error"

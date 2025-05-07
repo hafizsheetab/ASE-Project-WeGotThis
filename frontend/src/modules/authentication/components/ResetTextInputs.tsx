@@ -27,7 +27,7 @@ const ResetTextInputs = () => {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        const isLengthValid = newPassword.length >= 7;
+        const isLengthValid = (newPassword.length >= 7 && newPassword.length<= 32);
         const isMatch = newPassword === confirmPassword;
 
         if (!isLengthValid) {
@@ -44,24 +44,28 @@ const ResetTextInputs = () => {
             return;
         }
         const token = searchParams.get("token");
-        console.log(token);
+
         if (token === null) {
             showAlert("Invalid Token", "error");
             return;
         }
+
         let response = await resetPassword(
             { password: newPassword, expire: true },
             token,
             store
         );
+
         if (checkForError(response)) {
             return;
         }
         response = response as TokenResponse;
         const userResponse = await getSelf(store, response.access_token);
+
         if ("status" in userResponse) {
             return;
         }
+
         store.setContext({ ...store.context, token: response.access_token, user: userResponse });
     };
 
@@ -108,7 +112,7 @@ const ResetTextInputs = () => {
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 error={error.newPassword}
-                errorMessage="Password must be at least 7 characters long."
+                errorMessage="Password must be at least 7 and max 32 characters long."
             />
             <TextInputField
                 placeholder="Confirm your new Password"

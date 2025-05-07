@@ -59,3 +59,9 @@ export interface ReviewResponse {
     user: UserResponse
     time: Date
 }
+
+export interface OpenAlert {
+    open: boolean,
+    message: string,
+    severity: "error" | "success" | "warning"
+}

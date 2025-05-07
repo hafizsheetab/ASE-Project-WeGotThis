@@ -3,7 +3,7 @@ module.exports = (entityId) => {
       en: {
         auth: {
             invalidCredentials: "INVALID CREDENTIALS ERROR MESSAGE - EN",
-            alreadyExists: "ALREADY EXISTS ERROR MESSAGE - EN",
+            alreadyExists: "The email address is already taken.",
             notFound: "NOT FOUND ERROR MESSAGE - EN"
 
         },

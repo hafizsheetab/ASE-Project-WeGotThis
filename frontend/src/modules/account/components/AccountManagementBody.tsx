@@ -10,59 +10,26 @@ import {
     Typography,
 } from "@mui/material";
 import styles from "./AccountManagement.module.css";
-import test from "../../../assets/test.png";
 import { deepOrange } from "@mui/material/colors";
 import ActiveFileUploadButton from "../../shared/components/ActiveFileUploadButton";
 import { useContext, useEffect, useState } from "react";
 import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
 import PersonIcon from "@mui/icons-material/Person";
-import { Email, Person, Preview } from "@mui/icons-material";
+import { Email } from "@mui/icons-material";
 import CategorySelector from "../../offerCreation/components/CategorySelector";
 import { OfferTemplateResponse } from "../../offerCreation/Types";
 import { getOfferCreationTemplate } from "../../offerCreation/services";
 import ContextStore from "../../../utils/ContextStore";
 import LocationTextInputField from "../../shared/components/LocationTextInputField";
-import KeyIcon from "@mui/icons-material/Key";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ActiveButton from "../../shared/components/ActiveClickButton";
-import { UserResponse } from "../../shared/Types";
+import { OpenAlert, UserResponse } from "../../shared/Types";
 import { changeSelf, getSelf, uploadProfilePicture } from "../services";
 import { ChangeSelfRequestBody } from "../Types";
-import { useNavigate } from "react-router-dom";
-import dayjs from "dayjs";
 import AlertToast from "../../shared/components/AlertToast";
 
-interface ProfileInfoDisplayTypes {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    profileImg: string;
-    location: string;
-    password: string;
-    registrationYear: string;
-    providedService: number;
-    seekedServices: number;
-    categoryIds: number[];
-}
-
-const userInfo: ProfileInfoDisplayTypes = {
-    firstName: "Max",
-    lastName: "Schmidt",
-    email: "Max.schmidt@gmail.de",
-    phone: "+4163217310",
-    profileImg: test,
-    location: "8004 Zurich, Switzerland",
-    password: "rlewrkw",
-    registrationYear: "2023",
-    providedService: 2, //get offers from user and filter to completed and type: provided
-    seekedServices: 3,
-    categoryIds: [1],
-};
-
 const AccountManagementBody = () => {
-    const nav = useNavigate()
     const store = useContext(ContextStore);
     const [passwords, setPasswords] = useState({
         newPassword: "",
@@ -103,8 +70,8 @@ const AccountManagementBody = () => {
             const formData = new FormData();
             formData.append("image", file, file.name);
             const response = await uploadProfilePicture(formData, store);
-            console.log(response);
             if ("status" in response) {
+                setOpenAlert({open: true, message: "There was an error uploading your image. Please try again.", severity:"error"})
                 return;
             }
             setUser({ ...user, imageUrl: response.imageUrl });
@@ -125,17 +92,18 @@ const AccountManagementBody = () => {
             }
             setTemplate(response);
             const userResponse = await getSelf(store, store.context.token);
-            console.log(userResponse)
             if ("status" in userResponse) {
+                setOpenAlert({open: true, message: "There was an error saving your details. Please try again!", severity:"error"})
                 return;
             }
             setUser({ ...user, ...userResponse });
         })();
     }, []);
 
-    const [openAlert, setOpenAlert] = useState({
+    const [openAlert, setOpenAlert] = useState<OpenAlert>({
         open: false,
-        message: ""
+        message: "",
+        severity: "error"
     });
 
     const addCategory = (ids: number[]) => {
@@ -210,7 +178,7 @@ const AccountManagementBody = () => {
 
         setUser(response);
         store.setContext({ ...store.context, user: response });
-        setOpenAlert({open: true, message: "Your account has been updated successfully"})
+        setOpenAlert({open: true, message: "Your account has been updated successfully", severity:"success"})
     };
 
     return (
@@ -473,7 +441,7 @@ const AccountManagementBody = () => {
                 style={{margin: "1em auto" }}
             />
 
-            <AlertToast text={openAlert.message} open={openAlert.open} severity='error' handleClose={() => {
+            <AlertToast text={openAlert.message} open={openAlert.open} severity={openAlert.severity} handleClose={() => {
                 setOpenAlert({...openAlert, open:false});
             }}/>
         </form>

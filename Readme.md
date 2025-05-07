@@ -17,3 +17,8 @@
 - Delete Offer API 
 - Store City Code in Location (Location is hard to sort without any proper standard formats, such as city code)
 - Withdraw API Function? -> BookingCard.tsx
+
+## Backend
+1. Allow Registration with 2 character name & surname
+2. Forgot Password 5xx error -> cannot reset
+3. Change Error Message to more understandable ones
