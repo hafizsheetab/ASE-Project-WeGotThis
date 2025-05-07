@@ -26,7 +26,7 @@ const DateTimeRange: React.FC<DateTimeRangeProps> = ({
         initialStartTime ? dayjs(initialStartTime) : dayjs(today)
     );
     const [endDate, setEndDate] = useState<Dayjs | null>(
-        initialEndTime ? dayjs(initialEndTime) : dayjs('2022-04-17T15:30')
+        initialEndTime ? dayjs(initialEndTime) : dayjs(today)
     );
     const [error, setError] = useState<DateTimeValidationError | null>(null);
 
@@ -91,6 +91,7 @@ const DateTimeRange: React.FC<DateTimeRangeProps> = ({
                             defaultValue={today.startOf('minute').subtract(today.minute() % 5, 'minute')}
                             disablePast
                             minDate={startDate}
+                            minDateTime={startDate}
                             views={['year', 'month', 'day', 'hours', 'minutes']}
                             onChange={(newValue) => setEndDate(newValue)}
                             onError={(error) => setError(error)}

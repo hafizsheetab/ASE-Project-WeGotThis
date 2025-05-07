@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ContextData, ContextStoreData, ErrorBody, ResponseBody } from "../Types";
 import moment from "moment";
+import dayjs from "dayjs";
 
 export const getDateTimeString = (date: Date) => {
     if(date){
@@ -9,6 +10,38 @@ export const getDateTimeString = (date: Date) => {
         return ""
     }
 }
+
+export const getReadableString = (timestamp: number) => {
+    if(timestamp){
+        const date = new Date(timestamp * 1000);
+        return date.toLocaleString('en-US', {
+            weekday: 'short',
+            year: 'numeric',    
+            month: 'numeric',     
+            day: '2-digit', 
+            hour: 'numeric',
+            minute: '2-digit', 
+            hour12: true
+          });
+    }else{
+        return ""
+    }
+}
+
+export const calculateDuration = (startTime: number, endTime: number) => {
+    const start = dayjs.unix(startTime); 
+    const end = dayjs.unix(endTime);
+  
+    const diffMinutes = end.diff(start, "minutes");
+  
+    if (diffMinutes >= 1440) {
+      return `${Math.floor(diffMinutes / 1440)} days`;
+    } else if (diffMinutes >= 60) {
+      return `${Math.floor(diffMinutes / 60)} hours`;
+    } else {
+      return `${diffMinutes} minutes`;
+    }
+};
 
 export const apiRequest = async <ReqBody, ResBody>(
     url: string,

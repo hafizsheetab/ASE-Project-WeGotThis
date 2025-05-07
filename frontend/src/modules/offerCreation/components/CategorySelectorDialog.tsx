@@ -25,16 +25,15 @@ export default function DialogSelect({
                                        initialSelected = [],
                                        onSelect,
                                        addCategory,
-                                       removeCategory,
                                        categoryIds, template
                                      }: DialogSelectProps) {
   const [open, setOpen] = React.useState(false);
-  const [selected, setSelected] = React.useState<string[]>(initialSelected);                                  
+  const [selected, setSelected] = React.useState<string[]>(initialSelected);       
+
   const handleChange = (event: SelectChangeEvent<typeof selected>) => {
     const {
       target: {value},
     } = event;
-    console.log(value)
     const newValue = typeof value === 'string' ? value.split(',') : value;
     setSelected(newValue);
   };
@@ -52,6 +51,7 @@ export default function DialogSelect({
       }
     }
   };
+
   const handleCloseSave = () => {
     const ids = new Array<number>()
     selected.map(sl => {
@@ -64,6 +64,7 @@ export default function DialogSelect({
     setSelected([])
     setOpen(false);
   }
+  
   return (
       <div>
         <Button 

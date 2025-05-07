@@ -1,7 +1,7 @@
 import styles from "./OfferCreation.module.css";
 import CategoryList from "../../shared/components/CategoryChipDisplay";
 import DialogSelect from "./CategorySelectorDialog";
-import { OfferCategory, OfferTemplateResponse } from "../Types";
+import { OfferTemplateResponse } from "../Types";
 
 type CategorySelectorProps = {
     initialValues?: {
@@ -14,7 +14,6 @@ type CategorySelectorProps = {
 };
 
 const CategorySelector: React.FC<CategorySelectorProps> = ({initialValues, addCategory, removeCategory, categoryIds}) => {
-    console.log(categoryIds)
     return (
         <section className={styles.categorySelector}>
             <div className={styles.categoryHeaderSection}>
