@@ -31,7 +31,8 @@ import AlertToast from "../../shared/components/AlertToast";
 
 const AccountManagementBody = () => {
     const store = useContext(ContextStore);
-    const phoneRegex = /^\+\d{1,3}(\s\d{1,4}){2,5}$/;
+    const phoneRegex = /^\+\d{1,3}(\s?\d{1,4}){2,5}$/;
+
     const [passwords, setPasswords] = useState({
         newPassword: "",
         newPasswordCorrect: true,
@@ -71,6 +72,7 @@ const AccountManagementBody = () => {
             const formData = new FormData();
             formData.append("image", file, file.name);
             const response = await uploadProfilePicture(formData, store);
+
             if ("status" in response) {
                 setOpenAlert({open: true, message: response.popupMessage, severity:"error"})
                 return;
@@ -159,14 +161,21 @@ const AccountManagementBody = () => {
                     ...passwords,
                     newPasswordCorrect: false,
                 });
+                setOpenAlert({open:true, message: "Your form has wrong inputs", severity: "error"})
                 return;
             } else if (!isMatch) {
                 setPasswords({
                     ...passwords,
                     confirmPasswordCorrect: false,
                 });
+                setOpenAlert({open:true, message: "Your form has wrong inputs", severity: "error"})
                 return;
             }
+        }
+
+        if(!phoneRegex.test(user.phoneNumber)){
+            setOpenAlert({open:true, message: "Your form has wrong inputs", severity: "error"})
+            return
         }
 
         const payload: ChangeSelfRequestBody = {
@@ -391,7 +400,7 @@ const AccountManagementBody = () => {
                     error={!passwords.newPasswordCorrect}
                     helperText={
                         !passwords.newPasswordCorrect
-                            ? "Password must be at least 7 characters long."
+                            ? "Password must be at least 7 and max. 32 characters long."
                             : ""
                     }
                 />

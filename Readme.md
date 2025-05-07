@@ -6,12 +6,15 @@
 2. infra: prepare the infrastructure required for backend development `docker compose --profile infra up` helps with development of backend
 
 
-## Bugs /TODO 
-- Every time when log in, you can actual see the "Forgot Password" Page
-- Dates Format still not appliable? Home - Offer View - Booking
+## Bugs
+- Every time when log in, you can actual see the "Forgot Password" Page -> FIXED
 - TODO has Review? ->  /// TODO: CHECK IF booking.offer.hasReview & (booking.offer.id == context.user.id) see BookingList.tsx
 
+
+## TODO
 - Booking Responsiveness -> Elisa
+- Dates Format still not appliable? Home - Offer View - Booking -> Xiaying
+
 
 ## Missing Integration
 - Delete Offer API 
