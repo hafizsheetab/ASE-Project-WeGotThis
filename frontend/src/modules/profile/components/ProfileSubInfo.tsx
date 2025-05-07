@@ -15,9 +15,11 @@ const ProfileSubInfo : React.FC<ProfileNameProps> = ({location, registrationYear
   return (
     <Stack direction="row" justifyContent='center' alignItems='center' flexWrap='wrap' gap={5}>
         <Stack>
-            <Typography variant="body2" style={{verticalAlign: 'middle',display: 'inline-flex'}}>
-                <NearMeOutlinedIcon fontSize="small" sx={{marginRight: ".2em"}}/>
-                {location.split(',').map(part => part.trim()).slice(-2).join(", ")}
+            <Typography variant="body2" style={{ verticalAlign: 'middle', display: 'inline-flex' }}>
+                <NearMeOutlinedIcon fontSize="small" sx={{ marginRight: '.2em' }} />
+                {typeof location === 'string' && location.includes(',') 
+                    ? location.split(',').map(part => part.trim()).slice(-2).join(', ')
+                    : 'Location unavailable'}
             </Typography>
             <Typography variant="body2" style={{verticalAlign: 'middle',display: 'inline-flex'}}>
                 <CardMembershipIcon fontSize="small" sx={{marginRight: ".2em"}}/>
