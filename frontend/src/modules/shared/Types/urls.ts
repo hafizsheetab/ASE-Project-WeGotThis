@@ -1,5 +1,3 @@
-import { acceptBookingRequest } from "../../booking/services"
-
 const baseUrl = "http://localhost:8000"
 const preamble = "api/v1"
 export default {

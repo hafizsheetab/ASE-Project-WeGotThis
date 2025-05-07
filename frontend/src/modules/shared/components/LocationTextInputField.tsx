@@ -1,7 +1,7 @@
 import { GeoapifyContext, GeoapifyGeocoderAutocomplete} from "@geoapify/react-geocoder-autocomplete";
 import styles from "./TextInputField.module.css";
 import "@geoapify/geocoder-autocomplete/styles/minimal.css";
-import { FormControl, InputAdornment, InputLabel, OutlinedInput } from "@mui/material";
+import { InputLabel } from "@mui/material";
 
 
 type TextInputFieldProps = {
@@ -21,9 +21,9 @@ const LocationTextInputField: React.FC<TextInputFieldProps> = ({
   placeholder = "Enter address here",
   footerTxt,
   onSelect,
-                                                                 value = "",
+  value = "",
 }) => {
-  const API_KEY = "3f77cd19690242aa94338bc6405e52d7"; // Replace with your actual API key
+  const API_KEY = "3f77cd19690242aa94338bc6405e52d7"; 
 
   const onPlaceSelect = (value : GeoJSON.Feature) => {
     onSelect && onSelect(value.properties?.formatted)
