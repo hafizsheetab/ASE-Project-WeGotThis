@@ -65,3 +65,9 @@ export interface OpenAlert {
     message: string,
     severity: "error" | "success" | "warning"
 }
+
+export type FilterState = {
+    active: boolean;
+    values: number[];
+    allSelected: boolean;
+};

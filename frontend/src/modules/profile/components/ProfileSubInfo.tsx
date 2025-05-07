@@ -17,7 +17,7 @@ const ProfileSubInfo : React.FC<ProfileNameProps> = ({location, registrationYear
         <Stack>
             <Typography variant="body2" style={{verticalAlign: 'middle',display: 'inline-flex'}}>
                 <NearMeOutlinedIcon fontSize="small" sx={{marginRight: ".2em"}}/>
-                {location}
+                {location.split(',').map(part => part.trim()).slice(-2).join(", ")}
             </Typography>
             <Typography variant="body2" style={{verticalAlign: 'middle',display: 'inline-flex'}}>
                 <CardMembershipIcon fontSize="small" sx={{marginRight: ".2em"}}/>
