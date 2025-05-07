@@ -484,6 +484,27 @@ const giveReview = async (offerId, userId, requestId, formData, locale) => {
     offer = await offerResponseFormatter(offer);
     return offer;
 };
+const withdrawOfferRequest = async (offerId, userId, requestId) => {
+    let offer = await Offer.get(offerId)
+    const index = _changeOfferValidityCheck(
+        offer,
+        userId,
+        requestId,
+        OfferStatusEnum.REQUESTED.id, 
+        false
+    );
+    if(offer.requests[index].id !== userId){
+        throw {
+            apiErrorCode: "offer.owner",
+            entityName: EntityNames.offer,
+            service,
+        };
+    }
+    offer.requests = offer.requests.filter(r => r.id !== userId)
+    await offer.save()
+    offer = await offerResponseFormatter(offer)
+    return offer
+}
 const _changeOfferValidityCheck = (
     offer,
     userId,
@@ -545,5 +566,6 @@ module.exports = {
     rejectOfferRequest,
     acceptOfferRequest,
     completeOfferRequest,
-    giveReview
+    giveReview,
+    withdrawOfferRequest
 };

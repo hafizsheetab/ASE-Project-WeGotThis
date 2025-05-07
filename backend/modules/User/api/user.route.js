@@ -5,7 +5,7 @@ const PreProcessing = require("../../../middleware/Request/PreProcessing");
 const PostSuccessProcessing = require("../../../middleware/Response/PostSuccessProcessing");
 const EntityNames = require("../../../Types/EntityNames");
 const { UploadedFileTypes, UploadValidMimeTypes } = require("../../../Types/UploadFileTypes");
-const { getSelf, changeSelf, uploadProfilePicture, getReviews } = require("../controller/user.controller");
+const { getSelf, changeSelf, uploadProfilePicture, getReviews, getUser } = require("../controller/user.controller");
 
 
 const router = require("express").Router();

@@ -22,8 +22,8 @@ const userResponseFormat = (user) => {
         imageUrl: user.imageUrl,
         rating,
         time: user.createdAt,
-        servicesOffered: user.servicesOffered,
-        servicesSeeked: user.servicesSeeked
+        servicesOffered: user.servicesOffered ? user.servicesOffered : 0,
+        servicesSeeked: user.servicesSeeked ? user.servicesSeeked : 0
     }
 }
 
