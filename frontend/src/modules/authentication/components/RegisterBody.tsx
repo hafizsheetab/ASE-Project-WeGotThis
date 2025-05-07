@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Authentication.module.css";
 import ContextStore from "../../../utils/ContextStore";
@@ -7,7 +7,7 @@ import AuthenticationHeader from "./AuthenticationHeader";
 import RegisterTextInputs from "./RegisterTextInput";
 import { Link, Typography } from "@mui/material";
 
-const RegisterBody: React.FC = () => {
+const RegisterBody = () => {
     const store = useContext(ContextStore)
     const navigate = useNavigate(); 
     

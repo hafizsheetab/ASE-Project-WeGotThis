@@ -3,7 +3,7 @@ import styles from "./Authentication.module.css";
 import AuthenticationHeader from "./AuthenticationHeader";
 import ForgotPasswordTextInputs from "./ForgotPasswordTextInput";
 
-function ForgotPasswordBody() {
+const ForgotPasswordBody = () => {
 
     const pageHeader = "Forgot Password?"
     const pageDescrip = "Enter your email address, and we'll give you instructions how to reset your password."

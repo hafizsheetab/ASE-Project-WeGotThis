@@ -7,7 +7,7 @@ import AuthenticationHeader from "./AuthenticationHeader";
 import LoginTextInputs from "./LoginTextInputs";
 import { Link, Typography } from "@mui/material";
 
-function LoginBody() {
+const LoginBody = () => {
     const navigate = useNavigate();
     const store = useContext(ContextStore);
 
@@ -17,7 +17,6 @@ function LoginBody() {
 
     useEffect(() => {
         if(store.context.token){
-            console.log(store.context)
             navigate("/home")
         }
     },[])

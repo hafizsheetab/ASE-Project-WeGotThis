@@ -6,7 +6,6 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import ActiveButton from "../../shared/components/ActiveClickButton";
 import { IconButton, InputAdornment } from "@mui/material";
-import { checkForError } from "../../shared/services";
 import ContextStore from "../../../utils/ContextStore";
 import { useNavigate } from "react-router-dom"; 
 import { LoginFormBody, TokenResponse } from "../Types";
