@@ -1,22 +1,14 @@
 import React from "react";
 import {Box, Grid2, Typography} from "@mui/material";
 import OfferCard from "./OfferCard";
-import { OfferResponseBody } from "../../offerCreation/Types";
 import PaginationControlled from "../../shared/components/PaginationControls";
-
-type OfferListProps = {
-  offers : Array<OfferResponseBody>
-}
+import { OfferListProps } from "../Types";
 
 const OfferList : React.FC<OfferListProps> = ({offers}) => {
 
-  const handlePaginationChange = (page : number) => {
-    console.log(`Page has changed to ${page}`)
-  }
-
   return (
       <Box sx={{maxWidth: "1200px"}}>
-        <PaginationControlled onPaginationClick={handlePaginationChange} numberOfItems={offers.length} maxItemsOnOnePage={25}/>
+        <PaginationControlled numberOfItems={offers.length} maxItemsOnOnePage={25}/>
         <Grid2 container spacing={3}>
           {offers.length > 0? 
             offers.map((offer, idx) => (

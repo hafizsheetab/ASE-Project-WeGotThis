@@ -1,12 +1,7 @@
 import { Autocomplete, Button, Paper, Stack, TextField, useTheme } from "@mui/material"
 import SearchIcon from '@mui/icons-material/Search';
 import React, { useState } from "react";
-import { OfferResponseBody } from "../../offerCreation/Types";
-
-type SearchbarProps = {
-    onNewSearch?: (searchInput : string | null) => void
-    searchArray: Array<OfferResponseBody>
-}
+import { SearchbarProps } from "../Types";
 
 const Searchbar: React.FC<SearchbarProps> = ({onNewSearch, searchArray}) => {
     const theme = useTheme();
@@ -49,10 +44,10 @@ const Searchbar: React.FC<SearchbarProps> = ({onNewSearch, searchArray}) => {
                         border: 'none', 
                       },
                       '&:hover fieldset': {
-                        border: 'none', // Prevent border on hover
+                        border: 'none', 
                       },
                       '&.Mui-focused fieldset': {
-                        border: 'none', // Remove border when focused
+                        border: 'none',
                       },
                     },
                   }}

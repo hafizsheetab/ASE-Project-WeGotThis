@@ -3,8 +3,9 @@ import SearchFilters from "./SearchFilters";
 import OfferList from "./OfferList";
 import { useContext, useEffect, useState } from "react";
 import { OfferResponseBody } from "../../offerCreation/Types";
-import { Filters, getAllOffers } from "../services";
+import { getAllOffers } from "../services";
 import ContextStore from "../../../utils/ContextStore";
+import { Filters } from "../Types";
 
 const HomeBody = () => {
     const [offers, setOffers] = useState<Array<OfferResponseBody>>([])
