@@ -1,6 +1,47 @@
 import axios from "axios";
 import { ContextData, ContextStoreData, ErrorBody, ResponseBody } from "../Types";
-import { Bounce, toast } from "react-toastify";
+import moment from "moment";
+import dayjs from "dayjs";
+
+export const getDateTimeString = (date: Date) => {
+    if(date){
+        return moment(date).format("MMMM Do YYYY, h:mm:ss a");
+    }else{
+        return ""
+    }
+}
+
+export const getReadableDateTimeString = (timestamp: number) => {
+    if(timestamp){
+        const date = new Date(timestamp * 1000);
+        return date.toLocaleString('en-US', {
+            weekday: 'short',
+            year: 'numeric',    
+            month: 'numeric',     
+            day: '2-digit', 
+            hour: 'numeric',
+            minute: '2-digit', 
+            hour12: true
+          });
+    }else{
+        return ""
+    }
+}
+
+export const calculateDuration = (startTime: number, endTime: number) => {
+    const start = dayjs.unix(startTime); 
+    const end = dayjs.unix(endTime);
+  
+    const diffMinutes = end.diff(start, "minutes");
+  
+    if (diffMinutes >= 1440) {
+      return `${Math.floor(diffMinutes / 1440)} days`;
+    } else if (diffMinutes >= 60) {
+      return `${Math.floor(diffMinutes / 60)} hours`;
+    } else {
+      return `${diffMinutes} minutes`;
+    }
+};
 
 export const apiRequest = async <ReqBody, ResBody>(
     url: string,
@@ -58,11 +99,9 @@ export const apiRequest = async <ReqBody, ResBody>(
                 });
                 break;
             default:
-                processAlert({ status: false } as ErrorBody);
                 return { status: false } as ErrorBody;
         }
         setLoading(false);
-        processAlert(response.data);
         if (response.data.status) {
             return response.data.resource;
         } else {
@@ -71,50 +110,15 @@ export const apiRequest = async <ReqBody, ResBody>(
     } catch (err) {
         setLoading(false);
         if (axios.isAxiosError(err)) {
-            processAlert(err.response?.data);
             return err.response?.data;
         }
-        processAlert({ status: false } as ErrorBody);
         return { status: false } as ErrorBody;
     }
 };
+
 export const checkForError = <T extends Object>(response: T | ErrorBody) => {
     if ("status" in response && !response.status) {
         return true;
     }
     return false;
-};
-export const showAlert = (
-    text: string,
-    type: "info" | "success" | "warning" | "error"
-) => {
-    toast(text, {
-        type,
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-    });
-};
-
-export const processAlert = <T>(response: ResponseBody<T> | ErrorBody) => {
-    console.log(response);
-    if (response.status) {
-        if (response.popupMessage) {
-            showAlert(response.popupMessage, "success");
-        } else {
-            showAlert("Your action has been successful", "success");
-        }
-    } else {
-        if (response.popupMessage) {
-            showAlert(response.popupMessage, "error");
-        } else {
-            showAlert("Unknown Error Occured", "error");
-        }
-    }
 };

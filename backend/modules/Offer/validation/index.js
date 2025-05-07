@@ -36,4 +36,10 @@ const OfferGetValidationSchema=Joi.object({
 const AddRequestToOfferValidationSchema = Joi.object({
     price: Joi.number().required(),
 })
-module.exports={OfferValidationSchema,EditOfferValidationSchema,OfferGetValidationSchema, AddRequestToOfferValidationSchema}
+
+const GiveRatingToOfferValidationSchema = Joi.object({
+    rating: Joi.number().min(1).max(5).required(),
+    text: Joi.string().min(3).required()
+    }).options({ abortEarly: false });
+
+module.exports={OfferValidationSchema,EditOfferValidationSchema,OfferGetValidationSchema, AddRequestToOfferValidationSchema, GiveRatingToOfferValidationSchema}

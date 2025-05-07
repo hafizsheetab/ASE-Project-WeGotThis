@@ -224,7 +224,7 @@
       - ApiToken: []
     tags:
       - Offer
-    summary: Complete offer request
+    summary: Accept offer request
     parameters:
       - in: path
         name: offerId
@@ -248,6 +248,54 @@
       - ApiToken: []
     tags:
       - Offer
+    summary: Reject offer request
+    parameters:
+      - in: path
+        name: offerId
+        required: true
+        description: ID of the offer 
+        schema:
+          type: string
+      - in: path
+        name: requestId
+        required: true
+        description: ID of the request
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Offers retrieved successfully
+"/v1/offer/withdraw/request/{offerId}/{requestId}":
+  put:
+    security:
+      - Locale: []
+      - ApiToken: []
+    tags:
+      - Offer
+    summary: Withdraw Offer Request
+    parameters:
+      - in: path
+        name: offerId
+        required: true
+        description: ID of the offer 
+        schema:
+          type: string
+      - in: path
+        name: requestId
+        required: true
+        description: ID of the request
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Request Withdrawn successfully
+"/v1/offer/giveReview/{offerId}/{requestId}":
+  put:
+    security:
+      - Locale: []
+      - ApiToken: []
+    tags:
+      - Offer
     summary: Complete offer request
     parameters:
       - in: path
@@ -262,6 +310,12 @@
         description: ID of the request
         schema:
           type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/GiveReviewRequest"
     responses:
       "200":
         description: Offers retrieved successfully

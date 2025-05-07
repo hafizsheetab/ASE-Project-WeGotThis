@@ -47,3 +47,35 @@
     responses:
       "200":
         description: OK
+"/v1/user/getReviews/{userId}":
+  get:
+    security:
+      - ApiToken: []
+      - Locale: []
+    tags:
+      - User
+    summary: Get Reviews
+    parameters:
+      - in: path
+        name: userId
+        required: true
+        description: ID of the user
+    responses:
+      "200":
+        description: OK
+"/v1/user/getUser/{userId}":
+  get:
+    security:
+      - ApiToken: []
+      - Locale: []
+    tags:
+      - User
+    summary: Get Reviews
+    parameters:
+      - in: path
+        name: userId
+        required: true
+        description: ID of the user
+    responses:
+      "200":
+        description: OK

@@ -1,8 +1,6 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import PublicIcon from '@mui/icons-material/Public';
 import {
@@ -13,10 +11,9 @@ import {
     Menu,
     MenuItem, Divider,
     IconButton,
-    Badge,
     Button,
 } from "@mui/material";
-import { ArrowDropDown, Edit, FavoriteBorderOutlined } from "@mui/icons-material";
+import { Edit } from "@mui/icons-material";
 
 type MenuType = "offer" | "favorites" | "notifications" | "account" | "lang" | null;
 
@@ -107,8 +104,6 @@ const Navbar: React.FC = () => {
                 return (
                     <>
                         <MenuItem onClick={handleCloseMenu}>EN</MenuItem>
-                        <MenuItem onClick={handleCloseMenu}>DE</MenuItem>
-                        <MenuItem onClick={handleCloseMenu}>FR</MenuItem>
                     </>
                 );
             default:
@@ -135,83 +130,14 @@ const Navbar: React.FC = () => {
                     
                     <Button
                         onClick={() => navigate("/offer/create")}
-                        startIcon={<IconButton
-                            sx={{
-                                pointerEvents: 'none', 
-                                }}
-                            size="large"
-                            edge="end"
-                            aria-label="create new offer"
-                            aria-haspopup="true"
-                            color="inherit"
-                            >
-                            <Edit/> 
-                        </IconButton>} 
+                        startIcon={<Edit/>} 
                         color="inherit"
                         > Create Offer
                     </Button>
 
-                    {/* <Button
-                        onClick={(e) => handleOpenMenu(e, "favorites")}
-                        startIcon={<IconButton
-                            sx={{
-                                pointerEvents: 'none', 
-                                }}
-                            size="large"
-                            edge="end"
-                            aria-label="favorite menu"
-                            aria-haspopup="true"
-                            color="inherit"
-                            >
-                            <FavoriteBorderOutlined /> 
-                        </IconButton>} 
-                        color="inherit"
-                        endIcon={<IconButton
-                            sx={{
-                                pointerEvents: 'none', 
-                                }}
-                                size="large"
-                                edge="start"
-                                aria-label="expand more"
-                                aria-haspopup="true"
-                                color="inherit"
-                                >
-                                <ArrowDropDown />
-                            </IconButton>}
-                        > Favorites
-                    </Button> */}
-
-                    {/* <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                        <Badge badgeContent={4} color="error">
-                            <MailIcon />
-                        </Badge>
-                    </IconButton>
-
-                    <IconButton
-                        onClick={(e) => handleOpenMenu(e, "notifications")}
-                        size="large"
-                        aria-label="show 17 new notifications"
-                        color="inherit"
-                        >
-                        <Badge badgeContent={17} color="error">
-                            <NotificationsIcon />
-                        </Badge>
-                    </IconButton> */}
-
                     <Button
                         onClick={(e) => handleOpenMenu(e, "account")}
-                        startIcon={<IconButton
-                            sx={{
-                                pointerEvents: 'none', 
-                                }}
-                            size="large"
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-haspopup="true"
-                            color="inherit"
-                            >
-                            <AccountCircle /> 
-                        </IconButton>} 
+                        startIcon={<AccountCircle /> } 
                         color="inherit"> User
                     </Button>
 
@@ -219,29 +145,7 @@ const Navbar: React.FC = () => {
 
                     <Button
                         onClick={(e) => handleOpenMenu(e, "lang")}
-                        startIcon={<IconButton
-                            size="large"
-                            edge="end"
-                            aria-label="select language"
-                            aria-haspopup="true"
-                            color="inherit"sx={{
-                                pointerEvents: 'none', 
-                                }}
-                            >
-                            <PublicIcon />
-                        </IconButton>} 
-                        endIcon={<IconButton
-                            sx={{
-                                pointerEvents: 'none', 
-                                }}
-                                size="large"
-                                edge="start"
-                                aria-label="expand more"
-                                aria-haspopup="true"
-                                color="inherit"
-                                >
-                                <ArrowDropDown />
-                            </IconButton>}
+                        startIcon={<PublicIcon/>} 
                         color="inherit" >EN
                     </Button>
                 </Box>

@@ -51,75 +51,73 @@ const OfferForm: React.FC<OfferFormProps> = ({initialValues, formData, setFormDa
     }
 
     const itemsArray = initialValues.template.priceModes.map(ot => ot.displayValue)
-    console.log(initialValues.radioValue)
-    console.log(formData)
 
-  return (
-    <form style={{flex: 1.5, width: "100%"}} >
-      <section>
-        <h1>I'm offering:</h1>
-          <RadioSelection
-              name="price"
-              defaultValue={initialValues?.radioValue}
-              options={initialValues.template.offerTypes.map(otype => {
-                
-                    return {value: String(otype.id), label: otype.displayValue}
-   
-                
-              })}
-              onChange={onChangeRadio}
-          />
-          <TextInputField placeholder="Title" footerTxt="Enter here your title (min. 10 characters)" required
-                          value={formData.title} onChange={(e) => {
-                            onChangeTitle(e.target.value)
-                          }} error={setError.titleError} errorMessage='Enter a title with at least 10 characters'/>
-      </section>
-
-      <Divider/>
-
-        <section className={styles.locationSection}>
-            <LocationTextInputField
-                inputTxt="Location"
-                placeholder="Where does the task take place?"
-                value={initialValues?.location}
-                onSelect={onChangeLocation}
+    return (
+        <form style={{flex: 1.5, width: "100%"}} >
+        <section>
+            <h1>I'm offering:</h1>
+            <RadioSelection
+                name="price"
+                defaultValue={initialValues?.radioValue}
+                options={initialValues.template.offerTypes.map(otype => {
+                    
+                        return {value: String(otype.id), label: otype.displayValue}
+    
+                    
+                })}
+                onChange={onChangeRadio}
             />
-            {setError.locationError && <FormHelperText error={setError.locationError}>Enter a location</FormHelperText>}
-
-            <section className={styles.priceSection} style={{margin: "2em 0"}}>
-                <TextField
-                    placeholder='0'
-                    label="Service cost"
-                    required
-                    slotProps={{
-                        input: {
-                            startAdornment: <InputAdornment position="start">CHF</InputAdornment>,
-                        }
-                    }}
-                    value={initialValues?.price}
-                    onChange={(e) => {
-                        setFormData({...formData, price: Number(e.target.value)})
-                    }}
-                />
-
-                <FormControl sx={{minWidth: {sm: "100px", md: "200px"}}}>
-                    <InputLabel>Price Type</InputLabel>
-                    <Select
-                        label="Price Type"
-                        value={initialValues?.priceType || priceTypeChoice}
-                        onChange={handlePriceTypeChange}
-                    >
-                        {itemsArray.map((item, idx) => (
-                            <MenuItem value={item} key={idx}>{item}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-
-
-            </section>
+            <TextInputField placeholder="Title" footerTxt="Enter here your title (min. 10 characters)" required
+                            value={formData.title} onChange={(e) => {
+                                onChangeTitle(e.target.value)
+                            }} error={setError.titleError} errorMessage='Enter a title with at least 10 characters'/>
         </section>
-    </form>
-  );
+
+        <Divider/>
+
+            <section className={styles.locationSection}>
+                <LocationTextInputField
+                    inputTxt="Location"
+                    placeholder="Where does the task take place?"
+                    value={initialValues?.location}
+                    onSelect={onChangeLocation}
+                />
+                {setError.locationError && <FormHelperText error={setError.locationError}>Enter a location</FormHelperText>}
+
+                <section className={styles.priceSection} style={{margin: "2em 0"}}>
+                    <TextField
+                        placeholder='0'
+                        type='number'
+                        label="Service cost"
+                        slotProps={{
+                            input: {
+                                startAdornment: <InputAdornment position="start">CHF</InputAdornment>,
+                            }
+                        }}
+                        value={initialValues?.price}
+                        onChange={(e) => {
+                            setFormData({...formData, price: Number(e.target.value)})
+                        }}
+                    />
+
+                    <FormControl sx={{minWidth: {sm: "100px", md: "200px"}}}>
+                        <InputLabel>Price Type</InputLabel>
+                        <Select
+                            label="Price Type"
+                            value={initialValues?.priceType || priceTypeChoice}
+                            onChange={handlePriceTypeChange}
+                        >
+                            {itemsArray.map((item, idx) => (
+                                <MenuItem value={item} key={idx}>{item}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+
+
+                </section>
+            </section>
+        </form>
+    );
 };
 
 export default OfferForm;

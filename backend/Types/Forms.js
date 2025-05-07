@@ -45,5 +45,6 @@ module.exports = {
         getOffers: [],
         deleteOffer: ["offerId"],
         addRequests: ["price"],
+        giveReview: ["rating", "text"]
     },
 };

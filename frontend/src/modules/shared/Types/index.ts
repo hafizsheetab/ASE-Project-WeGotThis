@@ -35,8 +35,6 @@ export interface ContextData {
     loading: boolean
     color: string
     user: UserResponse
-    update: number
-    setUpdate: React.Dispatch<React.SetStateAction<number>>
 }
 
 export interface UserResponse {
@@ -49,4 +47,27 @@ export interface UserResponse {
     location: string
     categories: Array<OfferCategory>
     imageUrl: string
+    rating: number
+    time: Date
+    servicesSeeked: number
+    servicesOffered: number
 }
+
+export interface ReviewResponse {
+    rating: number
+    text: string
+    user: UserResponse
+    time: Date
+}
+
+export interface OpenAlert {
+    open: boolean,
+    message: string,
+    severity: "error" | "success" | "warning"
+}
+
+export type FilterState = {
+    active: boolean;
+    values: number[];
+    allSelected: boolean;
+};

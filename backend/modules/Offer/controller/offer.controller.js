@@ -20,6 +20,7 @@ const {
     EditOfferValidationSchema,
     OfferGetValidationSchema,
     AddRequestToOfferValidationSchema,
+    GiveRatingToOfferValidationSchema,
 } = require("../validation");
 const {
     PriceModeEnum,
@@ -30,6 +31,7 @@ const {
 const offerResponseFormatter = require("../responseFormatter/offerResponseFormatter");
 const { uploadFileToS3 } = require("../../../config/s3");
 const requestResponseFormatter = require("../responseFormatter/requestResponseFormatter");
+const User = require("../../../Schema/User");
 const createOffer = async (formData, userId, locale) => {
     console.log(formData);
     console.log(locale);
@@ -210,7 +212,7 @@ const addRequests = async (formData, offerId, userId, locale) => {
             service,
         };
     }
-    if (offer.requests && offer.requests.find(r => r.id === userId)) {
+    if (offer.requests && offer.requests.find((r) => r.id === userId)) {
         throw {
             apiErrorCode: "offer.alreadyRequested",
             entityName: EntityNames.offer,
@@ -246,6 +248,7 @@ const addRequests = async (formData, offerId, userId, locale) => {
     if (!offer.requests) {
         offer.requests = [];
     }
+    objectToPush.time = new Date(Date.now());
     offer.requests.push(objectToPush);
 
     offer = await offer.save({ return: "item" });
@@ -380,14 +383,135 @@ const completeOfferRequest = async (offerId, userId, requestId) => {
         offer,
         userId,
         requestId,
-        OfferStatusEnum.ACCEPTED.id
+        OfferStatusEnum.ACCEPTED.id,
+        false
     );
-    offer.requests[index].statusId = OfferStatusEnum.COMPLETED.id;
+    const service = "completeOfferRequest";
+    if (offer.owner !== userId && offer.requests[index].id !== userId) {
+        throw {
+            apiErrorCode: "offer.owner",
+            entityName: EntityNames.offer,
+            service,
+        };
+    }
+    if (offer.owner === userId) {
+        offer.requests[index].offerOwnerComplete = true;
+    } else {
+        offer.requests[index].requestOwnerComplete = true;
+    }
+    if (
+        offer.requests[index].offerOwnerComplete &&
+        offer.requests[index].requestOwnerComplete
+    ) {
+        const owner = await User.get(offer.owner)
+        const requester = await User.get(offer.requests[index].id)
+        if(offer.typeId === OfferTypeEnum.OFFERING.id ){
+            owner.servicesOffered += 1
+            requester.servicesSeeked += 1
+        }
+        else{
+            owner.servicesSeeked += 1
+            requester.servicesOffered += 1
+        }
+        offer.requests[index].statusId = OfferStatusEnum.COMPLETED.id;
+        await owner.save()
+        await requester.save()
+    }
     await offer.save();
     offer = await offerResponseFormatter(offer);
     return offer;
 };
-const _changeOfferValidityCheck = (offer, userId, requestId, statusId) => {
+const giveReview = async (offerId, userId, requestId, formData, locale) => {
+    let offer = await Offer.get(offerId);
+    const service = "giveReview";
+    checkForUnsupportedParameters(
+        Forms.offer.giveReview,
+        formData,
+        EntityNames.offer,
+        service
+    );
+    formDataSchemaValidationErrorHandler(
+        GiveRatingToOfferValidationSchema,
+        formData,
+        formErrorMessages[locale].offer.giveReview,
+        EntityNames.offer,
+        service
+    );
+    const index = offer.requests.findIndex((r) => r.id === requestId);
+    if (index < 0) {
+        throw {
+            apiErrorCode: "offer.noRequests",
+            entityName: EntityNames.offer,
+            service,
+        };
+    }
+    if (offer.owner !== userId && offer.requests[index].id !== userId) {
+        throw {
+            apiErrorCode: "offer.owner",
+            entityName: EntityNames.offer,
+            service,
+        };
+    }
+    const ratingObject = {...formData, userId, time: new Date(Date.now())}
+    let user
+    if (offer.owner === userId) {
+        if(offer.requests[index].offerOwnerReview){
+            throw {
+                apiErrorCode: "offer.requestAlreadyProcessed",
+                entityName: EntityNames.offer,
+                service,
+            };
+        }
+        offer.requests[index].offerOwnerReview = true;
+        user = await User.get(offer.requests[index].id)
+    } else {
+        if(offer.requests[index].requestOwnerReview){
+            throw {
+                apiErrorCode: "offer.requestAlreadyProcessed",
+                entityName: EntityNames.offer,
+                service,
+            };
+        }
+        offer.requests[index].requestOwnerReview = true;
+        user = await User.get(offer.owner)
+    }
+    if(!user.ratings){
+        user.ratings = []
+    }
+    user.ratings.push(ratingObject)
+    await user.save()
+    await offer.save()
+    offer = await offerResponseFormatter(offer);
+    return offer;
+};
+const withdrawOfferRequest = async (offerId, userId, requestId) => {
+    let offer = await Offer.get(offerId)
+    const index = _changeOfferValidityCheck(
+        offer,
+        userId,
+        requestId,
+        OfferStatusEnum.REQUESTED.id, 
+        false
+    );
+    if(offer.requests[index].id !== userId){
+        throw {
+            apiErrorCode: "offer.owner",
+            entityName: EntityNames.offer,
+            service,
+        };
+    }
+    offer.requests = offer.requests.filter(r => r.id !== userId)
+    await offer.save()
+    offer = await offerResponseFormatter(offer)
+    return offer
+}
+const _changeOfferValidityCheck = (
+    offer,
+    userId,
+    requestId,
+    statusId,
+    checkForOwner = true
+) => {
     const service = "changeOfferValidityCheck";
     if (!offer) {
         throw {
@@ -396,7 +520,7 @@ const _changeOfferValidityCheck = (offer, userId, requestId, statusId) => {
             service,
         };
     }
-    if (offer.owner !== userId) {
+    if (checkForOwner && offer.owner !== userId) {
         throw {
             apiErrorCode: "offer.owner",
             entityName: EntityNames.offer,
@@ -442,4 +566,6 @@ module.exports = {
     rejectOfferRequest,
     acceptOfferRequest,
     completeOfferRequest,
+    giveReview,
+    withdrawOfferRequest
 };

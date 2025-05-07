@@ -1,5 +1,3 @@
-import { acceptBookingRequest } from "../../booking/services"
-
 const baseUrl = "http://localhost:8000"
 const preamble = "api/v1"
 export default {
@@ -22,5 +20,8 @@ export default {
     acceptBookingRequest: `${baseUrl}/${preamble}/offer/accept/`,
     rejectBookingRequest: `${baseUrl}/${preamble}/offer/reject/`,
     completeBookingRequest: `${baseUrl}/${preamble}/offer/complete/`,
-
+    getReviews: `${baseUrl}/${preamble}/user/getReviews/`,
+    giveReview: `${baseUrl}/${preamble}/offer/giveReview/`,
+    getUser: `${baseUrl}/${preamble}/user/getUser/`,
+    withdrawOffer: `${baseUrl}/${preamble}/offer/withdraw/request`
 }

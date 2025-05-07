@@ -10,58 +10,29 @@ import {
     Typography,
 } from "@mui/material";
 import styles from "./AccountManagement.module.css";
-import test from "../../../assets/test.png";
 import { deepOrange } from "@mui/material/colors";
 import ActiveFileUploadButton from "../../shared/components/ActiveFileUploadButton";
 import { useContext, useEffect, useState } from "react";
 import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
 import PersonIcon from "@mui/icons-material/Person";
-import { Email, Person, Preview } from "@mui/icons-material";
+import { Email } from "@mui/icons-material";
 import CategorySelector from "../../offerCreation/components/CategorySelector";
 import { OfferTemplateResponse } from "../../offerCreation/Types";
 import { getOfferCreationTemplate } from "../../offerCreation/services";
 import ContextStore from "../../../utils/ContextStore";
 import LocationTextInputField from "../../shared/components/LocationTextInputField";
-import KeyIcon from "@mui/icons-material/Key";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ActiveButton from "../../shared/components/ActiveClickButton";
-import { UserResponse } from "../../shared/Types";
+import { OpenAlert, UserResponse } from "../../shared/Types";
 import { changeSelf, getSelf, uploadProfilePicture } from "../services";
 import { ChangeSelfRequestBody } from "../Types";
-import { useNavigate } from "react-router-dom";
-
-interface ProfileInfoDisplayTypes {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    profileImg: string;
-    location: string;
-    password: string;
-    registrationYear: string;
-    providedService: number;
-    seekedServices: number;
-    categoryIds: number[];
-}
-
-const userInfo: ProfileInfoDisplayTypes = {
-    firstName: "Max",
-    lastName: "Schmidt",
-    email: "Max.schmidt@gmail.de",
-    phone: "+4163217310",
-    profileImg: test,
-    location: "8004 Zurich, Switzerland",
-    password: "rlewrkw",
-    registrationYear: "2023",
-    providedService: 2, //get offers from user and filter to completed and type: provided
-    seekedServices: 3,
-    categoryIds: [1],
-};
+import AlertToast from "../../shared/components/AlertToast";
 
 const AccountManagementBody = () => {
-    const nav = useNavigate()
     const store = useContext(ContextStore);
+    const phoneRegex = /^\+\d{1,3}(\s?\d{1,4}){2,5}$/;
+
     const [passwords, setPasswords] = useState({
         newPassword: "",
         newPasswordCorrect: true,
@@ -81,12 +52,19 @@ const AccountManagementBody = () => {
         location: "",
         categories: [],
         imageUrl: "",
+        rating: 0,
+        time: new Date(),
+        servicesSeeked: 0,
+        servicesOffered: 0
     });
+
     const [categoryIds, setCategoryIds] = useState<number[]>([]);
+
     useEffect(() => {
         const vcategoryIds = user.categories.map((ct) => ct.id);
         setCategoryIds(vcategoryIds);
     }, [user]);
+
     const handleImageUpload = async (file: File | null) => {
         if (file) {
             const reader = new FileReader();
@@ -94,8 +72,9 @@ const AccountManagementBody = () => {
             const formData = new FormData();
             formData.append("image", file, file.name);
             const response = await uploadProfilePicture(formData, store);
-            console.log(response);
+
             if ("status" in response) {
+                setOpenAlert({open: true, message: response.popupMessage, severity:"error"})
                 return;
             }
             setUser({ ...user, imageUrl: response.imageUrl });
@@ -107,30 +86,45 @@ const AccountManagementBody = () => {
         offerCategories: [],
         offerTypes: [],
     });
+    
     useEffect(() => {
         (async () => {
             const response = await getOfferCreationTemplate(store);
             if ("status" in response) {
+                setOpenAlert({open: true, message: response.popupMessage, severity:"error"})
                 return;
             }
+
             setTemplate(response);
-            const userResponse = await getSelf(store);
+            const userResponse = await getSelf(store, store.context.token);
+
             if ("status" in userResponse) {
+                setOpenAlert({open: true, message: userResponse.popupMessage, severity:"error"})
                 return;
             }
+
             setUser({ ...user, ...userResponse });
         })();
     }, []);
 
+    const [openAlert, setOpenAlert] = useState<OpenAlert>({
+        open: false,
+        message: "",
+        severity: "error"
+    });
+
     const addCategory = (ids: number[]) => {
         setCategoryIds([...categoryIds, ...ids]);
     };
+
     const removeCategory = (id: number) => {
         setCategoryIds(categoryIds.filter((vId) => vId !== id));
     };
+
     const onChangeLocation = (value: string) => {
         setUser({ ...user, location: value });
     };
+
     const handleClickShowPassword = () =>
         setPasswords((prev) => ({
             ...prev,
@@ -154,11 +148,12 @@ const AccountManagementBody = () => {
     ) => {
         event.preventDefault();
     };
+
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        console.log("Submitting")
+
         if (passwords.newPassword.length !== 0) {
-            const isLengthValid = passwords.newPassword.length >= 7;
+            const isLengthValid = (passwords.newPassword.length >= 7) && (passwords.newPassword.length <= 32);
             const isMatch = passwords.newPassword === passwords.confirmPassword;
 
             if (!isLengthValid) {
@@ -166,15 +161,23 @@ const AccountManagementBody = () => {
                     ...passwords,
                     newPasswordCorrect: false,
                 });
+                setOpenAlert({open:true, message: "Your form has wrong inputs", severity: "error"})
                 return;
             } else if (!isMatch) {
                 setPasswords({
                     ...passwords,
                     confirmPasswordCorrect: false,
                 });
+                setOpenAlert({open:true, message: "Your form has wrong inputs", severity: "error"})
                 return;
             }
         }
+
+        if(!phoneRegex.test(user.phoneNumber)){
+            setOpenAlert({open:true, message: "Your form has wrong inputs", severity: "error"})
+            return
+        }
+
         const payload: ChangeSelfRequestBody = {
             firstName: user.firstName,
             lastName: user.lastName,
@@ -182,14 +185,19 @@ const AccountManagementBody = () => {
             location: user.location,
             expire: user.expire,
             password: passwords.newPassword,
-            categoryIds,
+            categoryIds: categoryIds,
         };
+        
         const response = await changeSelf(payload, store);
+        
         if ("status" in response) {
+            setOpenAlert({open: true, message: response.popupMessage, severity:"error"})
             return;
         }
+
         setUser(response);
         store.setContext({ ...store.context, user: response });
+        setOpenAlert({open: true, message: "Your account has been updated successfully", severity:"success"})
     };
 
     return (
@@ -299,7 +307,7 @@ const AccountManagementBody = () => {
                     slotProps={{
                         input: {
                             inputProps: {
-                                pattern: "\\+\\d{1,3}(\\s\\d{1,4}){2,5}",
+                                pattern: {phoneRegex},
                             },
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -309,10 +317,12 @@ const AccountManagementBody = () => {
                         },
                     }}
                     value={user.phoneNumber}
-                    onChange={(e) =>
+                    onChange={(e) => {
                         setUser({ ...user, phoneNumber: e.target.value })
+                        }
                     }
-                    error={user.phoneNumber.trim() === ""}
+                    error={!phoneRegex.test(user.phoneNumber)}
+                    helperText={!phoneRegex.test(user.phoneNumber)? "Invalid phone number format" : ""}
                 />
             </Stack>
 
@@ -390,7 +400,7 @@ const AccountManagementBody = () => {
                     error={!passwords.newPasswordCorrect}
                     helperText={
                         !passwords.newPasswordCorrect
-                            ? "Password must be at least 7 characters long."
+                            ? "Password must be at least 7 and max. 32 characters long."
                             : ""
                     }
                 />
@@ -451,6 +461,10 @@ const AccountManagementBody = () => {
                 buttonTxt="Save Changes"
                 style={{margin: "1em auto" }}
             />
+
+            <AlertToast text={openAlert.message} open={openAlert.open} severity={openAlert.severity} handleClose={() => {
+                setOpenAlert({...openAlert, open:false});
+            }}/>
         </form>
     );
 };

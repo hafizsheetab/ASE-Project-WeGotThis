@@ -77,3 +77,12 @@ components:
           type: number
           description: Estimated end timestamp
           example: 1743214237
+    GiveReviewRequest:
+      type: object
+      properties:
+        text:
+          type: string
+          example: "Good Service"
+        rating:
+          type: number
+          example: 5

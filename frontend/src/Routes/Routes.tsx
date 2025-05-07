@@ -12,7 +12,6 @@ import ResetPassword from "../pages/authentication/ResetPassword";
 import ForgotPassword from "../pages/authentication/ForgotPassword";
 import Home from "../pages/home/Home.tsx";
 import OfferCreation from "../pages/offer/OfferCreation.tsx";
-import OfferEdit from "../pages/offer/OfferEdit.tsx";
 import OfferView from "../pages/offer/OfferView.tsx";
 import LayoutWithNavbarFooter from "../layouts/LayoutWithNavbarFooter.tsx";
 import MyBookingListDisplay from "../pages/booking/BookingList.tsx";
@@ -29,11 +28,11 @@ const AppRoutes = () => {
                     <Route element={<LayoutWithNavbarFooter/>}>
                         <Route path="/home" element={<Home/>}/>
                         <Route path="/offer/create" element={<OfferCreation/>}/>
-                        <Route path="/offer/edit/:offerId" element={<OfferEdit/>}/>
                         <Route path="/offer/:offerId" element={<OfferView/>}/>
                         <Route path="/offer" element={<MyOfferListDisplay/>}/>
                         <Route path="/booking" element={<MyBookingListDisplay/>}/>
                         <Route path="*" element={<Navigate to="/home" replace={true}/>}/>
+                        <Route path="/profile/:id" element={<ProfileManagement/>}/>
                         <Route path="/profile" element={<ProfileManagement/>}/>
                         <Route path="/account" element={<AccountManagement/>}/>
                     </Route>

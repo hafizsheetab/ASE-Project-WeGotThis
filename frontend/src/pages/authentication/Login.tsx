@@ -4,7 +4,7 @@ import Sidebar from "../../modules/authentication/components/Sidebar";
 import styles from "../css/Pages.module.css";
 import { Paper } from "@mui/material";
 
-function Login() {
+const Login = () => {
 
   return (
     <div style={{minHeight: "100vh", display:"flex", alignItems:"center"}}>

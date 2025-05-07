@@ -1,5 +1,5 @@
 import ImageUploader from './ImageUploader';
-import {Alert, Box, Divider, Snackbar, SnackbarCloseReason, Stack} from "@mui/material";
+import { Box, Divider, Stack} from "@mui/material";
 import OfferForm from './OfferForm';
 import CategorySelector from './CategorySelector';
 import TaskDescriptionSection from './TaskDescriptionSection';
@@ -9,7 +9,6 @@ import { useContext, useEffect, useState } from 'react';
 import { createOffer, getOfferCreationTemplate, uploadOfferImage } from '../services';
 import ContextStore from '../../../utils/ContextStore';
 import { OfferRequestBody, OfferTemplateResponse } from '../Types';
-import { showAlert } from '../../shared/services';
 import { useNavigate } from 'react-router-dom';
 import AlertToast from '../../shared/components/AlertToast';
 
@@ -19,6 +18,7 @@ const OfferCreationBody = () => {
         open: false,
         message: ""
     });
+
     const store = useContext(ContextStore)
     const [image, setImage] = useState<File | null>()
     const [formData, setFormData] = useState<OfferRequestBody>({
@@ -32,7 +32,6 @@ const OfferCreationBody = () => {
         startTime: 0,
         endTime: 0,
         availability: true,
-
     })
 
     const [formError, setFormError] = useState({
@@ -70,6 +69,7 @@ const OfferCreationBody = () => {
             setTemplate(response)
         })()
     },[])
+
     return (
         <Box sx={
             {
@@ -102,7 +102,7 @@ const OfferCreationBody = () => {
                         ...prevError,
                         titleError: formData.title.length <= 7,
                         locationError: formData.location == "",
-                        descriptionError: formData.description.length <= 0,
+                        descriptionError: formData.description.length <= 10,
                     }));
 
                     if(!image){
@@ -115,19 +115,21 @@ const OfferCreationBody = () => {
                         return
                     }
                     
-                    console.log(formData)
                     const response = await createOffer(formData, store)
                     if("status" in response){
-                        console.log(response)
+                        setOpenAlert({...openAlert, open: true, message: response.popupMessage})
                         return
                     }
+
                     const imageFormData = new FormData()
                     imageFormData.append("image", image, image.name)
                     const imageResponse = await uploadOfferImage(imageFormData, store, response.id)
+                    
                     if("status" in imageResponse){
+                        setOpenAlert({...openAlert, open: true, message:imageResponse.popupMessage})
                         return
                     }
-                    nav("/home")
+                    nav("/offer")
                 }}/>
             </Box>
 

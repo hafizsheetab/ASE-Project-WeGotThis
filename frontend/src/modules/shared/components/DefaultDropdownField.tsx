@@ -13,7 +13,6 @@ export const DefaultDropdownField: React.FC<DefaultDropdownFieldProps> = ({
                                                                 labelTxt,
                                                                 itemsArray,
                                                                 helperTxt,
-                                                                defaultItem,
                                                             }) => {
     const [value, setValue] = useState('');
 

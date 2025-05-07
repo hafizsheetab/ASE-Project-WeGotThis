@@ -19,33 +19,38 @@ const MenuProps = {
 };
 
 type CheckmarkDropdownProps = {
-    itemArray: string[],
-    label: string
-}
+  itemArray: string[];
+  label: string;
+  onChange: (selectedValues: string[]) => void;
+};
 
-const CheckmarkDropdown : React.FC<CheckmarkDropdownProps> = ({itemArray, label}) => {
+const CheckmarkDropdown: React.FC<CheckmarkDropdownProps> = ({ itemArray, label, onChange }) => {
   const [value, setValue] = React.useState<string[]>([]);
 
   const handleChange = (event: SelectChangeEvent<typeof value>) => {
     const {
       target: { value },
     } = event;
-    setValue(
-      typeof value === 'string' ? value.split(',') : value,
-    );
+
+    const newValue = typeof value === 'string' ? value.split(',') : value;
+    setValue(newValue);
+
+    onChange(newValue);
   };
 
   return (
     <div>
-      <FormControl  sx={{ m: 1, maxWidth: {xs: "175px", md: "200px"}, minWidth: {xs: "175px", md:"200px"}}}>
-        <InputLabel id={`select-label-${label}`} sx={{color: "#000"}}>{label}</InputLabel>
+      <FormControl sx={{ m: 1, maxWidth: { xs: '175px', md: '200px' }, minWidth: { xs: '175px', md: '200px' } }}>
+        <InputLabel id={`select-label-${label}`} sx={{ color: '#000' }}>
+          {label}
+        </InputLabel>
         <Select
           labelId={`select-label-${label}`}
           id={`dropdown-${label}`}
           multiple
           value={value}
           onChange={handleChange}
-          input={<OutlinedInput label={label}/>}
+          input={<OutlinedInput label={label} />}
           renderValue={(selected) => selected.join(', ')}
           MenuProps={MenuProps}
         >
@@ -59,7 +64,6 @@ const CheckmarkDropdown : React.FC<CheckmarkDropdownProps> = ({itemArray, label}
       </FormControl>
     </div>
   );
-}
+};
 
-
-export default CheckmarkDropdown
+export default CheckmarkDropdown;

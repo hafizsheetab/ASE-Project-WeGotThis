@@ -1,26 +1,21 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// import styles from "../css/Register.module.css";
 import styles from "./Authentication.module.css";
-import { RegisterFormBody, TokenResponse } from "../Types";
-import { checkForError, showAlert } from "../../shared/services";
-import { register } from "../services";
 import ContextStore from "../../../utils/ContextStore";
 import AuthenticationHeader from "./AuthenticationHeader";
 import RegisterTextInputs from "./RegisterTextInput";
 import { Link, Typography } from "@mui/material";
 
-const RegisterBody: React.FC = () => {
+const RegisterBody = () => {
     const store = useContext(ContextStore)
-    const navigate = useNavigate(); // Initialize navigate 
+    const navigate = useNavigate(); 
     
     const handleCreateAccount = () => {
         navigate("/login");
     };
     
     useEffect(() => {
-        console.log(store.context)
         if(store.context.token){
             navigate("/home")
         }
@@ -39,7 +34,7 @@ const RegisterBody: React.FC = () => {
                     underline="hover"
                     variant="body2"
                     style={{cursor:"pointer"}}
-                    onClick={handleCreateAccount} // Navigate to /login
+                    onClick={handleCreateAccount}
                     className={styles.signupLink}
                 >
                     Login here.

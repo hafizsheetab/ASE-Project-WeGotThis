@@ -1,9 +1,6 @@
 import DescriptionField from "../../shared/components/DescriptionField";
 
 type TaskDescriptionSectionProps = {
-    initialValues?: {
-        description?: string;
-    };
     value?: string
     setValue?: (x: string) =>  void
     hasError? : boolean;
@@ -11,7 +8,7 @@ type TaskDescriptionSectionProps = {
     maxWordsCount? : number;
 };
 
-const TaskDescriptionSection: React.FC<TaskDescriptionSectionProps> = ({initialValues, value, setValue, hasError, readonly, maxWordsCount = -1}) => {
+const TaskDescriptionSection: React.FC<TaskDescriptionSectionProps> = ({value, setValue, hasError, readonly, maxWordsCount = -1}) => {
     return (
         <section style={{display: "flex", flexDirection: "column", gap: "8px"}}>
             <h2>Description</h2>

@@ -1,4 +1,4 @@
-import OfferViewBody from "../../modules/offerView/OfferViewBody.tsx";
+import OfferViewBody from "../../modules/offerView/components/OfferViewBody.tsx";
 import { Paper } from "@mui/material";
 import styles from "../css/Pages.module.css";
 

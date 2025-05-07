@@ -1,64 +1,48 @@
 import {Box, Grid2} from "@mui/material";
-import {styled} from "@mui/material/styles";
-import { useState } from "react";
 import Searchbar from "./Searchbar";
 import CheckmarkDropdown from "../../shared/components/CheckmarkDropdown";
-
-const SearchInput = styled("input")(() => ({
-    flex: 1,
-    border: "none",
-    outline: "none",
-    fontSize: "1rem",
-    padding: "10px 16px",
-    color: "black",
-    backgroundColor: "white",
-}));
-
-const SearchFilters = () => {
-    const [textFieldValue, setTextFieldValue] = useState<string | null>("")
-
+import { SearchFiltersProps } from "../Types";
+import PriceRangeSelect from "./PriceRangeSlider";
+import NextAvailabilitySelect from "./NextAvailabilitySelect";
+  
+const SearchFilters : React.FC<SearchFiltersProps> = ({filters, setFilters, offers}) => {
     const handleSearch = (searchInput : string | null) => {
-        //...
-        console.log(searchInput);
-        setTextFieldValue(searchInput)
+        setFilters((prev) => ({...prev, searchbarFilter: searchInput}))
       };
 
     return (
         <Box>
-            <Searchbar onNewSearch={handleSearch}/>
+            <Searchbar onNewSearch={handleSearch} searchArray={offers}/>
 
             <Grid2 sx={{marginTop: "2em"}} container>
                 <CheckmarkDropdown 
                         itemArray={["Zurich", "Bern"]}
                         label="Location"
+                        onChange={(newLocation => 
+                            setFilters((prev) => ({...prev, location: newLocation}))
+                        )}
                     />
-                <CheckmarkDropdown
-                    itemArray={["$0 - $50", "$50 - $100"]}
+                <PriceRangeSelect
+                    value={filters.priceRange}
+                    onChange={(newRange) =>
+                        setFilters((prev) => ({ ...prev, priceRange: newRange }))
+                    }
                     label="Price Range"
                 />
-                <CheckmarkDropdown
-                    itemArray={["Today", "Tomorrow"]}
-                    label="Next Availability"
+                <NextAvailabilitySelect
+                    value={filters.nextAvailability}
+                    onChange={(newDate) => 
+                        setFilters((prev) => ({...prev, nextAvailability: newDate}))
+                    }
+                    label="Date"
                 />
+                
                 <CheckmarkDropdown
-                    itemArray={["Walking", "Pet Sitting"]}
+                    itemArray={["Seeking", "Offering"]}
                     label="Service Type"
-                />
-                <CheckmarkDropdown
-                    itemArray={["4+ Stars", "3+ Stars"]}
-                    label="User's Rating"
-                />
-                <CheckmarkDropdown
-                    itemArray={["1 hr", "2 hrs"]}
-                    label="Estimated Duration"
-                />
-                <CheckmarkDropdown
-                    itemArray={["Option A", "Option B"]}
-                    label="Advanced Search"
-                />
-                <CheckmarkDropdown
-                    itemArray={["Price", "Rating"]}
-                    label="Sorting"
+                    onChange={(newType) => 
+                        setFilters((prev) => ({...prev, serviceType: newType}))
+                    }
                 />
             </Grid2>
         </Box>
