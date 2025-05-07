@@ -37,7 +37,7 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({ open, onClose, offerId, req
 
     const handleComplete = async() => {
         const response = await giveReview(store, {rating: rating ? rating : 0, text}, offerId, requestId)
-        
+
         if("status" in response){
             setOpenAlert({...openAlert, open: true, message: response.popupMessage})
             return

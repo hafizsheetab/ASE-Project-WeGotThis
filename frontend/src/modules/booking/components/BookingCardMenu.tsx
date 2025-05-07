@@ -3,12 +3,13 @@ import { Menu, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 interface CardMenuProps {
-  anchorEl: HTMLElement | null;
-  open: boolean;
-  handleClose: () => void;
-  offerId: string | number;
-  madeByMe: boolean;
-  userEmail: string;
+    anchorEl: HTMLElement | null;
+    open: boolean;
+    handleClose: () => void;
+    offerId: string | number;
+    madeByMe: boolean;
+    userEmail: string;
+    offerOwnerId: string | number;
 }
 
 const CardMenu: React.FC<CardMenuProps> = ({
@@ -18,6 +19,7 @@ const CardMenu: React.FC<CardMenuProps> = ({
   offerId,
   madeByMe,
   userEmail,
+  offerOwnerId
 }) => {
   const navigate = useNavigate();
 
@@ -35,7 +37,7 @@ const CardMenu: React.FC<CardMenuProps> = ({
 
       {!madeByMe && (
         <>
-          <MenuItem onClick={() => navigate(`/profile`)}>View User</MenuItem>
+          <MenuItem onClick={() => navigate(`/profile/${offerOwnerId}`)}>View User</MenuItem>
           <MenuItem onClick={() => (window.location.href = `mailto:${userEmail}`)}>
             Chat
           </MenuItem>

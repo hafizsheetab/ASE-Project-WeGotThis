@@ -29,6 +29,14 @@
 5. Create At for Offers?
 6. Get User by ID? e.g. offer -> view user -> undefined name & error msg
 7. API for getAllOffersFromUser(userID)
+8. API Give Review doesnt work
+9. Properties or at least a way to check: 
+    ownerConfirmedService: boolean
+    requesterConfirmedService: boolean
+    ownerReviewMissing: boolean
+    requestReviewMissing: boolean
+
+    => It is needed so I can do in the frontend the check if review is available and ONLY if ownerConfirmedService & requesterConfirmedService it goes to the next step of review
 
 ## Frontend
 1. Create At in OfferListCard -> After Backend done
@@ -36,3 +44,4 @@
 3. Sorting Location -> Backend Improvement
 4. Improve Default values in sortings -> no date value and price range in the beginning
 5. Change getMyOffers in PublicProfileBody.tsx to getAllOffersFromUser(userID) -> Wait for backend
+6. Check if Review Dialog closes after bug in API GiveReview is fixed

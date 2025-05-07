@@ -9,15 +9,13 @@ import TodayIcon from "@mui/icons-material/Today";
 import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
 import NearMeOutlinedIcon from "@mui/icons-material/NearMeOutlined";
 import { Stack } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import ContextStore from "../../../utils/ContextStore";
 import ReviewDialog from "./ReviewDialog";
 import { BookingCardProps } from "../Types";
-import { getDateTimeString } from "../../shared/services";
+import { getDateTimeString, getReadableDateTimeString } from "../../shared/services";
 import { OpenAlert } from "../../shared/Types";
 import AlertToast from "../../shared/components/AlertToast";
 import CardActionsSection from "./CardActionSelection";
-
 
 const BookingCard: React.FC<BookingCardProps> = ({
     title,
@@ -35,6 +33,7 @@ const BookingCard: React.FC<BookingCardProps> = ({
     hasReview,
     loadArray,
     request,
+    offerOwnerId
 }) => {
     const store = useContext(ContextStore);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -77,6 +76,7 @@ const BookingCard: React.FC<BookingCardProps> = ({
             request={request}
             hasReview={hasReview}
             setIsDialogOpen={setIsDialogOpen}
+            offerOwnerId={offerOwnerId}
         />
     )
 
@@ -116,7 +116,7 @@ const BookingCard: React.FC<BookingCardProps> = ({
                             fontSize="small"
                             sx={{ marginRight: ".2em" }}
                         />
-                        {availability}
+                        {getReadableDateTimeString(availability)}
                     </Typography>
                     <br />
                     <Typography
@@ -144,7 +144,7 @@ const BookingCard: React.FC<BookingCardProps> = ({
                         >
                             {originalPrice} CHF
                         </Typography>
-                        {newPrice && priceMode == 2 && (
+                        {typeof newPrice === "number" && priceMode === 2 && (
                             <>
                                 <Typography variant="body2">
                                     &nbsp;-&nbsp;
@@ -154,6 +154,7 @@ const BookingCard: React.FC<BookingCardProps> = ({
                                 </Typography>
                             </>
                         )}
+
                     </Stack>
                 </CardContent>
             </CardActionArea>
@@ -163,7 +164,6 @@ const BookingCard: React.FC<BookingCardProps> = ({
                 onClose={() => {
                     loadArray()
                     setIsDialogOpen(false)
-                    
                 }}
                 offerId={offerId}
                 requestId={requestId}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import BookingCard from './BookingCard';
 import { Divider, Stack, Typography } from '@mui/material';
 import { BookingRequestResponseBody } from '../Types';
@@ -11,6 +11,9 @@ type BookingListProps = {
 }
 
 const BookingList : React.FC<BookingListProps> = ({bookingsArr, loadArray}) => {
+  useEffect(() => {
+    console.log("BookingList: ", bookingsArr)
+  })
   return (
     <Stack divider={<Divider orientation="horizontal" flexItem />}>
   {bookingsArr.length > 0 ? (
@@ -20,9 +23,9 @@ const BookingList : React.FC<BookingListProps> = ({bookingsArr, loadArray}) => {
           statusType={booking.status.displayValue}
           key={`${booking.offer.id}` }
           title={booking.offer.title}
-          requestedOn={new Date(booking.offer.startTime).toLocaleDateString()}
+          requestedOn={new Date(booking.offer.startTime).toLocaleDateString()}  //TODO: Replace to create At
           type={booking.offer.type.displayValue}
-          availability={booking.offer.availability ? "Available" : "Unavailable"}
+          availability={booking.offer.startTime}
           location={booking.offer.location}
           originalPrice={booking.offer.price}
           priceMode={booking.offer.priceMode.id}
@@ -32,6 +35,7 @@ const BookingList : React.FC<BookingListProps> = ({bookingsArr, loadArray}) => {
           userEmail={booking.offer.owner.email}
           hasReview={false}   /// TODO: CHECK IF booking.offer.hasReview & (booking.offer.id == context.user.id)
           loadArray={loadArray}
+          offerOwnerId={booking.offer.owner.id}
           request={booking}
         />
       ))

@@ -28,6 +28,7 @@ interface Props {
     request: any;
     hasReview: boolean;
     setIsDialogOpen: (val: boolean) => void;
+    offerOwnerId: string | number;
 }
 
 const CardActionsSection: React.FC<Props> = ({
@@ -47,6 +48,7 @@ const CardActionsSection: React.FC<Props> = ({
     request,
     hasReview,
     setIsDialogOpen,
+    offerOwnerId
 }) => {
     const cardMenu = (
         <CardMenu
@@ -56,6 +58,7 @@ const CardActionsSection: React.FC<Props> = ({
             offerId={offerId}
             userEmail={userEmail}
             madeByMe={madeByMe}
+            offerOwnerId={offerOwnerId}
         />
     );
 

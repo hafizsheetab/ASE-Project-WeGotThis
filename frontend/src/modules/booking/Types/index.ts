@@ -17,7 +17,7 @@ export type BookingCardProps = {
     title: string;
     requestedOn: string;
     type: string;
-    availability: string;
+    availability: number;
     location: string;
     originalPrice: number;
     priceMode: number;
@@ -29,4 +29,5 @@ export type BookingCardProps = {
     hasReview: boolean;
     loadArray: () => void;
     request: BookingRequestResponseBody;
+    offerOwnerId : string | number;
 };
