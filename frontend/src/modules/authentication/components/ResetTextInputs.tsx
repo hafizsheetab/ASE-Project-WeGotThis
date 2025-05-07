@@ -6,11 +6,12 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ActiveButton from "../../shared/components/ActiveClickButton";
 import { useSearchParams } from "react-router-dom";
 import { IconButton, InputAdornment } from "@mui/material";
-import { checkForError, showAlert } from "../../shared/services";
 import { resetPassword } from "../services";
 import ContextStore from "../../../utils/ContextStore";
 import { TokenResponse } from "../Types";
 import { getSelf } from "../../account/services";
+import AlertToast from "../../shared/components/AlertToast";
+import { OpenAlert } from "../../shared/Types";
 
 const ResetTextInputs = () => {
     const [newPassword, setNewPassword] = useState("");
@@ -23,6 +24,12 @@ const ResetTextInputs = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [searchParams] = useSearchParams();
     const store = useContext(ContextStore);
+
+    const [openAlert, setOpenAlert] = useState<OpenAlert>({
+                open: false,
+                message: "",
+                severity: "error"
+            });
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -46,7 +53,7 @@ const ResetTextInputs = () => {
         const token = searchParams.get("token");
 
         if (token === null) {
-            showAlert("Invalid Token", "error");
+            setOpenAlert({message: "Invalid Token", severity: "error", open: true});
             return;
         }
 
@@ -56,13 +63,16 @@ const ResetTextInputs = () => {
             store
         );
 
-        if (checkForError(response)) {
+        if ("status" in response && !response.status) {
+            setOpenAlert({message: response.popupMessage, severity: "error", open: true});
             return;
         }
+
         response = response as TokenResponse;
         const userResponse = await getSelf(store, response.access_token);
 
         if ("status" in userResponse) {
+            setOpenAlert({message: userResponse.popupMessage, severity: "error", open: true});
             return;
         }
 
@@ -150,6 +160,10 @@ const ResetTextInputs = () => {
                 buttonTxt="Reset Password"
                 style={{ width: "100%", padding: ".75em 0", marginTop: "2em" }}
             />
+
+            <AlertToast text={openAlert.message} open={openAlert.open} severity={openAlert.severity} handleClose={() => {
+                setOpenAlert({...openAlert, open:false});
+            }}/>
         </form>
     );
 };

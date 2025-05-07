@@ -31,6 +31,7 @@ import AlertToast from "../../shared/components/AlertToast";
 
 const AccountManagementBody = () => {
     const store = useContext(ContextStore);
+    const phoneRegex = /^\+\d{1,3}(\s\d{1,4}){2,5}$/;
     const [passwords, setPasswords] = useState({
         newPassword: "",
         newPasswordCorrect: true,
@@ -71,7 +72,7 @@ const AccountManagementBody = () => {
             formData.append("image", file, file.name);
             const response = await uploadProfilePicture(formData, store);
             if ("status" in response) {
-                setOpenAlert({open: true, message: "There was an error uploading your image. Please try again.", severity:"error"})
+                setOpenAlert({open: true, message: response.popupMessage, severity:"error"})
                 return;
             }
             setUser({ ...user, imageUrl: response.imageUrl });
@@ -88,14 +89,18 @@ const AccountManagementBody = () => {
         (async () => {
             const response = await getOfferCreationTemplate(store);
             if ("status" in response) {
+                setOpenAlert({open: true, message: response.popupMessage, severity:"error"})
                 return;
             }
+
             setTemplate(response);
             const userResponse = await getSelf(store, store.context.token);
+
             if ("status" in userResponse) {
-                setOpenAlert({open: true, message: "There was an error saving your details. Please try again!", severity:"error"})
+                setOpenAlert({open: true, message: userResponse.popupMessage, severity:"error"})
                 return;
             }
+
             setUser({ ...user, ...userResponse });
         })();
     }, []);
@@ -109,12 +114,15 @@ const AccountManagementBody = () => {
     const addCategory = (ids: number[]) => {
         setCategoryIds([...categoryIds, ...ids]);
     };
+
     const removeCategory = (id: number) => {
         setCategoryIds(categoryIds.filter((vId) => vId !== id));
     };
+
     const onChangeLocation = (value: string) => {
         setUser({ ...user, location: value });
     };
+
     const handleClickShowPassword = () =>
         setPasswords((prev) => ({
             ...prev,
@@ -138,11 +146,12 @@ const AccountManagementBody = () => {
     ) => {
         event.preventDefault();
     };
+
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        console.log("Submitting")
+
         if (passwords.newPassword.length !== 0) {
-            const isLengthValid = passwords.newPassword.length >= 7;
+            const isLengthValid = (passwords.newPassword.length >= 7) && (passwords.newPassword.length <= 32);
             const isMatch = passwords.newPassword === passwords.confirmPassword;
 
             if (!isLengthValid) {
@@ -173,6 +182,7 @@ const AccountManagementBody = () => {
         const response = await changeSelf(payload, store);
         
         if ("status" in response) {
+            setOpenAlert({open: true, message: response.popupMessage, severity:"error"})
             return;
         }
 
@@ -288,7 +298,7 @@ const AccountManagementBody = () => {
                     slotProps={{
                         input: {
                             inputProps: {
-                                pattern: "\\+\\d{1,3}(\\s\\d{1,4}){2,5}",
+                                pattern: {phoneRegex},
                             },
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -298,10 +308,12 @@ const AccountManagementBody = () => {
                         },
                     }}
                     value={user.phoneNumber}
-                    onChange={(e) =>
+                    onChange={(e) => {
                         setUser({ ...user, phoneNumber: e.target.value })
+                        }
                     }
-                    error={user.phoneNumber.trim() === ""}
+                    error={!phoneRegex.test(user.phoneNumber)}
+                    helperText={!phoneRegex.test(user.phoneNumber)? "Invalid phone number format" : ""}
                 />
             </Stack>
 
