@@ -1,6 +1,5 @@
-
-const executionType = process.argv[2]
-require("dotenv").config({path: executionType === "docker" ? ".env.docker" : ".env"});
+const argv = require("yargs-parser")(process.argv.slice(2))
+require("dotenv").config({path: argv.docker ? ".env.docker" : ".env"});
 const express = require("express");
 const app = express();
 app.use(express.json({ extende: false }));
