@@ -34,8 +34,8 @@ const LoginTextInputs = () => {
         setLoginError(null);
         let response = await login({email: loginForm.email, password: loginForm.password, expire: true}, store)
 
-        if(checkForError(response)){
-            setLoginError("Incorrect email or password. Please try again."); 
+        if("status" in response && !response.status){
+            setLoginError(response.popupMessage); 
             setOpenSnackbar(true); 
             return
         }
