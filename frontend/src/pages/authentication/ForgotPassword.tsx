@@ -4,7 +4,7 @@ import ForgotPasswordBody from "../../modules/authentication/components/ForgotPa
 import Sidebar from "../../modules/authentication/components/Sidebar";
 import styles from "../css/Pages.module.css";
 
-function ForgotPassword() {
+const ForgotPassword = () => {
 
   return (
     <div style={{minHeight: "100vh", display:"flex", alignItems:"center"}}>
