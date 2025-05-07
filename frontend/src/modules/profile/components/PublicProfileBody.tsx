@@ -70,6 +70,9 @@ const PublicProfileBody = () => {
         }
 
         setMyOffers(vOffers)
+        console.log("MyOffers: ", vOffers)
+
+        
       })()
     },[id])
 

@@ -28,9 +28,11 @@
 4. Delete Offer API
 5. Create At for Offers?
 6. Get User by ID? e.g. offer -> view user -> undefined name & error msg
+7. API for getAllOffersFromUser(userID)
 
 ## Frontend
 1. Create At in OfferListCard -> After Backend done
 2. Integrate Delete Offer API -> OfferList Menu
 3. Sorting Location -> Backend Improvement
 4. Improve Default values in sortings -> no date value and price range in the beginning
+5. Change getMyOffers in PublicProfileBody.tsx to getAllOffersFromUser(userID) -> Wait for backend

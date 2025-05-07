@@ -2,30 +2,21 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import CardActionArea from "@mui/material/CardActionArea";
-import CardActions from "@mui/material/CardActions";
 import CardHeader from "@mui/material/CardHeader";
-import IconButton from "@mui/material/IconButton";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import TodayIcon from "@mui/icons-material/Today";
 import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
 import NearMeOutlinedIcon from "@mui/icons-material/NearMeOutlined";
 import { Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ContextStore from "../../../utils/ContextStore";
-import {
-    acceptBookingRequest,
-    completeBookingRequest,
-    rejectBookingRequest,
-} from "../services";
 import ReviewDialog from "./ReviewDialog";
 import { BookingCardProps } from "../Types";
-import { getSelf } from "../../account/services";
 import { getDateTimeString } from "../../shared/services";
+import { OpenAlert } from "../../shared/Types";
+import AlertToast from "../../shared/components/AlertToast";
+import CardActionsSection from "./CardActionSelection";
 
 
 const BookingCard: React.FC<BookingCardProps> = ({
@@ -49,7 +40,12 @@ const BookingCard: React.FC<BookingCardProps> = ({
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const open = Boolean(anchorEl);
-    const navigate = useNavigate();
+    const [madeByMe, setMadeByMe] = useState(false);
+    const [openAlert, setOpenAlert] = useState<OpenAlert>({
+            open: false,
+            message: "",
+            severity: "error"
+        });
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -59,242 +55,38 @@ const BookingCard: React.FC<BookingCardProps> = ({
         setAnchorEl(null);
     };
 
-    const CardMenu = () => (
-        <>
-            <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                MenuListProps={{
-                    "aria-labelledby": "basic-button",
-                }}
-            >
-                <MenuItem
-                    onClick={() =>
-                        (window.location.href = `mailto:${userEmail}`)
-                    }
-                >
-                    Chat
-                </MenuItem>
-                <MenuItem onClick={() => navigate(`/offer/${offerId}`)}>
-                    View Offer
-                </MenuItem>
-                <MenuItem onClick={() => navigate(`/profile`)}>
-                    View User
-                </MenuItem>
-            </Menu>
-        </>
-    );
+    useEffect(() => {
+        setMadeByMe(requestId !== store.context.user.id)
+    }, [madeByMe])
 
-    const cardActionRequested = () => {
-        return (
-            <CardActions
-                sx={{ display: "flex", justifyContent: "space-between" }}
-            >
-                {requestId !== store.context.user.id ? (
-                    <>
-                        <Button
-                            size="small"
-                            color="primary"
-                            onClick={async () => {
-                                await acceptBookingRequest(
-                                    store,
-                                    offerId,
-                                    requestId
-                                );
-                                loadArray();
-                            }}
-                        >
-                            Accept
-                        </Button>
-                        <Button
-                            size="small"
-                            color="primary"
-                            onClick={async () => {
-                                await rejectBookingRequest(
-                                    store,
-                                    offerId,
-                                    requestId
-                                );
-                                loadArray();
-                            }}
-                        >
-                            Reject
-                        </Button>
-                    </>
-                ) : (
-                    <Button
-                        size="small"
-                        color="primary"
-                        onClick={async () => {
-                            await rejectBookingRequest(
-                                store,
-                                offerId,
-                                requestId
-                            ); //// TODO: WITHDRAW -> REPLACE
-                            loadArray();
-                        }}
-                    >
-                        Withdraw
-                    </Button>
-                )}
-                <IconButton
-                    aria-label="settings"
-                    onClick={handleClick}
-                    aria-controls={open ? "basic-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined}
-                >
-                    <MoreVertIcon />
-                </IconButton>
-                <CardMenu />
-            </CardActions>
-        );
-    };
+    const cardAction = (
+        <CardActionsSection
+            statusType={statusType}
+            store={store}
+            offerId={offerId}
+            requestId={requestId}
+            userEmail={userEmail}
+            madeByMe={madeByMe}
+            type={type}
+            anchorEl={anchorEl}
+            open={open}
+            handleClick={handleClick}
+            handleClose={handleClose}
+            loadArray={loadArray}
+            setOpenAlert={setOpenAlert}
+            request={request}
+            hasReview={hasReview}
+            setIsDialogOpen={setIsDialogOpen}
+        />
+    )
 
-    const cardActionRejected = () => {
-        return (
-            <Typography color="error" sx={{ py: 1, px: 2 }}>
-                Rejected
-            </Typography>
-        );
-    };
-    const onClickComplete = async () => {
-        await completeBookingRequest(
-            store,
-            offerId,
-            requestId
-        );
-        const userResponse = await getSelf(store, store.context.token);
-        if ("status" in userResponse) {
-            return;
-        }
-        store.setContext({...store.context, user: userResponse})
-        loadArray();
-    }
-    const cardActionAccepted = () => {
-        return (
-            <CardActions
-                sx={{ display: "flex", justifyContent: "space-between" }}
-            >
-                {request.user.id === store.context.user.id && !request.requestOwnerComplete && (
-                    <Button
-                        size="small"
-                        color="primary"
-                        onClick={onClickComplete}
-                    >
-                        {type === "seeking" ? "Confirm Service" : "Confirm Payment"}
-                    </Button>
-                )}
-                {request.offer.owner.id === store.context.user.id && !request.offerOwnerComplete && (
-                    <Button
-                        size="small"
-                        color="primary"
-                        onClick={onClickComplete}
-                    >
-                        {type === "seeking" ? "Confirm Payment" : "Confirm Service"}
-                    </Button>
-                )}
-                <IconButton
-                    aria-label="settings"
-                    onClick={handleClick}
-                    aria-controls={open ? "basic-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined}
-                >
-                    <MoreVertIcon />
-                </IconButton>
-                <CardMenu />
-            </CardActions>
-        );
-    };
-
-    const cardActionRating = () => {
-        const store = useContext(ContextStore)
-        return (
-            <CardActions
-                sx={{ display: "flex", justifyContent: "space-between" }}
-            >
-                {store.context.user.id === request.user.id && !request.requestOwnerReview && <Button
-                    size="small"
-                    color="primary"
-                    onClick={() => setIsDialogOpen(true)}
-                >
-                    Give Review
-                </Button>}
-                {store.context.user.id ===  request.offer.owner.id && !request.offerOwnerReview && <Button
-                    size="small"
-                    color="primary"
-                    onClick={() => setIsDialogOpen(true)}
-                >
-                    Give Review
-                </Button>}
-                <IconButton
-                    aria-label="settings"
-                    onClick={handleClick}
-                    aria-controls={open ? "basic-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined}
-                >
-                    <MoreVertIcon />
-                </IconButton>
-                <CardMenu />
-            </CardActions>
-        );
-    };
-
-    const cardActionOffer = () => {
-        return (
-            <CardActions
-                sx={{ display: "flex", justifyContent: "space-between" }}
-            >
-                <IconButton
-                    aria-label="settings"
-                    onClick={handleClick}
-                    aria-controls={open ? "basic-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined}
-                >
-                    <MoreVertIcon />
-                </IconButton>
-                <CardMenu />
-            </CardActions>
-        );
-    };
-
-    const cardActionFinished = () =>
-        hasReview ? (
-            <Typography color="success.dark" sx={{ py: 1, px: 2 }}>
-                Completed
-            </Typography>
-        ) : (
-            cardActionRating()
-        );
-
-    const selectCardAction = () => {
-        switch (statusType) {
-            case "requested":
-                return cardActionRequested();
-            case "rejected":
-                return cardActionRejected();
-            case "accepted":
-                return cardActionAccepted();
-            case "completed":
-                return cardActionFinished();
-            case "offer":
-                return cardActionOffer();
-            default:
-                return <></>;
-        }
-    };
-
+    
     return (
         <Card
-            sx={{ margin: "2em 0", backgroundColor: "inherit", border: "none" }}
+            sx={{ margin: "2em 0", backgroundColor: "white", border: "none" }}
         >
             <CardHeader
-                action={selectCardAction()}
+                action={cardAction}
                 title={title}
                 subheader={`Requested on: ${getDateTimeString(request.time)}`}
             />
@@ -376,6 +168,10 @@ const BookingCard: React.FC<BookingCardProps> = ({
                 offerId={offerId}
                 requestId={requestId}
             />
+
+            <AlertToast text={openAlert.message} open={openAlert.open} severity={openAlert.severity} handleClose={() => {
+                setOpenAlert({...openAlert, open:false});
+            }}/>
         </Card>
     );
 };

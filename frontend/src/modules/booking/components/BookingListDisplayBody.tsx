@@ -1,7 +1,7 @@
 import PaginationControlled from '../../shared/components/PaginationControls';
 import BookingList from "./BookingList";
 import styles from "./Booking.module.css";
-import { Box, Divider, Paper, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Divider, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { BookingRequestResponseBody } from "../Types";
 import ContextStore from "../../../utils/ContextStore";
@@ -25,13 +25,13 @@ const BookingListDisplayBody = () => {
 
   const loadBookingArray = async () => {
     const _bookingArray = await getAllBookingRequest(store)
-    console.log(_bookingArray)
 
     if("status" in _bookingArray){
       setOpenAlert({...openAlert, open: true, message: _bookingArray.popupMessage})
       return
     }
 
+    console.log("Booking: ", _bookingArray)
     setBookingArray(_bookingArray)
   }
 
@@ -59,6 +59,7 @@ const BookingListDisplayBody = () => {
       }
     )
     setFilteredArray(filtered)
+    console.log("Request", filtered)
   }
 
   return (
@@ -73,8 +74,8 @@ const BookingListDisplayBody = () => {
               value={tabSetting.serviceType}
               onChange={(e, val) => setTabSetting({...tabSetting, serviceType: val})}
             >
-              <Tab value={'my'} label="My Booking Requests to Offers"/>
-              <Tab value={'notmy'} label="Requests to my Offers"/>
+              <Tab value={'my'} label="Made by Me"/>
+              <Tab value={'notmy'} label="From My Offers"/>
           </Tabs>
         </Box>
         <Box>
