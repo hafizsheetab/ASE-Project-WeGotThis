@@ -1,17 +1,10 @@
 import {Box, Grid2} from "@mui/material";
 import Searchbar from "./Searchbar";
 import CheckmarkDropdown from "../../shared/components/CheckmarkDropdown";
-import { Filters } from "../services";
+import { SearchFiltersProps } from "../Types";
 import PriceRangeSelect from "./PriceRangeSlider";
 import NextAvailabilitySelect from "./NextAvailabilitySelect";
-import { OfferResponseBody } from "../../offerCreation/Types";
   
-type SearchFiltersProps = {
-filters: Filters;
-setFilters: React.Dispatch<React.SetStateAction<Filters>>;
-offers: Array<OfferResponseBody>
-};
-
 const SearchFilters : React.FC<SearchFiltersProps> = ({filters, setFilters, offers}) => {
     const handleSearch = (searchInput : string | null) => {
         setFilters((prev) => ({...prev, searchbarFilter: searchInput}))

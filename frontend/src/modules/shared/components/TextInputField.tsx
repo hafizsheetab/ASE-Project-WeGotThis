@@ -48,6 +48,7 @@ const TextInputField: React.FC<TextInputFieldProps> = ({
                 {extraLink && (
                     <span>
                         <Link
+                            type='button'
                             component="button"
                             underline="hover"
                             variant="body2"

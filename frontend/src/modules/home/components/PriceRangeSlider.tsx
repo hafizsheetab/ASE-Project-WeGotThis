@@ -10,12 +10,7 @@ import {
   Slider,
   Typography,
 } from '@mui/material';
-
-type PriceRangeSelectProps = {
-  value: [number, number] | null;
-  onChange: (value: [number, number]) => void;
-  label: string;
-};
+import { PriceRangeSelectProps } from '../Types';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

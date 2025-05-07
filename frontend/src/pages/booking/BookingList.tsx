@@ -1,9 +1,7 @@
 "use client";
+import BookingListDisplayBody from "../../modules/booking/components/BookingListDisplayBody";
 
-import React from "react";
-import BookingListDisplayBody from "../../modules/booking/BookingListDisplayBody";
-
-export const MyBookingListDisplay: React.FC = () => {
+export const MyBookingListDisplay = () => {
   return (
     <BookingListDisplayBody/>
   );

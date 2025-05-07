@@ -2,7 +2,7 @@ import styles from "./Authentication.module.css";
 import AuthenticationHeader from "./AuthenticationHeader";
 import ResetTextInputs from "./ResetTextInputs";
 
-export function ResetForm() {
+const ResetForm = () => {
   const pageHeader = "Reset Password";
   const pageDescrip = "Enter your new password. It must be different than your previous one."
 
@@ -13,3 +13,5 @@ export function ResetForm() {
     </section>
   );
 }
+
+export default ResetForm;

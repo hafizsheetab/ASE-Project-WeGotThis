@@ -13,16 +13,15 @@ import {
     Stack,
     Typography,
 } from "@mui/material";
-import { checkForError } from "../../shared/services";
-import { useNavigate } from "react-router-dom";
 import ContextStore from "../../../utils/ContextStore";
 import { register } from "../services";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { getSelf } from "../../account/services";
+import AlertToast from "../../shared/components/AlertToast";
+import { OpenAlert } from "../../shared/Types";
 
 const RegisterTextInputs = () => {
     const store = useContext(ContextStore);
-    const navigate = useNavigate(); // Initialize navigate function
     const [error, setError] = useState(false);
     const [registerForm, setRegisterForm] = useState<RegisterFormBody>({
         firstName: "",
@@ -33,10 +32,16 @@ const RegisterTextInputs = () => {
         agreedToTerms: false,
     });
 
+    const [openAlert, setOpenAlert] = useState<OpenAlert>({
+            open: false,
+            message: "",
+            severity: "error"
+        });
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (registerForm.password.length < 7) {
+        if (registerForm.password.length < 7 || registerForm.password.length > 32) {
             setError(true);
             return;
         }
@@ -51,19 +56,20 @@ const RegisterTextInputs = () => {
             },
             store
         );
-        if (checkForError(response)) {
+
+        if ("status" in response && !response.status) {
+            setOpenAlert({...openAlert, open: true, message: response.popupMessage})
             return;
         }
+
         response = response as TokenResponse;
         const userResponse = await getSelf(store, response.access_token);
         if ("status" in userResponse) {
+            setOpenAlert({...openAlert, open: true, message: userResponse.popupMessage})
             return;
         }
         
         store.setContext({ ...store.context, token: response.access_token, user: userResponse });
-        // Form submission logic
-        console.log("Form submitted");
-        // navigate("/login"); // Redirect to login page after registration
     };
 
     const handleMouseDownPassword = (
@@ -168,7 +174,7 @@ const RegisterTextInputs = () => {
                     })
                 }
                 error={error}
-                errorMessage="Password must be at least 7 characters long."
+                errorMessage="Password must be at least 7 and max. 32 characters long."
             />
 
             <FormControlLabel
@@ -206,6 +212,10 @@ const RegisterTextInputs = () => {
                 buttonTxt="Register"
                 style={{ width: "100%", padding: ".75em 0" }}
             />
+
+            <AlertToast text={openAlert.message} open={openAlert.open} severity={openAlert.severity} handleClose={() => {
+                setOpenAlert({...openAlert, open:false});
+            }}/>
         </form>
     );
 };

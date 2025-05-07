@@ -9,21 +9,13 @@ import {
 } from "@mui/material";
 import ActiveButton from "../../shared/components/ActiveClickButton";
 import {useNavigate} from "react-router-dom";
-import { OfferResponseBody } from "../../offerCreation/Types";
-import dayjs from "dayjs";
-import {formatDuration} from "../../shared/components/HelperMethods";
 import TodayIcon from '@mui/icons-material/Today';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import NearMeOutlinedIcon from '@mui/icons-material/NearMeOutlined';
+import { calculateDuration, getReadableDateTimeString } from "../../shared/services";
+import { OfferCardProps } from "../Types";
 
-
-type OfferCardProps = {
-    offer: OfferResponseBody
-};
-
-const OfferCard: React.FC<OfferCardProps> = ({
-                                                 offer
-                                             }) => {
+const OfferCard: React.FC<OfferCardProps> = ({offer}) => {
     const navigate = useNavigate();
 
     const handleViewOffer = () => {
@@ -75,7 +67,7 @@ const OfferCard: React.FC<OfferCardProps> = ({
                     <Box>
                         <Typography variant="body2" style={{verticalAlign: 'middle',display: 'inline-flex'}}>
                             <TodayIcon fontSize="small" sx={{marginRight: ".2em"}}/>
-                            {dayjs(offer.startTime).format("ddd, MMM D, h:mm A")}; ~ {formatDuration(offer.startTime, offer.endTime)}
+                            {getReadableDateTimeString(offer.startTime)}; ~ {calculateDuration(offer.startTime, offer.endTime)}
                         </Typography>
                         <br/>
                         <Typography variant="body2" style={{verticalAlign: 'middle',display: 'inline-flex'}}>

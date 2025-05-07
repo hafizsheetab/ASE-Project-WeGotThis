@@ -12,11 +12,3 @@ export const getOneOffer = async(offerId: string, store: ContextStoreData<Contex
     const response = await apiRequest<null, OfferResponseBody>(urls.getOneOffer + offerId, null, store.context.token, store.context.locale, "get", store)
     return response
 }
-
-export type Filters = {
-  location: string[] | null;
-  priceRange: [number, number] | null;
-  nextAvailability: [number, number] | null;
-  serviceType: string[] | null;
-  searchbarFilter: string | null;
-};

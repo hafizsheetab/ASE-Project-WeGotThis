@@ -44,3 +44,7 @@ export interface ResetPasswordRequestBody {
 }
 
 
+export type AuthenticationHeaderProps = {
+    header : string
+    text? : string 
+}

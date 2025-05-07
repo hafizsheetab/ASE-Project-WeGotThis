@@ -1,8 +1,6 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import PublicIcon from '@mui/icons-material/Public';
 import {
@@ -13,10 +11,9 @@ import {
     Menu,
     MenuItem, Divider,
     IconButton,
-    Badge,
     Button,
 } from "@mui/material";
-import { ArrowDropDown, Edit, FavoriteBorderOutlined } from "@mui/icons-material";
+import { Edit } from "@mui/icons-material";
 
 type MenuType = "offer" | "favorites" | "notifications" | "account" | "lang" | null;
 

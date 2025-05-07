@@ -1,6 +1,5 @@
 import { Avatar, Card, Rating, Stack, Typography } from '@mui/material'
 import { deepOrange } from '@mui/material/colors'
-import { Reviews } from '../Types'
 import { ReviewResponse } from '../../shared/Types'
 import { getDateTimeString } from '../../shared/services'
 

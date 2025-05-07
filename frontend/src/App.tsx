@@ -38,7 +38,6 @@ declare module '@mui/material/styles' {
 }
 
 function App() {
-  const [update, setUpdate] = useState(0);
   const [context, setContext] = useState<ContextData>({
     token: "",
     expire: true,

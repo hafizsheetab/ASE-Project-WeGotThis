@@ -5,10 +5,9 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import ActiveButton from "../../shared/components/ActiveClickButton";
-import { Alert, AlertTitle, FormHelperText, IconButton, InputAdornment, Snackbar } from "@mui/material";
-import { checkForError } from "../../shared/services";
+import { IconButton, InputAdornment } from "@mui/material";
 import ContextStore from "../../../utils/ContextStore";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom"; 
 import { LoginFormBody, TokenResponse } from "../Types";
 import { login } from "../services";
 import AlertToast from "../../shared/components/AlertToast";
@@ -16,36 +15,39 @@ import { getSelf } from "../../account/services";
 
 
 const LoginTextInputs = () => {
-    const navigate = useNavigate(); // Initialize navigate function
+    const navigate = useNavigate(); 
     const store = useContext(ContextStore);
     const [loginForm, setLoginForm] = useState<LoginFormBody>({
         email: "",
         password: "",
         isPasswordVisible: false,
     });
+
     const [loginError, setLoginError] = useState<string | null>(null);
     const [openSnackbar, setOpenSnackbar] = useState(false);
 
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Logging in with", loginForm);
 
         setLoginError(null);
         let response = await login({email: loginForm.email, password: loginForm.password, expire: true}, store)
-        if(checkForError(response)){
-            setLoginError("Incorrect email or password. Please try again."); 
+
+        if("status" in response && !response.status){
+            setLoginError(response.popupMessage); 
             setOpenSnackbar(true); 
             return
         }
+
         response = response as TokenResponse;
         const userResponse = await getSelf(store, response.access_token);
+        
         if ("status" in userResponse) {
+            setLoginError(userResponse.popupMessage)
             return;
         }
+        
         store.setContext({ ...store.context, token: response.access_token, user: userResponse });
-        // After successful login, navigate to /home
-        // navigate("/home");
     };
 
     const handleForgotPassword = () => {
@@ -54,7 +56,6 @@ const LoginTextInputs = () => {
 
     useEffect(() => {
         if (store.context.token) {
-            console.log(store.context);
             navigate("/home");
         }
     }, []);

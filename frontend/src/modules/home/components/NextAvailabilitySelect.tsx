@@ -1,13 +1,8 @@
 import * as React from 'react';
 import { Menu, MenuItem, FormControl, Select, InputLabel, Typography, Box, OutlinedInput } from '@mui/material';
-import DateTimeRange from '../../offerCreation/components/DateTimeRange'; // Assuming DateTimeRange is the component you shared earlier
+import DateTimeRange from '../../offerCreation/components/DateTimeRange';
 import dayjs, { Dayjs } from 'dayjs';
-
-type DateTimeRangeSelectProps = {
-  value: [number, number] | null; // Using Unix timestamps for start and end times
-  onChange: (value: [number, number]) => void;
-  label: string;
-};
+import { DateTimeRangeSelectProps } from '../Types';
 
 const DateTimeRangeSelect: React.FC<DateTimeRangeSelectProps> = ({ value, onChange, label }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

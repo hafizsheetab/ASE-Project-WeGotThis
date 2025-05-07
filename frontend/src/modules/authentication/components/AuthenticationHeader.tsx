@@ -1,9 +1,5 @@
+import { AuthenticationHeaderProps } from "../Types";
 import styles from "./Authentication.module.css";
-
-type AuthenticationHeaderProps = {
-    header : string
-    text? : string 
-}
 
 const AuthenticationHeader : React.FC<AuthenticationHeaderProps> = ({header, text}) => {
   return (
@@ -17,4 +13,4 @@ const AuthenticationHeader : React.FC<AuthenticationHeaderProps> = ({header, tex
   )
 }
 
-export default AuthenticationHeader
+export default AuthenticationHeader;

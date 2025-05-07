@@ -5,13 +5,11 @@ import CategoryList from '../../shared/components/CategoryChipDisplay'
 import { UserResponse } from '../../shared/Types'
 import { getDateTimeString } from '../../shared/services'
 
-
 type ProfileInfoDisplayProps = {
   user : UserResponse
 }
 
 const ProfileInfoDisplay: React.FC<ProfileInfoDisplayProps> = ({user}) => {
-  console.log(user.rating)
   return (
     <Stack gap={1}>
         <ProfileName name={user.firstName + " " + user.lastName} profileImg={user.imageUrl}/>
