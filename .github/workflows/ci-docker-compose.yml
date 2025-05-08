@@ -19,14 +19,11 @@ jobs:
       - name: Build and start services with Docker Compose
         run: docker compose -f docker-compose.yml up --build -d
 
-      - name: Wait for services to stabilize
-        run: sleep 20
-
       - name: Check backend health
         run: curl --fail http://localhost:8000/api-docs || exit 1
 
       - name: Run integration tests
-        run: npm run test
+        run: docker compose exec -T backend npm run test
         working-directory: backend
 
       - name: Shut down containers
