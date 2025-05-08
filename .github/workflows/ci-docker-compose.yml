@@ -17,7 +17,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build and start services with Docker Compose
-        run: docker-compose -f docker-compose.yml up --build -d
+        run: docker compose -f docker-compose.yml up --build -d
 
       - name: Wait for services to stabilize
         run: sleep 20
@@ -26,4 +26,4 @@ jobs:
         run: curl --fail http://localhost:8000 || exit 1
 
       - name: Shut down containers
-        run: docker-compose -f docker-compose.yml down
+        run: docker compose -f docker-compose.yml down
