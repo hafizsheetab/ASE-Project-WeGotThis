@@ -8,7 +8,9 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "vite --host"
+    "start": "vite --host",
+    "test": "echo \"(no tests yet)\" && exit 0"
+
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
