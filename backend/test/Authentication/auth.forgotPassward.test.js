@@ -1,7 +1,12 @@
 const request = require('supertest');  // supertest 代替 chai-http
 const expect = require('chai').expect;
-const app = process.env.CI === 'true' ? 'http://localhost:8000' : require('../../server');
 
+let app;
+before(() => {
+  app = process.env.CI === 'true'
+    ? 'http://localhost:8000'
+    : require('../../server');
+});
 describe('Auth - Forgot Password API',()=>{
     /*
      * Test Coverage:
