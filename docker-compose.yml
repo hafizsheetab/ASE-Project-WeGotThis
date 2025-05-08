@@ -6,7 +6,9 @@ services:
       - backend
       - ''
     container_name: wegotthis-backend
-    image: wegotthis/backend
+    build:
+      context: ./frontend
+    image: wegotthis/frontend
     ports:
       - "8000:8000"
     depends_on:
@@ -18,6 +20,8 @@ services:
     profiles:
       - ''
     container_name: wegotthis-frontend
+    build:
+      context: ./backend
     image: wegotthis/frontend
     ports:
       - "5173:5173"
