@@ -19,6 +19,9 @@ jobs:
       - name: Build and start services with Docker Compose
         run: docker compose -f docker-compose.yml up --build -d
 
+      - name: Wait for backend
+        run: sleep 20
+
       - name: Check backend health
         run: curl --fail http://localhost:8000/api-docs || exit 1
 
