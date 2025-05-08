@@ -6,9 +6,10 @@ import { OfferResponseBody } from '../../offerCreation/Types';
 type PersonalOfferListProps = {
   offers: Array<OfferResponseBody>,
   serviceType : string
+  deleteOffer: (offerId: string) => void
 }
 
-const PersonalOfferList : React.FC<PersonalOfferListProps> = ({serviceType, offers}) => {
+const PersonalOfferList : React.FC<PersonalOfferListProps> = ({serviceType, offers, deleteOffer}) => {
 
   return (
     <Grid2 container spacing={3}>
@@ -25,6 +26,7 @@ const PersonalOfferList : React.FC<PersonalOfferListProps> = ({serviceType, offe
             <Grid2 size={{xs: 12, sm: 12, md: 6}} container key={"grid-"+offer.id}>
                 <OfferCardShort key={"offer-" + offer.id}
                     offer={offer}
+                    deleteOffer={deleteOffer}
                 />
             </Grid2>
           ))

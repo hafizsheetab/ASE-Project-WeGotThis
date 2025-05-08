@@ -139,8 +139,7 @@ const getOffer = async (offerId, userId, locale) => {
     return offer;
 };
 
-const getOffers = async (formData, userId, locale) => {
-    console.log(locale);
+const getOffers = async (userId) => {
     const service = "getOffers";
     // const redisKey = "offers:all";
     // const cachedOffers = await getJson(redisKey);
@@ -148,7 +147,9 @@ const getOffers = async (formData, userId, locale) => {
     //     return cachedOffers;
     // }
     let offers = await Offer.scan({ availability: true }).exec();
-    console.log(offers);
+    if(Array.isArray(offers) && userId){
+        offers = offers.filter(o => o.owner === userId)
+    }
     offers = await offerResponseFormatter(offers);
     // await setJson(redisKey, offers, { EX: 3600 });
     return offers;
@@ -180,12 +181,20 @@ const deleteOffer = async (offerId, userId, locale) => {
             service,
         };
     }
+    if(!offer.availability){
+        throw {
+            apiErrorCode: "offer.requestAlreadyProcessed",
+            entityName: EntityNames.offer,
+            service,
+        }
+    }
     await Offer.delete({ id: offerId });
     // const redisKey = `offer:${offerId}`;
     // const redisKeyAll = "offers:all";
     // await deleteKey(redisKeyAll);
     // await deleteKey(redisKey);
-    return { status: true };
+    offer = await offerResponseFormatter(offer);
+    return offer
 };
 
 const getMyOffers = async (userId) => {
@@ -495,7 +504,7 @@ const withdrawOfferRequest = async (offerId, userId, requestId) => {
     );
     if(offer.requests[index].id !== userId){
         throw {
-            apiErrorCode: "offer.owner",
+            apiErrorCode: "offer.notOwner",
             entityName: EntityNames.offer,
             service,
         };
@@ -505,6 +514,7 @@ const withdrawOfferRequest = async (offerId, userId, requestId) => {
     offer = await offerResponseFormatter(offer)
     return offer
 }
+
 const _changeOfferValidityCheck = (
     offer,
     userId,

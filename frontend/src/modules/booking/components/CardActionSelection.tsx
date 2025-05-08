@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import CardMenu from "./BookingCardMenu";
-import { acceptBookingRequest, completeBookingRequest, rejectBookingRequest } from "../services";
+import { acceptBookingRequest, completeBookingRequest, rejectBookingRequest, withdrawBookingRequest } from "../services";
 import { getSelf } from "../../account/services";
 import { OpenAlert } from "../../shared/Types";
 
@@ -102,7 +102,7 @@ const CardActionsSection: React.FC<Props> = ({
                     size="small"
                     color="primary"
                     onClick={async () => {
-                        const response = await rejectBookingRequest(store, offerId, requestId); // TODO: replace with withdraw
+                        const response = await withdrawBookingRequest(store, offerId, requestId); // TODO: replace with withdraw
                         if ("status" in response) {
                             setOpenAlert({ open: true, message: response.popupMessage, severity: "error" });
                             return;

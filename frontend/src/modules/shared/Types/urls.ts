@@ -1,3 +1,5 @@
+import { deleteOffer } from "../../offerList/services"
+
 const baseUrl = "http://localhost:8000"
 const preamble = "api/v1"
 export default {
@@ -23,5 +25,7 @@ export default {
     getReviews: `${baseUrl}/${preamble}/user/getReviews/`,
     giveReview: `${baseUrl}/${preamble}/offer/giveReview/`,
     getUser: `${baseUrl}/${preamble}/user/getUser/`,
-    withdrawOffer: `${baseUrl}/${preamble}/offer/withdraw/request`
+    withdrawBookingRequest: `${baseUrl}/${preamble}/offer/withdraw/`
+
 }
+
