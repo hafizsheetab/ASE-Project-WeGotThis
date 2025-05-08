@@ -69,7 +69,7 @@ const DateTimeRange: React.FC<DateTimeRangeProps> = ({
             setDuration(Math.max(newDuration, 0));  
             setDurationUnit(newUnit);
         }
-    }, [startDate, endDate]); 
+    }, [startDate, endDate, setTime]); 
     
 
     return (

@@ -42,7 +42,7 @@ export default function DialogSelect({
     setOpen(true);
   };
 
-  const handleClose = (event: React.SyntheticEvent<unknown>, reason?: string) => {
+  const handleClose = (_: React.SyntheticEvent<unknown>, reason?: string) => {
     if (reason !== 'backdropClick') {
       setOpen(false);
       setSelected([])

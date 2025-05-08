@@ -28,7 +28,7 @@ const PaginationControlled : React.FC<PaginationControlledProps> = ({numberOfIte
       allSelected: true
     })
 
-  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+  const handleChange = (_: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
     onPaginationClick?.(value)
   };
@@ -121,7 +121,7 @@ const PaginationControlled : React.FC<PaginationControlledProps> = ({numberOfIte
                     <Rating name={`read-only-${rating}`} value={rating} readOnly size="small" />
                     <Checkbox
                       checked={!filter.allSelected && filter.values.includes(rating)}
-                      onChange={(e) => filterChange(rating)}
+                      onChange={() => filterChange(rating)}
                     />
                   </Stack>
                 </MenuItem>

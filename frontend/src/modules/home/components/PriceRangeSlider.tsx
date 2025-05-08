@@ -38,7 +38,7 @@ const PriceRangeSelect: React.FC<PriceRangeSelectProps> = ({ value, onChange, la
     onChange(localValue);
   };
 
-  const handleSliderChange = (event: Event, newValue: number | number[]) => {
+  const handleSliderChange = (_: Event, newValue: number | number[]) => {
     setLocalValue(newValue as [number, number]);
   };
 

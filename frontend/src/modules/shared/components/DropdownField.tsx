@@ -21,7 +21,9 @@ export const DropdownField: React.FC<DropdownFieldProps> = ({
     const [value, setValue] = useState(defaultItem);
 
     const handleChange = (event: SelectChangeEvent) => {
-        onChange && onChange(event.target.value)
+        if (onChange) {
+            onChange(event.target.value);
+        }
         setValue(event.target.value);
     };
 

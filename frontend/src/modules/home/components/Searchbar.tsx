@@ -26,10 +26,10 @@ const Searchbar: React.FC<SearchbarProps> = ({onNewSearch, searchArray}) => {
             freeSolo
             value={value}
             inputValue={inputValue}
-            onInputChange={(event, newInputVal) => {
+            onInputChange={(_, newInputVal) => {
               setInputValue(newInputVal)
             }}
-            onChange={(event: any, newValue : string | null) => {
+            onChange={(_, newValue : string | null) => {
                 setValue(newValue);
                 setInputValue(newValue || "");
                 onNewSearch?.(newValue);

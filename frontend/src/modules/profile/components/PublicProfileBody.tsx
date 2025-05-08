@@ -2,9 +2,7 @@ import { Box, Divider, Stack, Tabs, Tab } from '@mui/material'
 import styles from "../../account/components/AccountManagement.module.css";
 import { useContext, useEffect, useState } from 'react';
 import ProfileInfoDisplay from './ProfileInfoDisplay';
-import test from '../../../assets/test.png'
 import ReviewsList from './ReviewsList';
-import { ProfileInfoDisplayTypes, Reviews, UserCategory } from '../Types';
 import OfferDisplay from './OfferDisplay';
 import { useParams } from 'react-router-dom';
 import { OpenAlert, ReviewResponse, UserResponse } from '../../shared/Types';
@@ -74,7 +72,7 @@ const PublicProfileBody = () => {
 
         
       })()
-    },[id])
+    },[id, store])
 
     useEffect(() => {
       console.log(reviews)
@@ -91,7 +89,7 @@ const PublicProfileBody = () => {
                 centered
                 variant="fullWidth"
                 value={tabSetting.tabType}
-                onChange={(e, val) => setTabSetting({...tabSetting, tabType: val})}
+                onChange={(_, val) => setTabSetting({...tabSetting, tabType: val})}
                 aria-label="Vertical tabs example"
                 >
                 <Tab sx={{fontSize: "1em"}} value={'reviews'} label="Reviews"/>

@@ -116,7 +116,7 @@ export const apiRequest = async <ReqBody, ResBody>(
     }
 };
 
-export const checkForError = <T extends Object>(response: T | ErrorBody) => {
+export const checkForError = <T extends object>(response: T | ErrorBody) => {
     if ("status" in response && !response.status) {
         return true;
     }

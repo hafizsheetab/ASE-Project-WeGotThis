@@ -68,7 +68,7 @@ const OfferCreationBody = () => {
             }
             setTemplate(response)
         })()
-    },[])
+    },[store])
 
     return (
         <Box sx={

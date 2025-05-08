@@ -29,53 +29,52 @@ const HomeBody = () => {
           setOffers(vOffers)
           setAllOffers(vOffers)
         })()  
-    },[])
+    },[store])
 
     useEffect(() => {
+        const updateOffers = () => {
+            let filtered = [...allOffers];
+    
+            if (filters.priceRange) {
+                filtered = filtered.filter(
+                    (o) => {
+                        if (filters.priceRange != null){
+                            return o.price >= filters.priceRange[0] && o.price <= filters.priceRange[1]
+                        }
+                    }
+                );
+            }
+    
+            if (filters.nextAvailability){
+                filtered = filtered.filter(
+                    (o) => { 
+                        if(filters.nextAvailability != null) {
+                            return o.startTime >= filters.nextAvailability[0] && o.endTime <= filters.nextAvailability[1]
+                        }
+                    }
+                )
+            } 
+            
+            if (filters.serviceType && filters.serviceType.length > 0) {
+              filtered = filtered.filter(
+                (o) => filters.serviceType?.find(item => item.toLowerCase().match(o.type.displayValue.toLowerCase())));
+            } 
+    
+            if (filters.searchbarFilter) {
+                filtered = filtered.filter(
+                    (o) => {
+                        if(filters.searchbarFilter != null) {
+                            return o.title.toLowerCase().includes(filters.searchbarFilter.toLowerCase().trim())
+                        }
+                    }
+                )
+            }
+    
+            setOffers(filtered);
+        };
+
         updateOffers();
-    }, [filters]);
-
-    const updateOffers = () => {
-        let filtered = [...allOffers];
-
-        if (filters.priceRange) {
-            filtered = filtered.filter(
-                (o) => {
-                    if (filters.priceRange != null){
-                        return o.price >= filters.priceRange[0] && o.price <= filters.priceRange[1]
-                    }
-                }
-            );
-        }
-
-        if (filters.nextAvailability){
-            filtered = filtered.filter(
-                (o) => { 
-                    if(filters.nextAvailability != null) {
-                        return o.startTime >= filters.nextAvailability[0] && o.endTime <= filters.nextAvailability[1]
-                    }
-                }
-            )
-        } 
-        
-        if (filters.serviceType && filters.serviceType.length > 0) {
-          filtered = filtered.filter(
-            (o) => filters.serviceType?.find(item => item.toLowerCase().match(o.type.displayValue.toLowerCase())));
-        } 
-
-        if (filters.searchbarFilter) {
-            filtered = filtered.filter(
-                (o) => {
-                    if(filters.searchbarFilter != null) {
-                        return o.title.toLowerCase().includes(filters.searchbarFilter.toLowerCase().trim())
-                    }
-                }
-            )
-        }
-
-        setOffers(filtered);
-    };
-
+    }, [allOffers, filters]);
 
     return (
         <Stack 

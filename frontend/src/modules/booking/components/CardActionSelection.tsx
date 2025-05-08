@@ -9,11 +9,11 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import CardMenu from "./BookingCardMenu";
 import { acceptBookingRequest, completeBookingRequest, rejectBookingRequest } from "../services";
 import { getSelf } from "../../account/services";
-import { OpenAlert } from "../../shared/Types";
+import { ContextData, ContextStoreData, OpenAlert } from "../../shared/Types";
 
 interface Props {
     statusType: string;
-    store: any;
+    store: ContextStoreData<ContextData>;
     offerId: string;
     requestId: string;
     userEmail: string;
@@ -25,7 +25,14 @@ interface Props {
     handleClose: () => void;
     loadArray: () => void;
     setOpenAlert: (val: OpenAlert) => void;
-    request: any;
+    request: {
+        user: { id: string | number };
+        requestOwnerComplete?: boolean;
+        offer: { owner: { id: string | number } };
+        offerOwnerComplete?: boolean;
+        requestOwnerReview?: boolean;
+        offerOwnerReview?: boolean;
+    };
     hasReview: boolean;
     setIsDialogOpen: (val: boolean) => void;
     offerOwnerId: string | number;
