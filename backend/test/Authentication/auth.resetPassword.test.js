@@ -1,6 +1,6 @@
 const request = require('supertest');  // supertest 代替 chai-http
-const app = require('../../server');
 const expect = require('chai').expect;
+const app = process.env.CI === 'true' ? 'http://localhost:8000' : require('../../server');
 
 describe('Auth - Reset Password API',()=>{
     /*
