@@ -22,5 +22,12 @@ jobs:
       - name: Wait for services to stabilize
         run: sleep 20
 
+      - name: Check backend health
+        run: curl --fail http://localhost:8000/api-docs || exit 1
+
+      - name: Run integration tests
+        run: npm run int-test
+        working-directory: backend
+
       - name: Shut down containers
         run: docker compose -f docker-compose.yml down
