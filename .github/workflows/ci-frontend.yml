@@ -2,7 +2,7 @@ name: CI – frontend
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "dev/ci_cd" ]
   pull_request: 
     branches: [ "master" ]
 jobs:
