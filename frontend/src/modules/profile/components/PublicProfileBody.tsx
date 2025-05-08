@@ -11,6 +11,7 @@ import { getReviews, getUser } from '../services';
 import AlertToast from '../../shared/components/AlertToast';
 import { getMyOffers } from '../../offerList/services';
 import { OfferResponseBody } from '../../offerCreation/Types';
+import { getSelf } from '../../account/services';
 
 const PublicProfileBody = () => {
     const [tabSetting, setTabSetting] = useState({
@@ -32,7 +33,13 @@ const PublicProfileBody = () => {
     useEffect(() => {
       (async() => {
         if(!id){
-          setUser(store.context.user)
+          const userResponse = await getSelf(store, store.context.token)
+          if("status" in userResponse){
+            setOpenAlert({open: true, message: userResponse.popupMessage, severity: "error"})
+            return
+          }
+          setUser(userResponse)
+          store.setContext({...store.context, user: userResponse})
           const reviewsResponse = await getReviews(store, store.context.user.id)
 
           if("status" in reviewsResponse){

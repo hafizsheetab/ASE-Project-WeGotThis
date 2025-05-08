@@ -56,6 +56,15 @@ services:
     volumes:
       - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
+  maildev:
+    profiles:
+    - ''
+    - infra
+    container_name: maildev
+    image: maildev/maildev
+    ports:
+      - "1080:1080"
+      - "1025:1025"
 volumes:
   redis_data:
     

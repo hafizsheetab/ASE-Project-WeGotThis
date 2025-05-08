@@ -71,7 +71,24 @@
     responses:
       "200":
         description: List of offers retrieved successfully
-
+"/v1/offer/getAll/user/{userId}":
+  get:
+    security:
+      - Locale: []
+      - ApiToken: []
+    tags:
+      - Offer
+    summary: Get details of a single offer
+    parameters:
+      - in: path
+        name: userId
+        required: true
+        description: ID of the user
+        schema:
+          type: string
+    responses:
+      "200":
+        description: List of offers retrieved successfully
 "/v1/offer/delete/{offerId}":
   delete:
     security:
@@ -265,7 +282,7 @@
     responses:
       "200":
         description: Offers retrieved successfully
-"/v1/offer/withdraw/request/{offerId}/{requestId}":
+"/v1/offer/withdraw/{offerId}/{requestId}":
   put:
     security:
       - Locale: []

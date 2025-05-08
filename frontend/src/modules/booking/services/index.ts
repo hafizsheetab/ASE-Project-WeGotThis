@@ -51,6 +51,22 @@ export const rejectBookingRequest = async (
     return response;
 };
 
+export const withdrawBookingRequest = async (
+    store: ContextStoreData<ContextData>,
+    offerId: string,
+    requestId: string
+): Promise<OfferResponseBody | ErrorBody> => {
+    const response = await apiRequest<null, OfferResponseBody>(
+        urls.withdrawBookingRequest + offerId + "/" + requestId,
+        null,
+        store.context.token,
+        store.context.locale,
+        "put",
+        store
+    );
+    return response;
+};
+
 
 export const completeBookingRequest = async (
     store: ContextStoreData<ContextData>,

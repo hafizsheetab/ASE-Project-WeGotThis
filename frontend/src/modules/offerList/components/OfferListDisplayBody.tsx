@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import OfferList from './OfferList';
 import { OfferResponseBody } from '../../offerCreation/Types';
 import ContextStore from '../../../utils/ContextStore';
-import { getMyOffers } from '../services';
+import { deleteOffer, getMyOffers } from '../services';
 import AlertToast from '../../shared/components/AlertToast';
 import { OpenAlert } from '../../shared/Types';
 
@@ -17,19 +17,26 @@ const OfferListDisplayBody = () => {
           severity: "error"
   });
   const store = useContext(ContextStore)
-
-  useEffect(() => {
-    (async () => {
-      const vOffers = await getMyOffers(store)
+  const _getOffers = async () => {
+    const vOffers = await getMyOffers(store)
       if("status" in vOffers){
         setOpenAlert({...openAlert, open: true, message: vOffers.popupMessage})
         return
       }
       
       setOffers(vOffers)
-    })()  
-  },[openAlert, store])
-
+  }
+  useEffect(() => {
+    _getOffers()
+  },[])
+  const _deleteOffer = async (offerId: string) => {
+    const response = await deleteOffer(store, offerId)
+    if("status" in response){
+      setOpenAlert({...openAlert, open: true, message: response.popupMessage})
+      return
+    }
+    await _getOffers()
+  }
   const [tabSetting, setTabSetting] = useState({
       serviceType : "seeking",
   });
@@ -51,7 +58,7 @@ const OfferListDisplayBody = () => {
 
               <Box sx={{ flex: 1, py: 4}}>  
                 <PaginationControlled numberOfItems={offers.filter((offer) => offer.type.displayValue.match(tabSetting.serviceType)).length} maxItemsOnOnePage={25}/>
-                <OfferList serviceType={tabSetting.serviceType} offers={offers}/>
+                <OfferList serviceType={tabSetting.serviceType} offers={offers} deleteOffer={_deleteOffer}/>
               </Box>
         </Stack>
 
