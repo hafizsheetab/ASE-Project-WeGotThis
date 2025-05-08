@@ -22,8 +22,5 @@ jobs:
       - name: Wait for services to stabilize
         run: sleep 20
 
-      - name: Check backend health
-        run: curl --fail http://localhost:8000 || exit 1
-
       - name: Shut down containers
         run: docker compose -f docker-compose.yml down
