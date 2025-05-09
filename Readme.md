@@ -8,12 +8,12 @@
 
 ## Bugs
 - Every time when log in, you can actual see the "Forgot Password" Page -> FIXED
-- TODO has Review? ->  /// TODO: CHECK IF booking.offer.hasReview & (booking.offer.id == context.user.id) see BookingList.tsx
 
 
 ## TODO
-- Booking Responsiveness -> Elisa
-- Dates Format still not appliable? Home - Offer View - Booking -> Xiaying
+- Logout
+- Delete all old offers? 
+- Change Error Message to more understandable ones
 
 
 ## Missing Integration
@@ -40,8 +40,8 @@
 
 ## Frontend
 1. Create At in OfferListCard -> After Backend done
-2. Integrate Delete Offer API -> OfferList Menu
-3. Sorting Location -> Backend Improvement
-4. Improve Default values in sortings -> no date value and price range in the beginning
+2. Integrate Delete Offer API -> OfferList Menu  FIXED
+3. Sorting Location -> Backend Improvement FIXED
+4. Improve Default values in sortings -> no date value and price range in the beginning 
 5. Change getMyOffers in PublicProfileBody.tsx to getAllOffersFromUser(userID) -> Wait for backend
 6. Check if Review Dialog closes after bug in API GiveReview is fixed
