@@ -3,13 +3,14 @@ import ProfileName from './ProfileName'
 import ProfileSubInfo from './ProfileSubInfo'
 import CategoryList from '../../shared/components/CategoryChipDisplay'
 import { UserResponse } from '../../shared/Types'
-import { getDateTimeString } from '../../shared/services'
+import { getYearString } from '../../shared/services'
 
 type ProfileInfoDisplayProps = {
   user : UserResponse
 }
 
 const ProfileInfoDisplay: React.FC<ProfileInfoDisplayProps> = ({user}) => {
+
   return (
     <Stack gap={1}>
         <ProfileName name={user.firstName + " " + user.lastName} profileImg={user.imageUrl}/>
@@ -20,18 +21,18 @@ const ProfileInfoDisplay: React.FC<ProfileInfoDisplayProps> = ({user}) => {
             <Stack gap={1}>
               <Stack direction='row' gap={2} alignItems='center'>
                 <Typography variant='body1'>Rating: </Typography>
-                <Rating name="read-only" value={user.rating} readOnly  />
+                <Rating name="read-only" value={user.rating?? 0} readOnly/>
               </Stack>
 
-              <Stack direction='row' gap={2} alignItems='center'>
-                <Typography variant='body1'>Interest: </Typography>
+              <Stack direction='row' gap={2} alignItems='flex-start'>
+                <Typography height="100%" variant='body1'>Interest: </Typography>
                 <CategoryList categories={user.categories ? user.categories : []}/>
               </Stack>
             </Stack>
 
             <ProfileSubInfo 
               location={user.location} 
-              registrationYear={getDateTimeString(user.time)}
+              registrationYear={getYearString(user.time)}
               providedService={user.servicesOffered}
               seekedServices={user.servicesSeeked}/>
         </Stack>

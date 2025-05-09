@@ -19,7 +19,6 @@ import CardActionsSection from "./CardActionSelection";
 
 const BookingCard: React.FC<BookingCardProps> = ({
     title,
-    requestedOn,
     type,
     availability,
     location,
@@ -30,7 +29,6 @@ const BookingCard: React.FC<BookingCardProps> = ({
     requestId,
     offerId,
     userEmail,
-    hasReview,
     loadArray,
     request,
     offerOwnerId
@@ -74,7 +72,6 @@ const BookingCard: React.FC<BookingCardProps> = ({
             loadArray={loadArray}
             setOpenAlert={setOpenAlert}
             request={request}
-            hasReview={hasReview}
             setIsDialogOpen={setIsDialogOpen}
             offerOwnerId={offerOwnerId}
         />
