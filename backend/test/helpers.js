@@ -1,34 +1,30 @@
-const SERVER = process.env.SERVER_URL || 'http://localhost:8000';
-const COMMON_HEADERS = {
-    accept:        '*/*',
-    'Content-Type':'application/json',
-    'x-locale':    'en'
-  };
+const { acceptOfferRequest, rejectOfferRequest, giveReview } = require("../modules/Offer/controller/offer.controller");
 
-  // Generate a unique email per test case
-function genTestEmail(prefix = 'test') {
-    return `${prefix}_${Date.now()}@test.com`;
-  }
-  
-  // Simple random string generator
-  function randomString(len = 10) {
-    return [...Array(len)].map(() => Math.random().toString(36)[2]).join('');
-  }
-  
-  // Login helper: returns an access token
-  async function loginAndGetToken(email, password) {
-    const res = await require('supertest')(SERVER)
-      .post('/api/v1/auth/login')
-      .set(COMMON_HEADERS)
-      .send({ email, password, expire: true });
-    if (res.status !== 200) throw new Error('Login failed');
-    return res.body.resource.access_token;
-  }
-  
-  module.exports = {
-    SERVER,
-    COMMON_HEADERS,
-    genTestEmail,
-    randomString,
-    loginAndGetToken,
-  };
+const baseUrl = 'http://localhost:8000/api/v1';
+
+const urls = {
+  login:   `${baseUrl}/auth/login`,
+  register: `${baseUrl}/auth/register`,
+  getSelf: `${baseUrl}/user/getSelf`,
+  changeSelf: `${baseUrl}/user/changeSelf`,
+  getReviews: `${baseUrl}/user/getReviews`,
+  createOffer: `${baseUrl}/offer/create`,
+  editOffer: `${baseUrl}/offer/edit`,
+  getOffer: `${baseUrl}/offer/get`,
+  getOffers: `${baseUrl}/offer/getAll`,
+  deleteOffer: `${baseUrl}/offer/delete`,
+  template: `${baseUrl}/offer/template`,
+  myOffers: `${baseUrl}/offer/my/Offers`,
+  addRequests: `${baseUrl}/offer/add/requests`,
+  getMyRequestsToOffers: `${baseUrl}/offer/getMyRequestsToOffer`,
+  getRequestsOnMyOffers: `${baseUrl}/offer/getRequestsOnMyOffers`,
+  getAllRequests: `${baseUrl}/offer/getAll/requests`,
+  completeOffer: `${baseUrl}/offer/complete`,
+  acceptOffer: `${baseUrl}/offer/accept`,
+  rejectOffer: `${baseUrl}/offer/reject`,
+  withdrawRequest: `${baseUrl}/offer/withdraw/request`,
+  giveReview: `${baseUrl}/offer/giveReview`,
+}
+module.exports = {
+  urls
+};

@@ -3,6 +3,7 @@ const { ConfigureMulterStorage } = require("../../../config/uploadFile");
 const successMessages = require("../../../messages/successMessages");
 const PreProcessing = require("../../../middleware/Request/PreProcessing");
 const PostSuccessProcessing = require("../../../middleware/Response/PostSuccessProcessing");
+const PostErrorProcessing = require("../../../middleware/Response/PostErrorProcessing");
 const EntityNames = require("../../../Types/EntityNames");
 const { UploadedFileTypes, UploadValidMimeTypes } = require("../../../Types/UploadFileTypes");
 const { getSelf, changeSelf, uploadProfilePicture, getReviews, getUser } = require("../controller/user.controller");
