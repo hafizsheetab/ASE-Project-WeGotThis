@@ -2,9 +2,7 @@ import { Box, Divider, Stack, Tabs, Tab } from '@mui/material'
 import styles from "../../account/components/AccountManagement.module.css";
 import { useContext, useEffect, useState } from 'react';
 import ProfileInfoDisplay from './ProfileInfoDisplay';
-import test from '../../../assets/test.png'
 import ReviewsList from './ReviewsList';
-import { ProfileInfoDisplayTypes, Reviews, UserCategory } from '../Types';
 import OfferDisplay from './OfferDisplay';
 import { useParams } from 'react-router-dom';
 import { OpenAlert, ReviewResponse, UserResponse } from '../../shared/Types';
@@ -77,16 +75,9 @@ const PublicProfileBody = () => {
         }
 
         setMyOffers(vOffers)
-        console.log("MyOffers: ", vOffers)
-
         
       })()
     },[id])
-
-    useEffect(() => {
-      console.log(reviews)
-      console.log(user)
-    })
 
   return (
     <Box className={styles.homeContent}>
@@ -107,7 +98,7 @@ const PublicProfileBody = () => {
 
             {tabSetting.tabType.match("reviews") ? 
                 <ReviewsList array={reviews}/> : 
-                <OfferDisplay offers={myOffers}/>
+                <OfferDisplay offers={myOffers} userId={user.id}/>
             }
         </Stack>
 

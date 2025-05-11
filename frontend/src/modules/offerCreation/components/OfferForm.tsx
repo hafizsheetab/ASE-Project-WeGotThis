@@ -67,10 +67,10 @@ const OfferForm: React.FC<OfferFormProps> = ({initialValues, formData, setFormDa
                 })}
                 onChange={onChangeRadio}
             />
-            <TextInputField placeholder="Title" footerTxt="Enter here your title (min. 10 characters)" required
+            <TextInputField placeholder="Title" footerTxt="Enter here your title (min. 5 characters)" required
                             value={formData.title} onChange={(e) => {
                                 onChangeTitle(e.target.value)
-                            }} error={setError.titleError} errorMessage='Enter a title with at least 10 characters'/>
+                            }} error={setError.titleError} errorMessage='Enter a title with at least 55 characters'/>
         </section>
 
         <Divider/>

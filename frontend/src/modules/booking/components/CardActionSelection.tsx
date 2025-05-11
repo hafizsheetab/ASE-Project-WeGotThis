@@ -26,7 +26,6 @@ interface Props {
     loadArray: () => void;
     setOpenAlert: (val: OpenAlert) => void;
     request: any;
-    hasReview: boolean;
     setIsDialogOpen: (val: boolean) => void;
     offerOwnerId: string | number;
 }
@@ -46,7 +45,6 @@ const CardActionsSection: React.FC<Props> = ({
     loadArray,
     setOpenAlert,
     request,
-    hasReview,
     setIsDialogOpen,
     offerOwnerId
 }) => {
@@ -102,7 +100,7 @@ const CardActionsSection: React.FC<Props> = ({
                     size="small"
                     color="primary"
                     onClick={async () => {
-                        const response = await withdrawBookingRequest(store, offerId, requestId); // TODO: replace with withdraw
+                        const response = await withdrawBookingRequest(store, offerId, requestId); 
                         if ("status" in response) {
                             setOpenAlert({ open: true, message: response.popupMessage, severity: "error" });
                             return;
@@ -157,6 +155,10 @@ const CardActionsSection: React.FC<Props> = ({
                 </Button>
             )}
 
+            {(request.requestOwnerComplete || request.offerOwnerComplete) && (
+            <Typography>Waiting</Typography>
+            )}
+
             <IconButton aria-label="settings" onClick={handleClick} aria-controls={open ? "basic-menu" : undefined} aria-haspopup="true" aria-expanded={open ? "true" : undefined}>
                 <MoreVertIcon />
             </IconButton>
@@ -193,7 +195,7 @@ const CardActionsSection: React.FC<Props> = ({
     );
 
     const cardActionFinished = () =>
-        hasReview ? (
+        (request.requestOwnerReview && request.offerOwnerReview) ? (
         <Typography color="success.dark" sx={{ py: 1, px: 2 }}>
             Completed
         </Typography>
