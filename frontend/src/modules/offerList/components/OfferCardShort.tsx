@@ -9,20 +9,22 @@ import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import TodayIcon from '@mui/icons-material/Today';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import NearMeOutlinedIcon from '@mui/icons-material/NearMeOutlined';
 import { Stack } from '@mui/material';
 import {useNavigate} from "react-router-dom";
 import { OfferResponseBody } from '../../offerCreation/Types';
-import { calculateDuration, getReadableDateTimeString } from '../../shared/services';
+import { calculateDuration, getDateTimeString, getReadableDateTimeString } from '../../shared/services';
+import ContextStore from '../../../utils/ContextStore';
 
 type OfferCardProps = {
     offer: OfferResponseBody
+    deleteOffer: (offerId: string) => void
 };
 
-const BookingCard : React.FC<OfferCardProps>  = ({offer}) => {
+const BookingCard : React.FC<OfferCardProps>  = ({offer, deleteOffer}) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
@@ -55,7 +57,7 @@ const BookingCard : React.FC<OfferCardProps>  = ({offer}) => {
               }}
           >
               <MenuItem onClick={() => navigate(`/offer/${offer.id}`)}>View Offer</MenuItem>
-              <MenuItem onClick={handleClose}>Delete Offer</MenuItem>
+              {offer.availability && <MenuItem onClick={() => {deleteOffer(offer.id)}}>Delete Offer</MenuItem>}
           </Menu>
       </CardActions> )
   }
@@ -65,7 +67,7 @@ const BookingCard : React.FC<OfferCardProps>  = ({offer}) => {
       <CardHeader
         action={cardActionOffer()}
         title={offer.title}
-        subheader={`Created on: ${offer.startTime}`}
+        subheader={`Created on: ${getDateTimeString(offer.createdAt)}`}
       />
       
       <CardActionArea sx={{display: "flex"}}>

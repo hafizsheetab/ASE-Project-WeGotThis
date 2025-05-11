@@ -121,7 +121,29 @@ router.get("/get/:offerId", PreProcessing(entityName), async(req, res) => {
 
 router.get("/getAll", PreProcessing(entityName), async(req, res) => {
     try{
-        const offers=await getOffers(req.locale);
+        const offers=await getOffers();
+        const popupMessage = successMessages()[req.locale].offer.getOffers
+        const response = PostSuccessProcessing(popupMessage, offers)
+        res.status(response.statusCode).json(response)
+    }catch(err){
+        console.log(err);
+        const statusCode = 401;
+        const error = PostErrorProcessing(
+            statusCode,
+            err.formErrors,
+            err.entityName,
+            err.service,
+            err.apiErrorCode,
+            req.locale
+        );
+        res.status(statusCode).json(error);
+    }
+    
+});
+
+router.get("/getAll/user/:userId", PreProcessing(entityName), async(req, res) => {
+    try{
+        const offers=await getOffers(req.params.userId);
         const popupMessage = successMessages()[req.locale].offer.getOffers
         const response = PostSuccessProcessing(popupMessage, offers)
         res.status(response.statusCode).json(response)
@@ -359,7 +381,7 @@ router.put("/giveReview/:offerId/:requestId", PreProcessing(entityName), async(r
     }
 })
 
-router.put("/withdraw/request/:offerId/:requestId", PreProcessing(entityName), async(req, res) => {
+router.put("/withdraw/:offerId/:requestId", PreProcessing(entityName), async(req, res) => {
     try{
         const offer = await withdrawOfferRequest(req.params.offerId, req.userId, req.params.requestId)
         const popupMessage = successMessages()[req.locale].offer.editOffer

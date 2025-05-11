@@ -13,3 +13,8 @@ export const  giveReview = async(store: ContextStoreData<ContextData>, body: Rat
     const response = await apiRequest<RatingRequestBody, OfferResponseBody>(urls.giveReview + offerId + "/" + requestId, body, store.context.token, store.context.locale, "put", store)
     return response
 }
+
+export const  deleteOffer = async(store: ContextStoreData<ContextData>, offerId: string, ): Promise<OfferResponseBody | ErrorBody> => {
+    const response = await apiRequest<null, OfferResponseBody>(urls.deleteOffer + offerId , null, store.context.token, store.context.locale, "delete", store)
+    return response
+}

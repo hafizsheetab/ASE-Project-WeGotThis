@@ -8,7 +8,7 @@ const OfferList : React.FC<OfferListProps> = ({offers}) => {
 
   return (
       <Box sx={{maxWidth: "1200px"}}>
-        <PaginationControlled numberOfItems={offers.length} maxItemsOnOnePage={25}/>
+        <PaginationControlled numberOfItems={offers.length} maxItemsOnOnePage={25} header="Latest Offers"/>
         <Grid2 container spacing={3}>
           {offers.length > 0? 
             offers.map((offer, idx) => (

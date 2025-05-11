@@ -55,7 +55,7 @@ const CheckmarkDropdown: React.FC<CheckmarkDropdownProps> = ({ itemArray, label,
           MenuProps={MenuProps}
         >
           {itemArray.map((item) => (
-            <MenuItem key={item} value={item}>
+            <MenuItem key={item + "-" + itemArray.indexOf(item)} value={item}>
               <Checkbox checked={value.includes(item)} />
               <ListItemText primary={item} />
             </MenuItem>

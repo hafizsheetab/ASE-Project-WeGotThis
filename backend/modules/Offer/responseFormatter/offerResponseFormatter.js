@@ -33,6 +33,7 @@ const _formatResponse = async (offer) => {
         startTime: offer.startTime,
         endTime: offer.endTime,
         imageUrl: offer.imageUrl,
-        requests: offer.requests ? offer.requests : []
+        requests: offer.requests ? offer.requests : [],
+        createdAt: offer.createdAt
     }
 }

@@ -57,4 +57,5 @@ export interface OfferResponseBody {
         id: string
         price: number
     }[]
+    createdAt: Date
 }

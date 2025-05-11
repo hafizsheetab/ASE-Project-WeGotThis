@@ -2,9 +2,7 @@ import { Box, Divider, Stack, Tabs, Tab } from '@mui/material'
 import styles from "../../account/components/AccountManagement.module.css";
 import { useContext, useEffect, useState } from 'react';
 import ProfileInfoDisplay from './ProfileInfoDisplay';
-import test from '../../../assets/test.png'
 import ReviewsList from './ReviewsList';
-import { ProfileInfoDisplayTypes, Reviews, UserCategory } from '../Types';
 import OfferDisplay from './OfferDisplay';
 import { useParams } from 'react-router-dom';
 import { OpenAlert, ReviewResponse, UserResponse } from '../../shared/Types';
@@ -13,6 +11,7 @@ import { getReviews, getUser } from '../services';
 import AlertToast from '../../shared/components/AlertToast';
 import { getMyOffers } from '../../offerList/services';
 import { OfferResponseBody } from '../../offerCreation/Types';
+import { getSelf } from '../../account/services';
 
 const PublicProfileBody = () => {
     const [tabSetting, setTabSetting] = useState({
@@ -34,7 +33,13 @@ const PublicProfileBody = () => {
     useEffect(() => {
       (async() => {
         if(!id){
-          setUser(store.context.user)
+          const userResponse = await getSelf(store, store.context.token)
+          if("status" in userResponse){
+            setOpenAlert({open: true, message: userResponse.popupMessage, severity: "error"})
+            return
+          }
+          setUser(userResponse)
+          store.setContext({...store.context, user: userResponse})
           const reviewsResponse = await getReviews(store, store.context.user.id)
 
           if("status" in reviewsResponse){
@@ -70,16 +75,9 @@ const PublicProfileBody = () => {
         }
 
         setMyOffers(vOffers)
-        console.log("MyOffers: ", vOffers)
-
         
       })()
     },[id])
-
-    useEffect(() => {
-      console.log(reviews)
-      console.log(user)
-    })
 
   return (
     <Box className={styles.homeContent}>
@@ -100,7 +98,7 @@ const PublicProfileBody = () => {
 
             {tabSetting.tabType.match("reviews") ? 
                 <ReviewsList array={reviews}/> : 
-                <OfferDisplay offers={myOffers}/>
+                <OfferDisplay offers={myOffers} userId={user.id}/>
             }
         </Stack>
 

@@ -4,137 +4,136 @@ module.exports = {
     en: {
         auth: {
             login: {
-                email: "ERROR MESSAGE FOR EMAIL FORM ERROR - EN",
-                password: "ERROR MESSAGE FOR PASSWORD FORM ERROR - EN",
-                expire: "ERROR MESSAGE FOR PASSWORD FORM ERROR - EN",
+            email: "Please enter a valid email address.",
+            password: "Please enter your password.",
+            expire: "Your session has expired. Please log in again.",
             },
             register: {
-                email: "ERROR MESSAGE FOR EMAIL FORM ERROR - EN",
-                password: "ERROR MESSAGE FOR PASSWORD FORM ERROR - EN",
-                firstName: "ERROR MESSAGE FOR NAME FORM ERROR - EN",
-                lastName: "ERROR MESSAGE FOR NAME FORM ERROR - EN",
-                expire: "ERROR MESSAGE FOR NAME FORM ERROR - EN",
+            email: "Please enter a valid email address.",
+            password: "Your password must meet the required criteria.",
+            firstName: "First name is required.",
+            lastName: "Last name is required.",
+            expire: "Registration session expired. Please try again.",
             },
             forgotPassword: {
-                email: "ERROR MESSAGE FOR EMAIL FORM ERROR - EN",
+            email: "Please enter the email address associated with your account.",
             },
             resetPassword: {
-                password: "ERROR MESSAGE FOR PASSWORD FORM ERROR - EN",
-                expire: "ERROR MESSAGE FOR PASSWORD FORM ERROR - EN",
+            password: "Your new password must meet the required criteria.",
+            expire: "Reset link has expired. Please request a new one.",
             }
         },
         user: {
             changeSelf: {
-                firstName: "ERROR MESSAGE FOR NAME FORM ERROR - EN",
-                lastName: "ERROR MESSAGE FOR NAME FORM ERROR - EN",
-                expire: "ERROR MESSAGE FOR NAME FORM ERROR - EN",
-                password: "ERROR MESSAGE FOR PASSWORD FORM ERROR - EN",
-                phoneNumber: "ERROR MESSAGE FOR PHONE NUMBER FORM ERROR - EN",
-                location: "ERROR MESSAGE FOR LOCATION FORM ERROR - EN",
-                categorIds: "ERROR MESSAGE FOR CATEGORY IDS FORM ERROR - EN"
-            },
+            firstName: "First name cannot be empty.",
+            lastName: "Last name cannot be empty.",
+            expire: "Session expired. Please log in again.",
+            password: "Password must meet security requirements.",
+            phoneNumber: "Please enter a valid phone number.",
+            location: "Please enter a valid location.",
+            categorIds: "Please select at least one valid category.",
+            }
         },
         offer: {
             createOffer: {
-                title: "ERROR MESSAGE FOR TITLE FORM ERROR - EN",
-                description: "ERROR MESSAGE FOR DESCRIPTION FORM ERROR - EN",
-                location: "ERROR MESSAGE FOR LOCATION FORM ERROR - EN",
-                priceModeId: "ERROR MESSAGE FOR PRICE MODE FORM ERROR - EN",
-                price: "ERROR MESSAGE FOR PRICE FORM ERROR - EN",
-                
-                availability: "ERROR MESSAGE FOR AVAILABILITY FORM ERROR - EN",
-                typeId: "ERROR MESSAGE FOR TYPE FORM ERROR - EN",
-                categoryIds: "ERROR MESSAGE FOR CATEGORIES FORM ERROR - EN",
-                startTime: "ERROR MESSAGE FOR START TIME FORM ERROR - EN",
-                endTime: "ERROR MESSAGE FOR END TIME FORM ERROR - EN"
+            title: "Please enter a title for your offer.",
+            description: "Please provide a description.",
+            location: "Please enter a valid location.",
+            priceModeId: "Please select a valid pricing model.",
+            price: "Please enter a valid price.",
+            availability: "Please specify the availability.",
+            typeId: "Please select a valid offer type.",
+            categoryIds: "Please select at least one category.",
+            startTime: "Please provide a valid start time.",
+            endTime: "Please provide a valid end time."
             },
             editOffer: {
-                title: "ERROR MESSAGE FOR TITLE FORM ERROR - EN",
-                description: "ERROR MESSAGE FOR DESCRIPTION FORM ERROR - EN",
-                location: "ERROR MESSAGE FOR LOCATION FORM ERROR - EN",
-                priceModeId: "ERROR MESSAGE FOR PRICE MODE FORM ERROR - EN",
-                price: "ERROR MESSAGE FOR PRICE FORM ERROR - EN",
-                
-                availability: "ERROR MESSAGE FOR AVAILABILITY FORM ERROR - EN",
-                typeId: "ERROR MESSAGE FOR TYPE FORM ERROR - EN",
-                categoryIds: "ERROR MESSAGE FOR CATEGORIES FORM ERROR - EN",
-                startTime: "ERROR MESSAGE FOR START TIME FORM ERROR - EN",
-                endTime: "ERROR MESSAGE FOR END TIME FORM ERROR - EN"
+            title: "Please enter a title for your offer.",
+            description: "Please provide a description.",
+            location: "Please enter a valid location.",
+            priceModeId: "Please select a valid pricing model.",
+            price: "Please enter a valid price.",
+            availability: "Please specify the availability.",
+            typeId: "Please select a valid offer type.",
+            categoryIds: "Please select at least one category.",
+            startTime: "Please provide a valid start time.",
+            endTime: "Please provide a valid end time."
             },
             addRequests: {
-                price: "ERROR MESSAGE FOR PRICE FORM ERROR - EN",
+            price: "Please enter a valid price for your request."
             },
             giveReview: {
-                rating: "ERROR MESSAGE FOR RATING FORM ERROR - EN",
-                text: "ERROR MESSAGE FOR TEXT FORM ERROR - EN"
+            rating: "Please provide a rating.",
+            text: "Review text cannot be empty."
             }
         }
     },
-    //TODO: Add German translations
     de: {
         auth: {
             login: {
-                email: "ERROR MESSAGE FOR EMAIL FORM ERROR - DE",
-                password: "ERROR MESSAGE FOR PASSWORD FORM ERROR - DE",
-                expire: "ERROR MESSAGE FOR PASSWORD FORM ERROR - DE",
+            email: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+            password: "Bitte geben Sie Ihr Passwort ein.",
+            expire: "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
             },
             register: {
-                email: "ERROR MESSAGE FOR EMAIL FORM ERROR - DE",
-                password: "ERROR MESSAGE FOR PASSWORD FORM ERROR - DE",
-                firstName: "ERROR MESSAGE FOR NAME FORM ERROR - DE",
-                lastName: "ERROR MESSAGE FOR NAME FORM ERROR - DE",
-                expire: "ERROR MESSAGE FOR NAME FORM ERROR - DE",
+            email: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+            password: "Ihr Passwort muss den Sicherheitsanforderungen entsprechen.",
+            firstName: "Vorname ist erforderlich.",
+            lastName: "Nachname ist erforderlich.",
+            expire: "Die Registrierungssitzung ist abgelaufen. Bitte versuchen Sie es erneut.",
             },
             forgotPassword: {
-                email: "ERROR MESSAGE FOR EMAIL FORM ERROR - DE",
+            email: "Bitte geben Sie die mit Ihrem Konto verknüpfte E-Mail-Adresse ein.",
             },
             resetPassword: {
-                password: "ERROR MESSAGE FOR PASSWORD FORM ERROR - EN",
-                expire: "ERROR MESSAGE FOR PASSWORD FORM ERROR - EN",
+            password: "Ihr neues Passwort muss den Sicherheitsanforderungen entsprechen.",
+            expire: "Der Zurücksetzungslink ist abgelaufen. Bitte fordern Sie einen neuen an.",
             }
         },
         user: {
             changeSelf: {
-                firstName: "ERROR MESSAGE FOR NAME FORM ERROR - DE",
-                lastName: "ERROR MESSAGE FOR NAME FORM ERROR - DE",
-                expire: "ERROR MESSAGE FOR NAME FORM ERROR - DE",
-                password: "ERROR MESSAGE FOR PASSWORD FORM ERROR - DE",
-                phoneNumber: "ERROR MESSAGE FOR PHONE NUMBER FORM ERROR - DE",
-                location: "ERROR MESSAGE FOR LOCATION FORM ERROR - DE",
-                categorIds: "ERROR MESSAGE FOR CATEGORY IDS FORM ERROR - DE"
-            },
+            firstName: "Der Vorname darf nicht leer sein.",
+            lastName: "Der Nachname darf nicht leer sein.",
+            expire: "Sitzung abgelaufen. Bitte melden Sie sich erneut an.",
+            password: "Das Passwort muss den Sicherheitsanforderungen entsprechen.",
+            phoneNumber: "Bitte geben Sie eine gültige Telefonnummer ein.",
+            location: "Bitte geben Sie einen gültigen Ort ein.",
+            categorIds: "Bitte wählen Sie mindestens eine gültige Kategorie aus."
+            }
         },
         offer: {
             createOffer: {
-                title: "ERROR MESSAGE FOR TITLE FORM ERROR - DE",
-                description: "ERROR MESSAGE FOR DESCRIPTION FORM ERROR - DE",
-                location: "ERROR MESSAGE FOR LOCATION FORM ERROR - DE",
-                priceModeId: "ERROR MESSAGE FOR PRICE MODE FORM ERROR - DE",
-                price: "ERROR MESSAGE FOR PRICE FORM ERROR - DE",
-                
-                availability: "ERROR MESSAGE FOR AVAILABILITY FORM ERROR - DE",
-                typeId: "ERROR MESSAGE FOR TYPE FORM ERROR - DE",
-                categoryIds: "ERROR MESSAGE FOR CATEGORIES FORM ERROR - DE",
-                estimatedTime: "ERROR MESSAGE FOR ESTIMATED TIME FORM ERROR - DE",
+            title: "Bitte geben Sie einen Titel für Ihr Angebot ein.",
+            description: "Bitte geben Sie eine Beschreibung ein.",
+            location: "Bitte geben Sie einen gültigen Ort ein.",
+            priceModeId: "Bitte wählen Sie ein gültiges Preismodell aus.",
+            price: "Bitte geben Sie einen gültigen Preis ein.",
+            availability: "Bitte geben Sie die Verfügbarkeit an.",
+            typeId: "Bitte wählen Sie einen gültigen Angebotstyp aus.",
+            categoryIds: "Bitte wählen Sie mindestens eine Kategorie aus.",
+            startTime: "Bitte geben Sie eine gültige Startzeit an.",
+            endTime: "Bitte geben Sie eine gültige Endzeit an."
             },
             editOffer: {
-                title: "ERROR MESSAGE FOR TITLE FORM ERROR - DE",
-                description: "ERROR MESSAGE FOR DESCRIPTION FORM ERROR - DE",
-                location: "ERROR MESSAGE FOR LOCATION FORM ERROR - DE",
-                priceModeId: "ERROR MESSAGE FOR PRICE MODE FORM ERROR - DE",
-                price: "ERROR MESSAGE FOR PRICE FORM ERROR - DE",
-                availability: "ERROR MESSAGE FOR AVAILABILITY FORM ERROR - DE",
-                typeId: "ERROR MESSAGE FOR TYPE FORM ERROR - DE",
-                categoryIds: "ERROR MESSAGE FOR CATEGORIES FORM ERROR - DE",
-                estimatedTime: "ERROR MESSAGE FOR ESTIMATED TIME FORM ERROR - DE",
+            title: "Bitte geben Sie einen Titel für Ihr Angebot ein.",
+            description: "Bitte geben Sie eine Beschreibung ein.",
+            location: "Bitte geben Sie einen gültigen Ort ein.",
+            priceModeId: "Bitte wählen Sie ein gültiges Preismodell aus.",
+            price: "Bitte geben Sie einen gültigen Preis ein.",
+            availability: "Bitte geben Sie die Verfügbarkeit an.",
+            typeId: "Bitte wählen Sie einen gültigen Angebotstyp aus.",
+            categoryIds: "Bitte wählen Sie mindestens eine Kategorie aus.",
+            startTime: "Bitte geben Sie eine gültige Startzeit an.",
+            endTime: "Bitte geben Sie eine gültige Endzeit an."
             },
             addRequests: {
-                price: "ERROR MESSAGE FOR PRICE FORM ERROR - DE",
+            price: "Bitte geben Sie einen gültigen Preis für Ihre Anfrage ein."
             },
             giveReview: {
-                rating: "ERROR MESSAGE FOR RATING FORM ERROR - DE",
-                text: "ERROR MESSAGE FOR TEXT FORM ERROR - DE"
+            rating: "Bitte geben Sie eine Bewertung ab.",
+            text: "Der Bewertungstext darf nicht leer sein."
             }
-        },
+        }
     }
+
 }

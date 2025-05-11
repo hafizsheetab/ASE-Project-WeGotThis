@@ -1,8 +1,7 @@
 import { Stack, Typography } from "@mui/material"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReviewCards from "./ReviewCards";
 import { ReviewResponse } from "../../shared/Types";
-import { getDateTimeString } from "../../shared/services";
 import PaginationControlled from "../../shared/components/PaginationControls";
 
 type ReviewsListProps = {
@@ -15,27 +14,27 @@ const ReviewsList: React.FC<ReviewsListProps> = ({array}) => {
     values: [] as number[],
     allSelected: true
   })
+  const [filteredArray, setReviews] = useState<ReviewResponse[]>([])
+
+  useEffect(() =>{
+    filter.allSelected? setReviews(array) : 
+    setReviews(array.filter((item) =>
+      filter.values.includes(Math.round(item.rating))))
+  }, [filter, array])
 
   return (
     <Stack gap={4} sx={{mt:5}}>   
-      <PaginationControlled  header="Latest Reviews" maxItemsOnOnePage={25} numberOfItems={array.filter((item) =>
-                filter.values.includes(Math.round(item.rating))
-              ).length} handleFilterChange={(newVal) => setFilter(newVal)} handleSelectAll={(newVal) => setFilter(newVal)}/>
+      <PaginationControlled  header="Latest Reviews" maxItemsOnOnePage={25} numberOfItems={filteredArray.length}
+                handleFilterChange={(newVal) => setFilter(newVal)} handleSelectAll={(newVal) => setFilter(newVal)}/>
         
         <Stack gap={4}>
-          {filter.allSelected && array.length > 0 ? (
-            array.map((item) => (
-              <ReviewCards key={`${getDateTimeString(item.time)}-${item.user.firstName} ${item.user.lastName}`} review={item} profileImg={item.user.imageUrl} />
-            ))
-          ) : (
-            (() => {
-              const filteredArray = array.filter((item) =>
-                filter.values.includes(Math.round(item.rating))
-              );
-
-              return filteredArray.length > 0 ? (
+            {filteredArray.length > 0 ? (
                 filteredArray.map((item) => (
-                  <ReviewCards key={`${getDateTimeString(item.time)}-${item.user.firstName} ${item.user.lastName}`} review={item} profileImg={item.user.imageUrl} />
+                  <ReviewCards
+                    key={`${item.user.id}-${item.time}`} // ✅ safer key if `id` exists
+                    review={item}
+                    profileImg={item.user.imageUrl}
+                  />
                 ))
               ) : (
                 <Typography
@@ -45,10 +44,8 @@ const ReviewsList: React.FC<ReviewsListProps> = ({array}) => {
                 >
                   No reviews.
                 </Typography>
-              );
-            })()
-          )}
-        </Stack>
+            )}
+      </Stack>
 
     </Stack>
 

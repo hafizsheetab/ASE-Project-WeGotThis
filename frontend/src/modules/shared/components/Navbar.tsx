@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
@@ -14,6 +14,7 @@ import {
     Button,
 } from "@mui/material";
 import { Edit } from "@mui/icons-material";
+import ContextStore from "../../../utils/ContextStore";
 
 type MenuType = "offer" | "favorites" | "notifications" | "account" | "lang" | null;
 
@@ -75,6 +76,7 @@ const Navbar: React.FC = () => {
       );
 
     const renderMenuItems = () => {
+        const store = useContext(ContextStore)
         switch (menuType) {
             case "favorites":
                 return (
@@ -97,7 +99,7 @@ const Navbar: React.FC = () => {
                         <MenuItem onClick={() => navigate(`/booking`)}>My Bookings</MenuItem>
                         <MenuItem onClick={() => navigate(`/account`)}>My Account</MenuItem>
                         <MenuItem onClick={() => navigate(`/profile`)}>My User Profile</MenuItem>
-                        <MenuItem onClick={handleCloseMenu}>Logout</MenuItem>
+                        <MenuItem onClick={() => {store.setContext({...store.context, token: ""})}}>Logout</MenuItem>
                     </>
                 );
             case "lang":
