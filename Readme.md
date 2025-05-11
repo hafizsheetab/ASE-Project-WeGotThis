@@ -12,8 +12,8 @@
 
 ## TODO
 - Logout
-- Delete all old offers? 
-- Change Error Message to more understandable ones
+- Delete all old offers?  => DONE
+- Change Error Message to more understandable ones => DONE
 
 
 ## Missing Integration
