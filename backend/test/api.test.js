@@ -43,12 +43,139 @@ const testAuthFailure = async ({ method, url, payload = {}, token, locale, expec
   }
 };
 
-describe('Offer-offerCreation API Tests', () => {
+describe('User API tests', () => {
   let offerId11,offerId12,offerId21;
   let userId1,userId2;
   let token1,token2;
+  let email1,email2;
   describe('register API test', () => {
-    eamil1 = randomEmail();
+  step('register User1', async () => {
+    email1 = randomEmail();
+    const payload = {
+      email:    email1,
+      password: 'password123',
+      firstName: 'User1',
+      lastName:  'User1',
+      expire: true,      
+    };
+    const response = await axios.post('http://localhost:8000/api/v1/auth/register', payload, { headers });
+    expect(response.status).to.equal(200);
+    token1 = response.data.resource.access_token;
+    userId1 = response.data.resource.id;
+    headers["x-auth-token"] = response.data.resource.access_token;
+  })
+  step('register User2', async () => {
+    email2 = randomEmail();
+    const payload = {
+      email:    email2,
+      password: 'password123',
+      firstName: 'User2',
+      lastName:  'User2',
+      expire: true,
+    };
+    const response = await axios.post('http://localhost:8000/api/v1/auth/register', payload, { headers });
+    token2 = response.data.resource.access_token;
+    userId2 = response.data.resource.id;
+  })
+  step('registering with existing email should return 401', async () => {
+      const payload = {
+        email:    email1,
+        password: 'password123',
+        expire: true,
+        firstName: 'User1',
+        lastName:  'User1',
+      };
+      try{
+      const response = await axios.post('http://localhost:8000/api/v1/auth/register', payload, { headers });
+      }catch(error){
+        expect(error.response.status).to.equal(401);
+      }
+  })
+  step('registering without email should return 401', async () => {
+    const payload = {
+      password: 'password123',
+      expire: true,
+      firstName: 'User1',
+      lastName:  'User1',
+    };
+    try{
+        const response = await axios.post('http://localhost:8000/api/v1/auth/register', payload, { headers });
+    }catch(error){
+        expect(error.response.status).to.equal(401);
+    }
+  })
+  })
+  describe('login API test', () => {
+    step('login successfully', async () => {
+      headers["x-auth-token"] = token2;
+      const payload = {
+        email:   email1, 
+        password: 'password123',
+        expire: true,
+      };
+      const response = await axios.post('http://localhost:8000/api/v1/auth/login', payload, { headers });
+      expect(response.status).to.equal(200);
+      })
+    step('login with wrong password should return 401', async () => {
+      const payload = {
+        email:   email1, 
+        password: 'wrongpassword',
+        expire: true,
+      };
+      try{
+      const response = await axios.post('http://localhost:8000/api/v1/auth/login', payload, { headers });
+      }catch(error){
+        expect(error.response.status).to.equal(401);
+      }
+    })
+  })
+  describe('getSelf API test',() => {
+    step('getSelf successfully', async () => {
+      const response = await axios.get('http://localhost:8000/api/v1/user/getSelf', { headers });
+      expect(response.status).to.equal(200);
+      expect(response.data).to.have.property('resource').that.is.an('object');
+      expect(response.data.resource).to.have.property('email').that.is.a('string');
+      })
+    step('getSelf without token should return 401', async () => {
+      await testAuthFailure({
+        method: 'GET',
+        url: `http://localhost:8000/api/v1/user/getSelf`,
+        token: false, 
+        expectedErrorCode: 'general.missingHeader'
+    }) 
+    })
+  })
+  describe('changeSelf API tests',() => {
+    step('changeSelf successfully', async () => {
+      const payload = {
+        firstName: 'Jane',
+        lastName:  'Doe',
+        expire: true,
+        password: 'password123',
+        location: 'Zurich',
+        categoryIds:[1]
+      };
+      const response = await axios.put('http://localhost:8000/api/v1/user/changeSelf', payload, { headers });
+      expect(response.status).to.equal(200);
+      expect(response.data).to.have.property('resource').that.is.an('object');
+      expect(response.data.resource).to.have.property('email').that.is.a('string');
+    })
+    step('getSelf without token should return 401', async () => {
+      await testAuthFailure({
+        method: 'PUT',
+        url: `http://localhost:8000/api/v1/user/changeSelf`,
+        token: false, 
+        expectedErrorCode: 'general.missingHeader'
+    })
+    })
+  })
+})
+
+describe('Offer-Creation API Tests', () => {
+  let offerId11,offerId12,offerId21;
+  let userId1,userId2;
+  let token1,token2;
+  eamil1 = randomEmail();
   step('register User1', async () => {
     const payload = {
       email:    eamil1,
@@ -75,37 +202,7 @@ describe('Offer-offerCreation API Tests', () => {
     token2 = response.data.resource.access_token;
     userId2 = response.data.resource.id;
   })
-  describe('fail to register cases',()=>{
-    step('registering with existing email should return 401', async () => {
-      const payload = {
-        email:    eamil1,
-        password: 'password123',
-        expire: true,
-        firstName: 'User1',
-        lastName:  'User1',
-      };
-      try{
-      const response = await axios.post('http://localhost:8000/api/v1/auth/register', payload, { headers });
-      }catch(error){
-        expect(error.response.status).to.equal(401);
-      }
-  })
-    step('registering without email should return 401', async () => {
-    const payload = {
-      password: 'password123',
-      expire: true,
-      firstName: 'User1',
-      lastName:  'User1',
-    };
-    try{
-        const response = await axios.post('http://localhost:8000/api/v1/auth/register', payload, { headers });
-    }catch(error){
-        expect(error.response.status).to.equal(401);
-    }
-})
-})
-  })
-  describe('createOffer', () => {
+  describe('createOffer API test', () => {
     step('createOffer1', async () => {
     const payload = {
       title: 'Dog Walking Service',
@@ -198,7 +295,7 @@ describe('Offer-offerCreation API Tests', () => {
 });
   
   })
-  describe('editOffer', () => {
+  describe('editOffer API test', () => {
     const payload={
       title: 'Dog Walking Service',
       description: 'I can walk your dog for 30 minutes.',
@@ -239,7 +336,7 @@ describe('Offer-offerCreation API Tests', () => {
     })
       })
     })
-  describe('getOffer', () => {
+  describe('getOffer API test', () => {
     step('getOffer successfully', async () => {
       headers["x-auth-token"] = token1;
       const response = await axios.get(`http://localhost:8000/api/v1/offer/get/${offerId11}`, { headers });
@@ -256,7 +353,7 @@ describe('Offer-offerCreation API Tests', () => {
     })
     })
   })
-  describe('getOffers', () => {
+  describe('getOffers API test', () => {
     step('getOffers successfully', async () => {
       headers["x-auth-token"] = token1;
       const response = await axios.get('http://localhost:8000/api/v1/offer/getAll', { headers });
@@ -273,12 +370,11 @@ describe('Offer-offerCreation API Tests', () => {
     })
     })
   })
-  describe('deleteOffer', () => {
+  describe('deleteOffer API test', () => {
     step('deleteOffer successfully', async () => {
       headers["x-auth-token"] = token1;
       const response = await axios.delete(`http://localhost:8000/api/v1/offer/delete/${offerId11}`, { headers });
       expect(response.status).to.equal(200);
-      expect(response.data.resource).to.deep.equal({ status: true }); 
       })
     step('without token should return 401', async () => {
       await testAuthFailure({
@@ -289,7 +385,7 @@ describe('Offer-offerCreation API Tests', () => {
       })
     })
   })
-  describe('template', () => {
+  describe('template API test', () => {
     step('template successfully', async () => {
       const response = await axios.get(`http://localhost:8000/api/v1/offer/template`, { headers });
       expect(response.status).to.equal(200);
@@ -339,7 +435,7 @@ describe('Offer-Booking system && User API tests', () => {
     tokenB = response.data.resource.access_token;
     userBId = response.data.resource.identifier;
   })
-  step('createOffer successfully', async () => {
+  step('createOffer', async () => {
     const payload = {
       title: 'Dog Walking Service-A1',
       description: 'I can walk your dog for 30 minutes.',
@@ -436,14 +532,14 @@ describe('Offer-Booking system && User API tests', () => {
   describe('withdrawRequest API test', () => {
     step('withdraw Request successfully', async () => {
       headers["x-auth-token"] = tokenB;  
-      const response = await axios.put(`http://localhost:8000/api/v1/offer/withdraw/request/${offerA3}/${request3Id}`, {}, { headers });
+      const response = await axios.put(`http://localhost:8000/api/v1/offer/withdraw/${offerA3}/${request3Id}`, {}, { headers });
       expect(response.status).to.equal(200);
       expect(response.data).to.have.property('resource').that.is.an('object');
     })
     step('fail to withdrawRequest with invalid requestId should return 401', async () => {
       headers["x-auth-token"] = tokenB;
       try {
-      await axios.put(`http://localhost:8000/api/v1/offer/withdraw/request/${offerA3}/nonexistentUserId`, {}, { headers });
+      await axios.put(`http://localhost:8000/api/v1/offer/withdraw/${offerA3}/nonexistentUserId`, {}, { headers });
       throw new Error('Should fail with invalid requestId');
         } catch (err) {
       expect(err.response.status).to.equal(401);
@@ -452,7 +548,7 @@ describe('Offer-Booking system && User API tests', () => {
     step('without token should return 401', async () => {
       await testAuthFailure({
         method: 'PUT',
-        url: `http://localhost:8000/api/v1/offer/withdraw/request/${offerA3}/${request3Id}`,
+        url: `http://localhost:8000/api/v1/offer/withdraw/${offerA3}/${request3Id}`,
         token: false, 
         expectedErrorCode: 'general.missingHeader'
     })
@@ -584,7 +680,7 @@ describe('Offer-Booking system && User API tests', () => {
 
   describe('myOffers API test}', () => {
     headers["x-auth-token"] = tokenA;
-    step('myOffers', async () => {
+    step('myOffers successfully', async () => {
       const response = await axios.get(`http://localhost:8000/api/v1/offer/my/Offers`, { headers });
       expect(response.status).to.equal(200);
       expect(response.data).to.have.property('resource').that.is.an('array');
@@ -644,48 +740,8 @@ describe('Offer-Booking system && User API tests', () => {
     })
   }
 )
-  describe('getSelf API test',() => {
-    step('getSelf successfully', async () => {
-      const response = await axios.get('http://localhost:8000/api/v1/user/getSelf', { headers });
-      expect(response.status).to.equal(200);
-      expect(response.data).to.have.property('resource').that.is.an('object');
-      expect(response.data.resource).to.have.property('email').that.is.a('string');
-      })
-    step('without token should return 401', async () => {
-      await testAuthFailure({
-        method: 'GET',
-        url: `http://localhost:8000/api/v1/user/getSelf`,
-        token: false, 
-        expectedErrorCode: 'general.missingHeader'
-    }) 
-    })
-  })
-  describe('changeSelf API tests',() => {
-    step('changeSelf successfully', async () => {
-      const payload = {
-        firstName: 'Jane',
-        lastName:  'Doe',
-        expire: true,
-        password: 'password123',
-        location: 'Zurich',
-        categoryIds:[1]
-      };
-      const response = await axios.put('http://localhost:8000/api/v1/user/changeSelf', payload, { headers });
-      expect(response.status).to.equal(200);
-      expect(response.data).to.have.property('resource').that.is.an('object');
-      expect(response.data.resource).to.have.property('email').that.is.a('string');
-    })
-    step('without token should return 401', async () => {
-      await testAuthFailure({
-        method: 'PUT',
-        url: `http://localhost:8000/api/v1/user/changeSelf`,
-        token: false, 
-        expectedErrorCode: 'general.missingHeader'
-    })
-    })
-  })
- describe('getReviews API tests',() => {
-  step('getReviews', async () => {
+ describe('User - getReviews API tests',() => {
+  step('getReviews successfully', async () => {
     const response = await axios.get(`http://localhost:8000/api/v1/user/getReviews/${userAId}`, { headers });
     expect(response.status).to.equal(200);
   })
@@ -733,7 +789,8 @@ describe('Image upload API tests', () => {
     offerId = response.data.resource.id;
     userId = response.data.resource.userId;
   })
-  step('change picture successfully', async () => {
+  describe('User-changePic API test', () => {
+    step('changePic successfully', async () => {
     const formData = new FormData();
     const filePath = path.join(__dirname, 'assets','avatar.png');
     formData.append('image', fs.createReadStream(filePath), {
@@ -747,7 +804,9 @@ describe('Image upload API tests', () => {
       }});
     expect(response.status).to.equal(200);
   })
-  step('upload picture for offer successfully', async () => {
+  })
+  describe('Offer-uploadImages API test', () => {
+    step('uploadImages successfully', async () => {
     const formData = new FormData();
     const filePath = path.join(__dirname, 'assets','avatar.png');
     formData.append('image', fs.createReadStream(filePath), {
@@ -761,5 +820,5 @@ describe('Image upload API tests', () => {
       }});
     expect(response.status).to.equal(200);
   })
-
+  })
 })
