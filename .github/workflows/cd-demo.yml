@@ -11,9 +11,8 @@ jobs:
       - name: Compose up
         run: docker compose --profile "" up --build -d
 
-      - name: Expose with Cloudflare Tunnel
-        uses: crazy-max/cloudflared-action@v3
-        with:
-          command: tunnel --url http://localhost:5173 --no-autoupdate
-        env:
-          TUNNEL_TOKEN: eyJhIjoiNDQ5MjY5YTQ1NGI5ODUxNmMxZGZmYmM2OTgzN2E4NGUiLCJ0IjoiOTk3ZmUwODUtMTVjZS00NDRiLThlODgtNzE1NWI4Mjk1YTllIiwicyI6IlpEUmlaVEpqT1RZdE1XSTROUzAwTnpVd0xUZ3dZbUV0T1RFeE5XRm1NekkzTWpCaSJ9
+      - name: Install cloudflared
+        uses: AnimMouse/setup-cloudflared@v2
+        
+      - name: Start tunnel
+        run: cloudflared tunnel --url http://localhost:5173 --no-autoupdate
