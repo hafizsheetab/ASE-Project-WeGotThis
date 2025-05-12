@@ -19,7 +19,7 @@ const RegisterBody = () => {
         if(store.context.token){
             navigate("/home")
         }
-    },[])
+    },[navigate, store.context.token])
 
     const pageHeader = "Create an Account"
     const pageDescrip = "Please enter your information to create an account."

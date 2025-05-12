@@ -77,7 +77,7 @@ const PublicProfileBody = () => {
         setMyOffers(vOffers)
         
       })()
-    },[id])
+    },[id, store])
 
   return (
     <Box className={styles.homeContent}>
@@ -89,7 +89,7 @@ const PublicProfileBody = () => {
                 centered
                 variant="fullWidth"
                 value={tabSetting.tabType}
-                onChange={(e, val) => setTabSetting({...tabSetting, tabType: val})}
+                onChange={(_, val) => setTabSetting({...tabSetting, tabType: val})}
                 aria-label="Vertical tabs example"
                 >
                 <Tab sx={{fontSize: "1em"}} value={'reviews'} label="Reviews"/>

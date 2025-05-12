@@ -54,7 +54,7 @@ const BookingCard: React.FC<BookingCardProps> = ({
 
     useEffect(() => {
         setMadeByMe(requestId !== store.context.user.id)
-    }, [madeByMe])
+    }, [madeByMe, requestId, store.context.user.id])
 
     const cardAction = (
         <CardActionsSection

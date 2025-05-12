@@ -9,11 +9,11 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import CardMenu from "./BookingCardMenu";
 import { acceptBookingRequest, completeBookingRequest, rejectBookingRequest, withdrawBookingRequest } from "../services";
 import { getSelf } from "../../account/services";
-import { OpenAlert } from "../../shared/Types";
+import { ContextData, ContextStoreData, OpenAlert } from "../../shared/Types";
 
 interface Props {
     statusType: string;
-    store: any;
+    store: ContextStoreData<ContextData>;
     offerId: string;
     requestId: string;
     userEmail: string;

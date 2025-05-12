@@ -9,7 +9,7 @@ type BookingStatusTabProps = {
 const BookingStatusTab : React.FC<BookingStatusTabProps> = ({onTabChange}) =>  {
   const [value, setValue] = React.useState('requested');
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+  const handleChange = (_: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
     onTabChange(newValue);
   };

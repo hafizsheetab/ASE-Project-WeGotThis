@@ -58,7 +58,7 @@ const LoginTextInputs = () => {
         if (store.context.token) {
             navigate("/home");
         }
-    }, []);
+    }, [navigate, store.context.token]);
 
     const handleClickShowPassword = () =>
         setLoginForm({

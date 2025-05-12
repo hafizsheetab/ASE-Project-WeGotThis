@@ -2,7 +2,7 @@ import PaginationControlled from '../../shared/components/PaginationControls';
 import BookingList from "./BookingList";
 import styles from "./Booking.module.css";
 import { Box, Divider, Stack, Tab, Tabs, Typography } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { BookingRequestResponseBody } from "../Types";
 import ContextStore from "../../../utils/ContextStore";
 import { getAllBookingRequest } from "../services";
@@ -23,43 +23,48 @@ const BookingListDisplayBody = () => {
     statusType : 'requested'
   });
 
-  const loadBookingArray = async () => {
-    const _bookingArray = await getAllBookingRequest(store)
-
-    if("status" in _bookingArray){
-      setOpenAlert({...openAlert, open: true, message: _bookingArray.popupMessage})
-      return
+  const loadBookingArray = useCallback(async () => {
+    const _bookingArray = await getAllBookingRequest(store);
+  
+    if ("status" in _bookingArray) {
+      setOpenAlert(prev => ({
+        ...prev,
+        open: true,
+        message: _bookingArray.popupMessage
+      }));
+      return;
     }
-
-    console.log("Booking: ", _bookingArray)
-    setBookingArray(_bookingArray)
-  }
+  
+    console.log("Booking: ", _bookingArray);
+    setBookingArray(_bookingArray);
+  }, [store]);
 
   useEffect(() => {
     loadBookingArray()
-  }, [])
+  }, [loadBookingArray])
 
+  
+  
   useEffect(() => {
+    const filterBookings = () => {
+      const filtered = bookingArray.filter((booking) => {
+        return tabSetting.serviceType === "my"
+          ? booking.user.id === store.context.user.id &&
+            booking.status.displayValue === tabSetting.statusType
+          : booking.user.id !== store.context.user.id &&
+            booking.status.displayValue === tabSetting.statusType;
+      });
+      setFilteredArray(filtered);
+    };
+  
     filterBookings();
-  }, [tabSetting.statusType, tabSetting.serviceType, bookingArray]);
+  }, [tabSetting.statusType, tabSetting.serviceType, bookingArray, store.context.user.id]);
 
   function a11yProps(index: number) {
     return {
       id: `vertical-tab-${index}`,
       'aria-controls': `vertical-tabpanel-${index}`,
     };
-  }
-
-  const filterBookings = () => {
-    let filtered = bookingArray.filter(
-      (booking) =>
-      {
-        console.log(booking)
-        return tabSetting.serviceType === "my" ? booking.user.id === store.context.user.id && booking.status.displayValue === tabSetting.statusType : booking.user.id !== store.context.user.id && booking.status.displayValue === tabSetting.statusType  
-      }
-    )
-    setFilteredArray(filtered)
-    console.log("Request", filtered)
   }
 
   return (
@@ -72,7 +77,7 @@ const BookingListDisplayBody = () => {
               centered
               variant="fullWidth"
               value={tabSetting.serviceType}
-              onChange={(e, val) => setTabSetting({...tabSetting, serviceType: val})}
+              onChange={(_, val) => setTabSetting({...tabSetting, serviceType: val})}
             >
               <Tab value={'my'} label="Made by Me"/>
               <Tab value={'notmy'} label="From My Offers"/>
@@ -84,7 +89,7 @@ const BookingListDisplayBody = () => {
                 centered
                 variant="fullWidth"
                 value={tabSetting.statusType}
-                onChange={(e, val) => setTabSetting({...tabSetting, statusType: val})}
+                onChange={(_, val) => setTabSetting({...tabSetting, statusType: val})}
               >
                 <Tab  value={'requested'} label="Requested" {...a11yProps(0)}/>
                 <Tab value={'rejected'} label="Rejected" {...a11yProps(1)}/>

@@ -1,0 +1,27 @@
+name: CI – backend
+
+on:
+  push:
+    branches: [ "master", "dev/ci_cd" ]
+  pull_request: 
+    branches: [ "master" ]
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+    defaults:             
+      run:
+        working-directory: backend
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22      
+        cache: 'npm'
+        cache-dependency-path: backend/package-lock.json
+
+    - run: npm ci

@@ -76,7 +76,7 @@ const OfferViewBody: React.FC = () => {
             }
             setOwner(offer.owner.id === store.context.user.id)
         }
-    },[offer])
+    },[offer, store.context.user.id])
     
     useEffect(() => {
         (async () => {
@@ -97,7 +97,7 @@ const OfferViewBody: React.FC = () => {
             }
             setUser({ ...user, ...userResponse });
         })()
-    }, [offerId]);
+    }, [offerId, store, user]);
 
     useEffect(() => console.log(offer))
 

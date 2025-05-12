@@ -50,7 +50,7 @@ const OfferListDisplayBody = () => {
                 centered
                 variant="fullWidth"
                 value={tabSetting.serviceType}
-                onChange={(e, val) => setTabSetting({...tabSetting, serviceType: val})}
+                onChange={(_, val) => setTabSetting({...tabSetting, serviceType: val})}
               >
                 <Tab sx={{fontSize: "1em"}} value={'seeking'} label="Service Seeker"/>
                 <Tab sx={{fontSize: "1em"}} value={'offering'} label="Service Provider"/>

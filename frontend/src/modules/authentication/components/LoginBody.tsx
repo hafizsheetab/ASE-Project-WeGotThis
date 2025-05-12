@@ -19,7 +19,7 @@ const LoginBody = () => {
         if(store.context.token){
             navigate("/home")
         }
-    },[])
+    },[navigate, store.context.token])
 
     const pageHeader = "Welcome Back!"
     const pageDescrip = "Please enter your email and password";

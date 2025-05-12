@@ -26,7 +26,9 @@ const LocationTextInputField: React.FC<TextInputFieldProps> = ({
   const API_KEY = "3f77cd19690242aa94338bc6405e52d7"; 
 
   const onPlaceSelect = (value : GeoJSON.Feature) => {
-    onSelect && onSelect(value.properties?.formatted)
+    if (onSelect) {
+      onSelect(value.properties?.formatted);
+    }
     console.log(value);
   }
 

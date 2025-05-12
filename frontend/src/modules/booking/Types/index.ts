@@ -4,12 +4,12 @@ import { UserResponse } from "../../shared/Types";
 export interface BookingRequestResponseBody {
     user: UserResponse
     status: OfferStatus
-    price: Number
+    price: number
     offer: OfferResponseBody
-    offerOwnerReview: Boolean
-    requestOwnerReview: Boolean
-    requestOwnerComplete: Boolean
-    offerOwnerComplete: Boolean
+    offerOwnerReview: boolean
+    requestOwnerReview: boolean
+    requestOwnerComplete: boolean
+    offerOwnerComplete: boolean
     time: Date
 }
 

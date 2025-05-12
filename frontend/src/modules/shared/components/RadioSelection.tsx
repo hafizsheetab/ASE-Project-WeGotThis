@@ -23,7 +23,9 @@ const ActiveRadioGroup: FC<ActiveRadioGroupProps> = ({
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    onChange && onChange(value);
+    if (onChange) {
+      onChange(value);
+    }
     if (required) setError(!value);
     
   };

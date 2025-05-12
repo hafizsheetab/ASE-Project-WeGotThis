@@ -105,7 +105,7 @@ const AccountManagementBody = () => {
 
             setUser({ ...user, ...userResponse });
         })();
-    }, []);
+    }, [store, user]);
 
     const [openAlert, setOpenAlert] = useState<OpenAlert>({
         open: false,

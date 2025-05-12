@@ -85,7 +85,7 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({ open, onClose, offerId, req
                 <Rating
                 name="user-review-rating"
                 value={rating}
-                onChange={(event, newValue) => {
+                onChange={(_, newValue) => {
                     setRating(newValue);
                 }}
                 size="large"
