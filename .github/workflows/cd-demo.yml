@@ -16,30 +16,5 @@ jobs:
       - name: Install cloudflared
         uses: AnimMouse/setup-cloudflared@v2
 
-      - name: Start tunnel & capture URL
-        id: tunnel
-        shell: powershell
-        run: |
-          Start-Process -FilePath cloudflared `
-                        -ArgumentList 'tunnel','--url','http://localhost:5173','--no-autoupdate' `
-                        -RedirectStandardError  tunnel.log `
-                        -WindowStyle Hidden
-          Start-Sleep -Seconds 8
-          $urlLine = Select-String -Path tunnel.log -Pattern 'https://.*\.trycloudflare\.com' |
-                    Select-Object -First 1
-          $publicUrl = $urlLine.Matches.Value
-          "PUBLIC_URL=$publicUrl" >> $env:GITHUB_OUTPUT
-
-      - name: Publish demo URL
-        shell: powershell
-        run: |
-          "### Demo URL" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf8 -Append
-          "${{ steps.tunnel.outputs.PUBLIC_URL }}" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf8 -Append
-          Write-Host "Demo available at: ${{ steps.tunnel.outputs.PUBLIC_URL }}"
-
-      - name: Keep tunnel alive
-        shell: powershell
-        run: |
-          Write-Host ""
-          Write-Host "Tunnel is live - press *Cancel workflow* in GitHub Actions when you're done."
-          while ($true) { Start-Sleep -Seconds 60 }
+      - name: Start tunnel
+        run: cloudflared tunnel --url http://localhost:5173 --no-autoupdate
