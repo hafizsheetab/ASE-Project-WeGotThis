@@ -1,6 +1,6 @@
 name: Demo – Compose + Cloudflare Tunnel
 on:
-  workflow_dispatch:
+  workflow_dispatch: 
   push:
       branches: [ "master", "dev/ci_cd" ]
 jobs:
@@ -12,16 +12,29 @@ jobs:
       - name: Compose up
         run: docker compose --profile "" up --build -d
 
-      - name: Start Cloudflare tunnel
+      - name: Install cloudflared
+        uses: AnimMouse/setup-cloudflared@v2
+        
+      - name: Start tunnel
+        run: cloudflared tunnel --url http://localhost:5173 --no-autoupdate
+
+      - name: Start tunnel & capture URL
         id: tunnel
-        uses: vmactions/cf-tunnel@v0
-        with:
-          protocol: http
-          port: 5173
-
-
-      - name: Output demo URL
+        shell: powershell
         run: |
-          echo "### Demo URL" >> "$GITHUB_STEP_SUMMARY"
-          echo "${{ steps.tunnel.outputs.server }}" >> "$GITHUB_STEP_SUMMARY"
-          echo "Demo available at: ${{ steps.tunnel.outputs.server }}"
+          Start-Process -FilePath cloudflared `
+                        -ArgumentList 'tunnel','--url','http://localhost:5173','--no-autoupdate' `
+                        -RedirectStandardOutput tunnel.log `
+                        -RedirectStandardError  tunnel.log `
+                        -WindowStyle Hidden
+          Start-Sleep -Seconds 8
+          $urlLine = Select-String -Path tunnel.log -Pattern 'https://.*\.trycloudflare\.com' |
+                    Select-Object -First 1
+          $publicUrl = $urlLine.Matches.Value
+          "PUBLIC_URL=$publicUrl" >> $env:GITHUB_OUTPUT
+
+      - name: Publish demo URL
+        run: |
+          echo "### 🚀 Demo URL" >> $env:GITHUB_STEP_SUMMARY
+          echo "${{ steps.tunnel.outputs.PUBLIC_URL }}" >> $env:GITHUB_STEP_SUMMARY
+        shell: bash
