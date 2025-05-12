@@ -15,3 +15,4 @@ All detailed design, architecture, and API information is maintained in this rep
 * Backend Url: [http://localhost:8000/api-docs](http://localhost:8000/api-docs)
 * Frontend Url: [http://localhost:5173](http://localhost:5173)
 * MailDev Url: [http://localhost:1080](http://localhost:1080)
+* Github Repo Url: [https://github.com/hafizsheetab/ASE-Project-WeGotThis](https://github.com/hafizsheetab/ASE-Project-WeGotThis)
