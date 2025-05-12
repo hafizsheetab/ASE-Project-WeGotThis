@@ -2,6 +2,7 @@ name: Demo – Compose + Cloudflare Tunnel
 on: 
   push:
       branches: [ "master", "dev/ci_cd" ]
+  [workflow_dispatch]
 jobs:
   preview:
     runs-on: self-hosted           
