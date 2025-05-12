@@ -78,7 +78,7 @@ const OfferCreationBody = () => {
             }}> 
             <Stack direction={{ xs: "column", md: "row" }} spacing={2} sx={{
                     justifyContent: "space-between",
-                    alignItems: "center",
+                    alignItems: {xs: 'strech', md: "center"},
                     my: 1,
                     gap: "5em"
                 }}useFlexGap
@@ -100,7 +100,7 @@ const OfferCreationBody = () => {
 
                     setFormError(prevError => ({
                         ...prevError,
-                        titleError: formData.title.length <= 7,
+                        titleError: formData.title.length <= 5,
                         locationError: formData.location == "",
                         descriptionError: formData.description.length <= 10,
                     }));

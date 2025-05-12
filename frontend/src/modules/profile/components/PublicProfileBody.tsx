@@ -75,16 +75,9 @@ const PublicProfileBody = () => {
         }
 
         setMyOffers(vOffers)
-        console.log("MyOffers: ", vOffers)
-
         
       })()
     },[id, store])
-
-    useEffect(() => {
-      console.log(reviews)
-      console.log(user)
-    })
 
   return (
     <Box className={styles.homeContent}>
@@ -105,7 +98,7 @@ const PublicProfileBody = () => {
 
             {tabSetting.tabType.match("reviews") ? 
                 <ReviewsList array={reviews}/> : 
-                <OfferDisplay offers={myOffers}/>
+                <OfferDisplay offers={myOffers} userId={user.id}/>
             }
         </Stack>
 

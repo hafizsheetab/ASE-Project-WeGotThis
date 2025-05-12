@@ -13,13 +13,13 @@ type ProfileNameProps = {
 
 const ProfileSubInfo : React.FC<ProfileNameProps> = ({location, registrationYear, providedService, seekedServices}) => {
   return (
-    <Stack direction="row" justifyContent='center' alignItems='center' flexWrap='wrap' gap={5}>
+    <Stack direction="row" justifyContent={{xs: 'flex-start', md:'center'}} alignItems='center' flexWrap='wrap' gap={5}>
         <Stack>
             <Typography variant="body2" style={{ verticalAlign: 'middle', display: 'inline-flex' }}>
                 <NearMeOutlinedIcon fontSize="small" sx={{ marginRight: '.2em' }} />
                 {typeof location === 'string' && location.includes(',') 
                     ? location.split(',').map(part => part.trim()).slice(-2).join(', ')
-                    : 'Location unavailable'}
+                    : 'Not specified'}
             </Typography>
             <Typography variant="body2" style={{verticalAlign: 'middle',display: 'inline-flex'}}>
                 <CardMembershipIcon fontSize="small" sx={{marginRight: ".2em"}}/>

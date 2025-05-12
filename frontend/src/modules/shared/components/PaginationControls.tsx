@@ -80,10 +80,10 @@ const PaginationControlled : React.FC<PaginationControlledProps> = ({numberOfIte
   }
 
   return (
-    <Stack spacing={2} direction="row" sx={{
+    <Stack spacing={2} direction="row" flexWrap={'wrap'} sx={{
         width: "100%",
         justifyContent: "space-between",
-        alignItems: "flex-cent",
+        alignItems: 'cente',
         my: 2
       }}>
 
@@ -92,7 +92,7 @@ const PaginationControlled : React.FC<PaginationControlledProps> = ({numberOfIte
         <Typography variant='subtitle2' color='textSecondary'>{Math.min(rangeStart, rangeEnd)} to {rangeEnd} out of {numberOfItems} results</Typography>
       </Box>
 
-      <Stack direction='row' alignItems='center'>
+      <Stack direction='row' alignItems='center' justifyContent='space-between' >
         { handleSelectAll &&  handleFilterChange &&
           <>
             <IconButton  color={filter.active? 'primary' : 'default'} aria-label="filter-ratings"
@@ -131,7 +131,15 @@ const PaginationControlled : React.FC<PaginationControlledProps> = ({numberOfIte
           </>
         }
         
-        <Pagination count={limitPages} page={page} onChange={handleChange} shape="rounded" color="primary" />
+        <Pagination
+          count={limitPages > 0 ? limitPages : 1}
+          page={page}
+          onChange={handleChange}
+          shape="rounded"
+          color="primary"
+          disabled={limitPages < 1}
+        />
+
       </Stack>
     </Stack>
   );

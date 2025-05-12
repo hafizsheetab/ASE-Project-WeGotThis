@@ -29,7 +29,6 @@ const BookingCard: React.FC<BookingCardProps> = ({
     requestId,
     offerId,
     userEmail,
-    hasReview,
     loadArray,
     request,
     offerOwnerId
@@ -73,7 +72,6 @@ const BookingCard: React.FC<BookingCardProps> = ({
             loadArray={loadArray}
             setOpenAlert={setOpenAlert}
             request={request}
-            hasReview={hasReview}
             setIsDialogOpen={setIsDialogOpen}
             offerOwnerId={offerOwnerId}
         />

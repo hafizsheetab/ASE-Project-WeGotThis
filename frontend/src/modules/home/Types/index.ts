@@ -12,6 +12,7 @@ export interface SearchFiltersProps {
     filters: Filters;
     setFilters: React.Dispatch<React.SetStateAction<Filters>>;
     offers: Array<OfferResponseBody>
+    allOffers: Array<OfferResponseBody>
 };
     
 

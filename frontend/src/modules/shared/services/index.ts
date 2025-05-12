@@ -5,7 +5,15 @@ import dayjs from "dayjs";
 
 export const getDateTimeString = (date: Date) => {
     if(date){
-        return moment(date).format("MMMM Do YYYY, h:mm:ss a");
+        return moment(date).format("MMMM Do YYYY, h:mm A");
+    }else{
+        return ""
+    }
+}
+
+export const getYearString = (date: Date) => {
+    if(date){
+        return moment(date).format("MM/YYYY");
     }else{
         return ""
     }

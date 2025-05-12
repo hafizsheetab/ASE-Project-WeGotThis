@@ -3,7 +3,7 @@ const { getIdsOfEnum } = require('../../../utils');
 const { PriceModeEnum, OfferTypeEnum, OfferCategoryEnum } = require('../../../Types/OfferTypeEnums');
 console.log(...getIdsOfEnum(PriceModeEnum))
 const OfferValidationSchema=Joi.object({
-    title:Joi.string().min(10).max(500).required(),
+    title:Joi.string().min(5).max(500).required(),
     description:Joi.string().min(10).max(500).required(),
     location:Joi.string().required(),
     priceModeId:Joi.number().valid(...getIdsOfEnum(PriceModeEnum)).required(),
@@ -39,7 +39,7 @@ const AddRequestToOfferValidationSchema = Joi.object({
 
 const GiveRatingToOfferValidationSchema = Joi.object({
     rating: Joi.number().min(1).max(5).required(),
-    text: Joi.string().min(3).required()
+    text: Joi.string().min(0).required()
     }).options({ abortEarly: false });
 
 module.exports={OfferValidationSchema,EditOfferValidationSchema,OfferGetValidationSchema, AddRequestToOfferValidationSchema, GiveRatingToOfferValidationSchema}

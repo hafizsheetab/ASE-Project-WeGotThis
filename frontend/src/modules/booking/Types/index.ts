@@ -15,7 +15,6 @@ export interface BookingRequestResponseBody {
 
 export type BookingCardProps = {
     title: string;
-    requestedOn: string;
     type: string;
     availability: number;
     location: string;
@@ -26,7 +25,6 @@ export type BookingCardProps = {
     requestId: string;
     offerId: string;
     userEmail: string;
-    hasReview: boolean;
     loadArray: () => void;
     request: BookingRequestResponseBody;
     offerOwnerId : string | number;
