@@ -40,5 +40,5 @@ jobs:
       - name: Keep tunnel alive
         shell: powershell
         run: |
-          Write-Host "`nTunnel is live – press *Cancel workflow* in GitHub Actions when you’re done."
+          Write-Host "Tunnel is live – press *Cancel workflow* in GitHub Actions when you’re done."
           while ($true) { Start-Sleep -Seconds 60 }
