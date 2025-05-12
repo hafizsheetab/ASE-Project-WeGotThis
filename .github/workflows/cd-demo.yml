@@ -1,5 +1,6 @@
 name: Demo – Compose + Cloudflare Tunnel
-on: 
+on:
+  workflow_dispatch:
   push:
       branches: [ "master", "dev/ci_cd" ]
 jobs:
@@ -13,7 +14,7 @@ jobs:
 
       - name: Start Cloudflare tunnel
         id: tunnel
-        uses: vmactions/cf-tunnel@v1
+        uses: vmactions/cf-tunnel@v0
         with:
           protocol: http
           port: 5173
