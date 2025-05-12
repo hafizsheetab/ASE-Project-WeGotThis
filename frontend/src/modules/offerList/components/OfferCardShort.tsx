@@ -9,7 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { useContext, useState } from 'react';
+import {  useState } from 'react';
 import TodayIcon from '@mui/icons-material/Today';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import NearMeOutlinedIcon from '@mui/icons-material/NearMeOutlined';
@@ -17,7 +17,7 @@ import { Stack } from '@mui/material';
 import {useNavigate} from "react-router-dom";
 import { OfferResponseBody } from '../../offerCreation/Types';
 import { calculateDuration, getDateTimeString, getReadableDateTimeString } from '../../shared/services';
-import ContextStore from '../../../utils/ContextStore';
+
 
 type OfferCardProps = {
     offer: OfferResponseBody

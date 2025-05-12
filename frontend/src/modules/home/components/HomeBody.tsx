@@ -29,7 +29,7 @@ const HomeBody = () => {
           setOffers(vOffers)
           setAllOffers(vOffers)
         })()  
-    },[store])
+    },[])
 
     useEffect(() => {
         const updateOffers = () => {
@@ -76,66 +76,66 @@ const HomeBody = () => {
         updateOffers();
     }, [filters]);
 
-    const updateOffers = () => {
-        let filtered = [...allOffers];
+    // const updateOffers = () => {
+    //     let filtered = [...allOffers];
 
-        if (filters.priceRange) {
-            filtered = filtered.filter(
-                (o) => {
-                    if (filters.priceRange != null){
-                        return o.price >= filters.priceRange[0] && o.price <= filters.priceRange[1]
-                    }
-                }
-            );
-        }
+    //     if (filters.priceRange) {
+    //         filtered = filtered.filter(
+    //             (o) => {
+    //                 if (filters.priceRange != null){
+    //                     return o.price >= filters.priceRange[0] && o.price <= filters.priceRange[1]
+    //                 }
+    //             }
+    //         );
+    //     }
 
-        if (filters.nextAvailability){
-            filtered = filtered.filter(
-                (o) => { 
-                    if(filters.nextAvailability != null) {
-                        return o.startTime >= filters.nextAvailability[0] && o.endTime <= filters.nextAvailability[1]
-                    }
-                }
-            )
-        } 
+    //     if (filters.nextAvailability){
+    //         filtered = filtered.filter(
+    //             (o) => { 
+    //                 if(filters.nextAvailability != null) {
+    //                     return o.startTime >= filters.nextAvailability[0] && o.endTime <= filters.nextAvailability[1]
+    //                 }
+    //             }
+    //         )
+    //     } 
         
-        if (filters.serviceType && filters.serviceType.length > 0) {
-          filtered = filtered.filter(
-            (o) => filters.serviceType?.find(item => item.toLowerCase().match(o.type.displayValue.toLowerCase())));
-        } 
+    //     if (filters.serviceType && filters.serviceType.length > 0) {
+    //       filtered = filtered.filter(
+    //         (o) => filters.serviceType?.find(item => item.toLowerCase().match(o.type.displayValue.toLowerCase())));
+    //     } 
 
-        if (filters.searchbarFilter) {
-            filtered = filtered.filter(
-                (o) => {
-                    if(filters.searchbarFilter != null) {
-                        return o.title.toLowerCase().includes(filters.searchbarFilter.toLowerCase().trim())
-                    }
-                }
-            )
-        }
+    //     if (filters.searchbarFilter) {
+    //         filtered = filtered.filter(
+    //             (o) => {
+    //                 if(filters.searchbarFilter != null) {
+    //                     return o.title.toLowerCase().includes(filters.searchbarFilter.toLowerCase().trim())
+    //                 }
+    //             }
+    //         )
+    //     }
 
-        if(filters.location) {
-            const lowerCaseCities = filters.location.map(city => city.toLowerCase().trim());
+    //     if(filters.location) {
+    //         const lowerCaseCities = filters.location.map(city => city.toLowerCase().trim());
 
-            filtered = filtered.filter(
-                (o) => {
-                    const location = o.location || "";
-                    if(!location.includes(",")) return false;
+    //         filtered = filtered.filter(
+    //             (o) => {
+    //                 const location = o.location || "";
+    //                 if(!location.includes(",")) return false;
 
-                    const parts = location.split(',').map(p => p.trim());
-                    if(parts.length < 2) return false;
+    //                 const parts = location.split(',').map(p => p.trim());
+    //                 if(parts.length < 2) return false;
 
-                    const cityPart = parts[parts.length - 2];
-                    const cityName = cityPart.split(' ').map(p => p.trim()).filter(Boolean).join(' ');
-                    return lowerCaseCities.includes(cityName.toLowerCase())
-                }
-            )
-        }
+    //                 const cityPart = parts[parts.length - 2];
+    //                 const cityName = cityPart.split(' ').map(p => p.trim()).filter(Boolean).join(' ');
+    //                 return lowerCaseCities.includes(cityName.toLowerCase())
+    //             }
+    //         )
+    //     }
 
 
 
-        setOffers(filtered);
-    };
+    //     setOffers(filtered);
+    // };
 
 
     return (

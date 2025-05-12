@@ -26,7 +26,7 @@ const ActiveFileUploadButton: React.FC<ActiveFileUploadButtonProps> = ({ buttonT
   };
 
   return (
-    <StyledButton component="label" style={{width: "85%"}} variant='outlined' startIcon={<CloudUploadIcon />} color="secondary">
+    <StyledButton style={{width: "85%"}} variant='outlined' startIcon={<CloudUploadIcon />} color="secondary">
       {buttonTxt}
       <VisuallyHiddenInput key={resetTrigger} type="file" accept="image/*" onChange={handleFileChange} ref={fileInputRef} />
     </StyledButton>
