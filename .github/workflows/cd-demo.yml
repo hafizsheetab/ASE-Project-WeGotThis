@@ -5,7 +5,7 @@ on:
       branches: [ "master", "dev/ci_cd" ]
 jobs:
   Deploy:
-    runs-on: self-hosted           
+    runs-on: self-hosted
     timeout-minutes: 480 
     steps:
       - uses: actions/checkout@v4
@@ -36,3 +36,9 @@ jobs:
           "### Demo URL" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf8 -Append
           "${{ steps.tunnel.outputs.PUBLIC_URL }}" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf8 -Append
           Write-Host "Demo available at: ${{ steps.tunnel.outputs.PUBLIC_URL }}"
+
+      - name: Keep tunnel alive
+        shell: powershell
+        run: |
+          Write-Host "`nTunnel is live – press *Cancel workflow* in GitHub Actions when you’re done."
+          while ($true) { Start-Sleep -Seconds 60 }
