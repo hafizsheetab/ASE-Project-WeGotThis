@@ -12,6 +12,6 @@ All detailed design, architecture, and API information is maintained in this rep
 2. infra: prepare the infrastructure required for backend development `docker compose --profile infra up` helps with development of backend
 
 ## Urls
-Backend Url: [http://localhost:8000/api-docs](http://localhost:8000/api-docs)
-Frontend Url: [http://localhost:5173](http://localhost:5173)
-MailDev Url: [http://localhost:1080](http://localhost:1080)
+* Backend Url: [http://localhost:8000/api-docs](http://localhost:8000/api-docs)
+* Frontend Url: [http://localhost:5173](http://localhost:5173)
+* MailDev Url: [http://localhost:1080](http://localhost:1080)
