@@ -14,9 +14,6 @@ jobs:
 
       - name: Install cloudflared
         uses: AnimMouse/setup-cloudflared@v2
-        
-      - name: Start tunnel
-        run: cloudflared tunnel --url http://localhost:5173 --no-autoupdate
 
       - name: Start tunnel & capture URL
         id: tunnel
