@@ -30,7 +30,8 @@ jobs:
           "PUBLIC_URL=$publicUrl" >> $env:GITHUB_OUTPUT
 
       - name: Publish demo URL
+        shell: powershell
         run: |
-          echo "### 🚀 Demo URL" >> $env:GITHUB_STEP_SUMMARY
-          echo "${{ steps.tunnel.outputs.PUBLIC_URL }}" >> $env:GITHUB_STEP_SUMMARY
-        shell: bash
+          "### Demo URL" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf8 -Append
+          "${{ steps.tunnel.outputs.PUBLIC_URL }}" | Out-File -FilePath $Env:GITHUB_STEP_SUMMARY -Encoding utf8 -Append
+          Write-Host "Demo available at: ${{ steps.tunnel.outputs.PUBLIC_URL }}"
