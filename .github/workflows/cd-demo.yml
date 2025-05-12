@@ -4,8 +4,9 @@ on:
   push:
       branches: [ "master", "dev/ci_cd" ]
 jobs:
-  preview:
+  Deploy:
     runs-on: self-hosted           
+    timeout-minutes: 480 
     steps:
       - uses: actions/checkout@v4
 
