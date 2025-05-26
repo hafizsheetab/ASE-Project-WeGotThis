@@ -4,7 +4,18 @@ This platform lets people post “help wanted” offers (e.g. dog-walking, child
 ## Overview
 All detailed design, architecture, and API information is maintained in this repo’s [wiki](https://github.com/hafizsheetab/ASE-Project-WeGotThis/wiki).  
 
-## Quick Start
+## Quick Start 
+### Run the demo locally
+```bash
+git clone https://github.com/hafizsheetab/ASE-Project-WeGotThis.git
+```
+```bash
+cd ASE-Project-WeGotThis
+```
+```bash
+docker compose -f docker-compose.review.yml up -d
+```
+### Development
 1. `bash build.sh`
 2. `docker compose up` 
 ### Profiles (Development)
@@ -16,3 +27,17 @@ All detailed design, architecture, and API information is maintained in this rep
 * Frontend Url: [http://localhost:5173](http://localhost:5173)
 * MailDev Url: [http://localhost:1080](http://localhost:1080)
 * Github Repo Url: [https://github.com/hafizsheetab/ASE-Project-WeGotThis](https://github.com/hafizsheetab/ASE-Project-WeGotThis)
+
+### Docker Hub images
+Ready-made containers from a public Docker Hub namespace:
+
+| Service   | Image name                                                       |
+|-----------|------------------------------------------------------------------|
+| Frontend | `docker.io/eldaneil/wegotthis-frontend`                   |
+| Backend  | `docker.io/eldaneil/wegotthis-backend:latest`                    |
+
+Example:
+
+```bash
+# run the API locally
+docker run --rm -p 8000:8000 eldaniel/wegotthis-backend:latest

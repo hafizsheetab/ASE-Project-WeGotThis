@@ -1,0 +1,40 @@
+services:
+  # ---------------- core app ----------------
+  backend:
+    image: eldaneil/wegotthis-backend:latest
+    ports:
+      - "8000:8000"
+    depends_on:
+      redis: { condition: service_started }
+      localstack: { condition: service_healthy }
+    environment:
+      - REDIS_HOST=redis
+      - AWS_REGION=us-east-1
+      - AWS_ENDPOINT=http://localstack:4566
+
+  frontend:
+    image: eldaneil/wegotthis-frontend:latest
+    ports:
+      - "5173:5173"
+    depends_on:
+      backend: { condition: service_started }
+
+  redis:
+    image: redis/redis-stack:latest
+    ports:
+      - "6379:6379"          # redis-cli
+      - "8001:8001"          # RedisInsight UI
+
+  localstack:
+    image: localstack/localstack:latest
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=s3,dynamodb
+      - DEBUG=0
+
+  maildev:
+    image: maildev/maildev:latest
+    ports:
+      - "1080:1080"          # web UI
+      - "1025:1025"          # SMTP in
